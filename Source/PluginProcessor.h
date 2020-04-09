@@ -60,7 +60,12 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+
 private:
+	AudioProcessorValueTreeState parameters;
+	std::atomic<float> *peakGainParameter;
+	std::atomic<float> *peakFreqParameter;
+
 	float lsCoeff, hsCoeff, lcCoeff, hcCoeff;
 	float bpCoeff, bCoeff, nCoeff;
 	float filterMemory[2];

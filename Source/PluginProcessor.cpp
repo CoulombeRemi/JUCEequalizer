@@ -19,19 +19,41 @@ https://forum.juce.com/t/multiple-iirfilters/20331/9
 
 #define M_PI 3.14159265358979323846264338327950288
 
+// return parameter configuration
+// need to call createParameter() for initialization of the audiovaluetree....
+AudioProcessorValueTreeState::ParameterLayout createParameterLayout() {
+	// shortcut for AudioProcessorValueTreeState::Parameter;
+	using Parameter = AudioProcessorValueTreeState::Parameter;
+	std::vector < std::unique_ptr<Parameter>> parameters;
+	// string -> id, name in daw, description
+	// gain values in dB
+	parameters.push_back(std::make_unique<Parameter>(String("peakGain"), String("Gain"), String(),
+													NormalisableRange<float>(-15.f, 15.f, 0.1f, 0.25f), 
+													0.f, nullptr, nullptr));
+	parameters.push_back(std::make_unique<Parameter>(String("peakFreq"), String("Hz"), String(),
+													NormalisableRange<float>(10.f, 20000.f, 0.5f, 0.25f), 
+													200.f, nullptr, nullptr));
+
+	return{parameters.begin(), parameters.end()};
+}
+
+
 //==============================================================================
 EqualizerMusAudioProcessor::EqualizerMusAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
-     : AudioProcessor (BusesProperties()
-                     #if ! JucePlugin_IsMidiEffect
-                      #if ! JucePlugin_IsSynth
-                       .withInput  ("Input",  AudioChannelSet::stereo(), true)
-                      #endif
-                       .withOutput ("Output", AudioChannelSet::stereo(), true)
-                     #endif
-                       )
+	: AudioProcessor(BusesProperties()
+#if ! JucePlugin_IsMidiEffect
+#if ! JucePlugin_IsSynth
+		.withInput("Input", AudioChannelSet::stereo(), true)
 #endif
+		.withOutput("Output", AudioChannelSet::stereo(), true)
+#endif
+	),
+#endif
+	parameters(*this, nullptr, Identifier(JucePlugin_Name), createParameterLayout())
 {
+	peakGainParameter = parameters.getRawParameterValue("peakGain");
+	peakFreqParameter = parameters.getRawParameterValue("peakFreq");
 }
 
 EqualizerMusAudioProcessor::~EqualizerMusAudioProcessor()
@@ -102,8 +124,8 @@ void EqualizerMusAudioProcessor::changeProgramName (int index, const String& new
 //==============================================================================
 void EqualizerMusAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
-	sr = sampleRate;
-
+	sr = (float)sampleRate;
+	nyquist = sr * 0.499f;
 }
 
 void EqualizerMusAudioProcessor::releaseResources()
@@ -137,14 +159,14 @@ bool EqualizerMusAudioProcessor::isBusesLayoutSupported (const BusesLayout& layo
 #endif
 
 void EqualizerMusAudioProcessor::lcCoeff_process() {
-	b0 = b2 = (1.f - c) * 0.5;
+	b0 = b2 = (1.f - c) * 0.5f;
 	b1 = 1.f - c;
 	a0 = 1.f + alpha;
 	a1 = -2.f * c;
 	a2 = 1.f - alpha;
 }
 void EqualizerMusAudioProcessor::hcCoeff_process() {
-	b0 = b2 = (1.f - c) * 0.5;
+	b0 = b2 = (1.f - c) * 0.5f;
 	b1 = 1.f - c;
 	a0 = 1.f + alpha;
 	a1 = -2.f * c;
@@ -160,6 +182,7 @@ void EqualizerMusAudioProcessor::peakCoeff_process() {
 	a2 = 1.f - aDiv;
 }
 
+
 void EqualizerMusAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
     ScopedNoDenormals noDenormals;
@@ -172,11 +195,11 @@ void EqualizerMusAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiB
 	for (int sample = 0; sample < buffer.getNumSamples(); sample++){
 
 		float q = 1.f;
-		float cutoff = 100.f;
-		float gain = 0.5f;
+		float cutoff = *peakFreqParameter;
+		float gain = *peakGainParameter;
 
 		a = powf(10.f, gain / 40.f);
-		w0 = (2.0 * M_PI) * cutoff / sr;
+		w0 = (2.f * (float)M_PI) * cutoff / sr;
 		c = cosf(w0);
 		alpha = sinf(w0) / (2.f * q);
 
@@ -206,7 +229,7 @@ bool EqualizerMusAudioProcessor::hasEditor() const
 
 AudioProcessorEditor* EqualizerMusAudioProcessor::createEditor()
 {
-    return new EqualizerMusAudioProcessorEditor (*this);
+    return new EqualizerMusAudioProcessorEditor (*this, parameters);
 }
 
 //==============================================================================

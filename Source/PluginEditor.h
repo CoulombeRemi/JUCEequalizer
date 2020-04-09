@@ -12,6 +12,7 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
+#include "Images.h"
 
 //==============================================================================
 /**
@@ -19,7 +20,7 @@
 class EqualizerMusAudioProcessorEditor  : public AudioProcessorEditor
 {
 public:
-    EqualizerMusAudioProcessorEditor (EqualizerMusAudioProcessor&);
+    EqualizerMusAudioProcessorEditor (EqualizerMusAudioProcessor&, AudioProcessorValueTreeState& vts);
     ~EqualizerMusAudioProcessorEditor();
 
     //==============================================================================
@@ -27,8 +28,16 @@ public:
     void resized() override;
 
 private:
-    // This reference is provided as a quick way for your editor to
-    // access the processor object that created it.
+	Image backgroundImg;
+
+	AudioProcessorValueTreeState& valueTreeState;
+
+	Slider peak01_freq;
+	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> freqAttachment;
+	Slider peak01_q;
+	Slider peak01_gain;
+	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> gainAttachment;
+
     EqualizerMusAudioProcessor& processor;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (EqualizerMusAudioProcessorEditor)

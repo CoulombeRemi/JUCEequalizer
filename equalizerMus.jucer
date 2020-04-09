@@ -4,8 +4,6 @@
               pluginFormats="buildStandalone,buildVST,buildVST3">
   <MAINGROUP id="BSCVCH" name="equalizerMus">
     <GROUP id="{D151EEF4-D58B-0407-B7CB-6FD3CAB08601}" name="Source">
-      <FILE id="KIlGPJ" name="lowcut.cpp" compile="1" resource="0" file="Source/lowcut.cpp"/>
-      <FILE id="i4ccFn" name="lowcut.h" compile="0" resource="0" file="Source/lowcut.h"/>
       <FILE id="GhNDDP" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="SclVhf" name="PluginProcessor.h" compile="0" resource="0"
@@ -13,6 +11,8 @@
       <FILE id="fpGbaA" name="PluginEditor.cpp" compile="1" resource="0"
             file="Source/PluginEditor.cpp"/>
       <FILE id="JI6OlV" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+      <FILE id="KlJPSl" name="Images.cpp" compile="1" resource="0" file="Source/Images.cpp"/>
+      <FILE id="zMHEFM" name="Images.h" compile="0" resource="0" file="Source/Images.h"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
