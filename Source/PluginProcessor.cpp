@@ -151,11 +151,13 @@ void EqualizerMusAudioProcessor::hcCoeff_process() {
 	a2 = 1.f - alpha;
 }
 void EqualizerMusAudioProcessor::peakCoeff_process() {
-	b0 = b2 = (1.f - c) * 0.5;
-	b1 = 1.f - c;
-	a0 = 1.f + alpha;
-	a1 = -2.f * c;
-	a2 = 1.f - alpha;
+	float aMulti = alpha * a;
+	float aDiv = alpha / a;
+	b0 = 1.f + aMulti;
+	b1 = a1 = -2.f * c;
+	b2 = 1.f - aMulti;
+	a0 = 1.f / (1.f + aDiv);
+	a2 = 1.f - aDiv;
 }
 
 void EqualizerMusAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
@@ -167,25 +169,23 @@ void EqualizerMusAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiB
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-	for (int sample = 0; sample < buffer.getNumSamples(); sample++)
-	{
+	for (int sample = 0; sample < buffer.getNumSamples(); sample++){
 
 		float q = 1.f;
 		float cutoff = 100.f;
-		float gain = 2.f;
+		float gain = 0.5f;
 
 		a = powf(10.f, gain / 40.f);
 		w0 = (2.0 * M_PI) * cutoff / sr;
-		c = cos(w0);
-		alpha = sin(w0) / (2.f * q);
+		c = cosf(w0);
+		alpha = sinf(w0) / (2.f * q);
 
-		lcCoeff_process(); // on call la fonction
+		peakCoeff_process(); // on call la fonction
 
-		for (int channel = 0; channel < totalNumInputChannels; ++channel)
-		{
+		for (int channel = 0; channel < totalNumInputChannels; ++channel){
 			// data input
 			auto* channelData = buffer.getWritePointer(channel); // AKA input
-			//float* outputData = buffer.getWritePointer(channel);
+			//float* outputData = buffer.getWritePointer(channel); // AKA output?
 
 			float filter = (b0 * channelData[sample] + b1 * x1[sample] + b2 * x2[sample] - a1 * y1[sample] - a2 * y2[sample]) / a0;
 			x2[channel] = x1[channel];
@@ -193,8 +193,6 @@ void EqualizerMusAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiB
 			y2[channel] = y1[channel];
 			y1[channel] = filter;
 			channelData[sample] = y1[channel];
-
-
 		}
 	}
 
