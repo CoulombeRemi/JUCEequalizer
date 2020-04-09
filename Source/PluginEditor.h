@@ -32,11 +32,13 @@ private:
 
 	AudioProcessorValueTreeState& valueTreeState;
 
+	Slider peak01_gain;
+	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> gainAttachment;
 	Slider peak01_freq;
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> freqAttachment;
 	Slider peak01_q;
-	Slider peak01_gain;
-	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> gainAttachment;
+	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> qAttachment;
+
 
     EqualizerMusAudioProcessor& processor;
 

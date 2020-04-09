@@ -52,9 +52,7 @@ public:
     void changeProgramName (int index, const String& newName) override;
 
 
-	void lcCoeff_process();
-	void hcCoeff_process();
-	void peakCoeff_process();
+
 
     //==============================================================================
     void getStateInformation (MemoryBlock& destData) override;
@@ -63,8 +61,7 @@ public:
 
 private:
 	AudioProcessorValueTreeState parameters;
-	std::atomic<float> *peakGainParameter;
-	std::atomic<float> *peakFreqParameter;
+
 
 	float lsCoeff, hsCoeff, lcCoeff, hcCoeff;
 	float bpCoeff, bCoeff, nCoeff;
@@ -78,6 +75,16 @@ private:
 	// Coeff
 	float a0, a1, a2, b0, b1, b2;
 	float x1[2], x2[2], y1[2], y2[2];
+
+	void coeff_process_lc();
+	void coeff_process_ls();
+	void coeff_process_hc();
+	void coeff_process_hs();
+	void coeff_process_peak();
+
+	std::atomic<float> *peakGainParameter;
+	std::atomic<float> *peakFreqParameter;
+	std::atomic<float> *peakQParameter;
 
 
     //==============================================================================

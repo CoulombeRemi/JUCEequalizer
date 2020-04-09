@@ -17,7 +17,9 @@ https://forum.juce.com/t/multiple-iirfilters/20331/9
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
-#define M_PI 3.14159265358979323846264338327950288
+#ifndef M_PI
+#define M_PI (3.14159265358979323846264338327950288)
+#endif
 
 // return parameter configuration
 // need to call createParameter() for initialization of the audiovaluetree....
@@ -28,11 +30,14 @@ AudioProcessorValueTreeState::ParameterLayout createParameterLayout() {
 	// string -> id, name in daw, description
 	// gain values in dB
 	parameters.push_back(std::make_unique<Parameter>(String("peakGain"), String("Gain"), String(),
-													NormalisableRange<float>(-15.f, 15.f, 0.1f, 0.25f), 
+													NormalisableRange<float>(-15.f, 15.f, 0.1f, 1.f), 
 													0.f, nullptr, nullptr));
 	parameters.push_back(std::make_unique<Parameter>(String("peakFreq"), String("Hz"), String(),
-													NormalisableRange<float>(10.f, 20000.f, 0.5f, 0.25f), 
+													NormalisableRange<float>(10.f, 20000.f, 0.5f, 0.3f), 
 													200.f, nullptr, nullptr));
+	parameters.push_back(std::make_unique<Parameter>(String("peakQ"), String("Q"), String(),
+													NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
+													1.f, nullptr, nullptr));
 
 	return{parameters.begin(), parameters.end()};
 }
@@ -54,6 +59,7 @@ EqualizerMusAudioProcessor::EqualizerMusAudioProcessor()
 {
 	peakGainParameter = parameters.getRawParameterValue("peakGain");
 	peakFreqParameter = parameters.getRawParameterValue("peakFreq");
+	peakQParameter = parameters.getRawParameterValue("peakQ");
 }
 
 EqualizerMusAudioProcessor::~EqualizerMusAudioProcessor()
@@ -126,6 +132,13 @@ void EqualizerMusAudioProcessor::prepareToPlay(double sampleRate, int samplesPer
 {
 	sr = (float)sampleRate;
 	nyquist = sr * 0.499f;
+
+	// init des in/out ?
+	for (int i = 0; i < 2; i++) {
+		x1[i] = x2[i] = y1[i] = y2[i] = 0.f;
+	}
+
+
 }
 
 void EqualizerMusAudioProcessor::releaseResources()
@@ -158,21 +171,45 @@ bool EqualizerMusAudioProcessor::isBusesLayoutSupported (const BusesLayout& layo
 }
 #endif
 
-void EqualizerMusAudioProcessor::lcCoeff_process() {
+void EqualizerMusAudioProcessor::coeff_process_lc() {
 	b0 = b2 = (1.f - c) * 0.5f;
 	b1 = 1.f - c;
 	a0 = 1.f + alpha;
 	a1 = -2.f * c;
 	a2 = 1.f - alpha;
 }
-void EqualizerMusAudioProcessor::hcCoeff_process() {
+void EqualizerMusAudioProcessor::coeff_process_ls() {
+	float twoSqrtAAlpha = sqrtf(a * 2.0f) * alpha;
+	float aMinC = (a - 1.0f) * c;
+	float aAddC = (a + 1.0f) * c;
+
+	b0 = a * ((a + 1.0f) - aMinC + twoSqrtAAlpha);
+	b1 = 2.0f * a * ((a - 1.0f) - aAddC);
+	b2 = a * ((a + 1.0f) - aMinC - twoSqrtAAlpha);
+	a0 = 1.0f / ((a + 1.0f) + aMinC + twoSqrtAAlpha);
+	a1 = -2.0f * ((a - 1.0f) + aAddC);
+	a2 = (a + 1.0f) + aMinC - twoSqrtAAlpha;
+}
+void EqualizerMusAudioProcessor::coeff_process_hc() {
 	b0 = b2 = (1.f - c) * 0.5f;
 	b1 = 1.f - c;
 	a0 = 1.f + alpha;
 	a1 = -2.f * c;
 	a2 = 1.f - alpha;
 }
-void EqualizerMusAudioProcessor::peakCoeff_process() {
+void EqualizerMusAudioProcessor::coeff_process_hs() {
+	float twoSqrtAAlpha = sqrtf(a * 2.0f) * alpha;
+	float aMinC = (a - 1.0f) * c;
+	float aAddC = (a + 1.0f) * c;
+
+	b0 = a * ((a + 1.0f) + aMinC + twoSqrtAAlpha);
+	b1 = -2.0f * a * ((a - 1.0f) + aAddC);
+	b2 = a * ((a + 1.0f) + aMinC - twoSqrtAAlpha);
+	a0 = 1.0f / ((a + 1.0f) - aMinC + twoSqrtAAlpha);
+	a1 = 2.0f * ((a - 1.0f) - aAddC);
+	a2 = (a + 1.0f) - aMinC - twoSqrtAAlpha;
+}
+void EqualizerMusAudioProcessor::coeff_process_peak() {
 	float aMulti = alpha * a;
 	float aDiv = alpha / a;
 	b0 = 1.f + aMulti;
@@ -194,16 +231,17 @@ void EqualizerMusAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiB
 
 	for (int sample = 0; sample < buffer.getNumSamples(); sample++){
 
-		float q = 1.f;
+		float q = *peakQParameter;
 		float cutoff = *peakFreqParameter;
-		float gain = *peakGainParameter;
+		float dbScale = *peakGainParameter;
+		float gain = Decibels::decibelsToGain(dbScale);
 
 		a = powf(10.f, gain / 40.f);
-		w0 = (2.f * (float)M_PI) * cutoff / sr;
+		w0 = (2.f * M_PI) * cutoff / sr;
 		c = cosf(w0);
 		alpha = sinf(w0) / (2.f * q);
 
-		peakCoeff_process(); // on call la fonction
+		coeff_process_peak(); // on call la fonction
 
 		for (int channel = 0; channel < totalNumInputChannels; ++channel){
 			// data input
