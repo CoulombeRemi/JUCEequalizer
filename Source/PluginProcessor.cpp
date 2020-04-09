@@ -8,8 +8,16 @@
   ==============================================================================
 */
 
+/*
+
+https://forum.juce.com/t/multiple-iirfilters/20331/9
+
+*/
+
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
+
+#define M_PI 3.14159265358979323846264338327950288
 
 //==============================================================================
 EqualizerMusAudioProcessor::EqualizerMusAudioProcessor()
@@ -91,12 +99,11 @@ const String EqualizerMusAudioProcessor::getProgramName (int index)
 void EqualizerMusAudioProcessor::changeProgramName (int index, const String& newName)
 {
 }
-
 //==============================================================================
-void EqualizerMusAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
+void EqualizerMusAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
-    // Use this method as the place to do any pre-playback
-    // initialisation that you need..
+	sr = sampleRate;
+
 }
 
 void EqualizerMusAudioProcessor::releaseResources()
@@ -129,33 +136,68 @@ bool EqualizerMusAudioProcessor::isBusesLayoutSupported (const BusesLayout& layo
 }
 #endif
 
+void EqualizerMusAudioProcessor::lcCoeff_process() {
+	b0 = b2 = (1.f - c) * 0.5;
+	b1 = 1.f - c;
+	a0 = 1.f + alpha;
+	a1 = -2.f * c;
+	a2 = 1.f - alpha;
+}
+void EqualizerMusAudioProcessor::hcCoeff_process() {
+	b0 = b2 = (1.f - c) * 0.5;
+	b1 = 1.f - c;
+	a0 = 1.f + alpha;
+	a1 = -2.f * c;
+	a2 = 1.f - alpha;
+}
+void EqualizerMusAudioProcessor::peakCoeff_process() {
+	b0 = b2 = (1.f - c) * 0.5;
+	b1 = 1.f - c;
+	a0 = 1.f + alpha;
+	a1 = -2.f * c;
+	a2 = 1.f - alpha;
+}
+
 void EqualizerMusAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
     ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
-    // In case we have more outputs than inputs, this code clears any output
-    // channels that didn't contain input data, (because these aren't
-    // guaranteed to be empty - they may contain garbage).
-    // This is here to avoid people getting screaming feedback
-    // when they first compile a plugin, but obviously you don't need to keep
-    // this code if your algorithm always overwrites all the output channels.
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    // This is the place where you'd normally do the guts of your plugin's
-    // audio processing...
-    // Make sure to reset the state if your inner loop is processing
-    // the samples and the outer loop is handling the channels.
-    // Alternatively, you can process the samples with the channels
-    // interleaved by keeping the same state.
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    {
-        auto* channelData = buffer.getWritePointer (channel);
+	for (int sample = 0; sample < buffer.getNumSamples(); sample++)
+	{
 
-        // ..do something to the data...
-    }
+		float q = 1.f;
+		float cutoff = 100.f;
+		float gain = 2.f;
+
+		a = powf(10.f, gain / 40.f);
+		w0 = (2.0 * M_PI) * cutoff / sr;
+		c = cos(w0);
+		alpha = sin(w0) / (2.f * q);
+
+		lcCoeff_process(); // on call la fonction
+
+		for (int channel = 0; channel < totalNumInputChannels; ++channel)
+		{
+			// data input
+			auto* channelData = buffer.getWritePointer(channel); // AKA input
+			//float* outputData = buffer.getWritePointer(channel);
+
+			float filter = (b0 * channelData[sample] + b1 * x1[sample] + b2 * x2[sample] - a1 * y1[sample] - a2 * y2[sample]) / a0;
+			x2[channel] = x1[channel];
+			x1[channel] = channelData[sample];
+			y2[channel] = y1[channel];
+			y1[channel] = filter;
+			channelData[sample] = y1[channel];
+
+
+		}
+	}
+
 }
 
 //==============================================================================
