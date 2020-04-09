@@ -182,7 +182,6 @@ void EqualizerMusAudioProcessor::coeff_process_ls() {
 	float twoSqrtAAlpha = sqrtf(a * 2.0f) * alpha;
 	float aMinC = (a - 1.0f) * c;
 	float aAddC = (a + 1.0f) * c;
-
 	b0 = a * ((a + 1.0f) - aMinC + twoSqrtAAlpha);
 	b1 = 2.0f * a * ((a - 1.0f) - aAddC);
 	b2 = a * ((a + 1.0f) - aMinC - twoSqrtAAlpha);
@@ -191,17 +190,18 @@ void EqualizerMusAudioProcessor::coeff_process_ls() {
 	a2 = (a + 1.0f) + aMinC - twoSqrtAAlpha;
 }
 void EqualizerMusAudioProcessor::coeff_process_hc() {
+	/*
 	b0 = b2 = (1.f - c) * 0.5f;
 	b1 = 1.f - c;
 	a0 = 1.f + alpha;
 	a1 = -2.f * c;
 	a2 = 1.f - alpha;
+	*/
 }
 void EqualizerMusAudioProcessor::coeff_process_hs() {
 	float twoSqrtAAlpha = sqrtf(a * 2.0f) * alpha;
 	float aMinC = (a - 1.0f) * c;
 	float aAddC = (a + 1.0f) * c;
-
 	b0 = a * ((a + 1.0f) + aMinC + twoSqrtAAlpha);
 	b1 = -2.0f * a * ((a - 1.0f) + aAddC);
 	b2 = a * ((a + 1.0f) + aMinC - twoSqrtAAlpha);

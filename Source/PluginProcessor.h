@@ -62,7 +62,6 @@ public:
 private:
 	AudioProcessorValueTreeState parameters;
 
-
 	float lsCoeff, hsCoeff, lcCoeff, hcCoeff;
 	float bpCoeff, bCoeff, nCoeff;
 	float filterMemory[2];
@@ -70,9 +69,8 @@ private:
 	float sr;
 	float nyquist;
 
-	// -- filter --
+	// -- peak --
 	float w0, c, alpha, a;
-	// Coeff
 	float a0, a1, a2, b0, b1, b2;
 	float x1[2], x2[2], y1[2], y2[2];
 
