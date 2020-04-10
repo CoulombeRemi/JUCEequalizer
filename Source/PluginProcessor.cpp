@@ -289,11 +289,52 @@ void EqualizerMusAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiB
 			parametricEQ_set_filterT(lowShelf[channel], LOWSHELF);
 			parametricEQ_set_freq(lowShelf[channel], *lsFreqParameter);
 			parametricEQ_set_q(lowShelf[channel], *lsQParameter);
+			parametricEQ_set_gain(lowShelf[channel], *lsGainParameter);
+			// peak 01
+			parametricEQ_set_filterT(peak01[channel], PEAK);
+			parametricEQ_set_freq(peak01[channel], *peak01FreqParameter);
+			parametricEQ_set_q(peak01[channel], *peak01QParameter);
+			parametricEQ_set_gain(peak01[channel], *peak01GainParameter);
+			// peak 02
+			parametricEQ_set_filterT(peak02[channel], PEAK);
+			parametricEQ_set_freq(peak02[channel], *peak02FreqParameter);
+			parametricEQ_set_q(peak02[channel], *peak02QParameter);
+			parametricEQ_set_gain(peak02[channel], *peak02GainParameter);
+			// peak 03
+			parametricEQ_set_filterT(peak03[channel], PEAK);
+			parametricEQ_set_freq(peak03[channel], *peak03FreqParameter);
+			parametricEQ_set_q(peak03[channel], *peak03QParameter);
+			parametricEQ_set_gain(peak03[channel], *peak03GainParameter);
+			// peak 04
+			parametricEQ_set_filterT(peak04[channel], PEAK);
+			parametricEQ_set_freq(peak04[channel], *peak04FreqParameter);
+			parametricEQ_set_q(peak04[channel], *peak04QParameter);
+			parametricEQ_set_gain(peak04[channel], *peak04GainParameter);
+			// peak 05
+			parametricEQ_set_filterT(peak05[channel], PEAK);
+			parametricEQ_set_freq(peak05[channel], *peak05FreqParameter);
+			parametricEQ_set_q(peak05[channel], *peak05QParameter);
+			parametricEQ_set_gain(peak05[channel], *peak05GainParameter);
+			// peak 06
+			parametricEQ_set_filterT(peak06[channel], PEAK);
+			parametricEQ_set_freq(peak06[channel], *peak06FreqParameter);
+			parametricEQ_set_q(peak06[channel], *peak06QParameter);
+			parametricEQ_set_gain(peak06[channel], *peak06GainParameter);
+			// high shelf
+			parametricEQ_set_filterT(highShelf[channel], HIGHSHELF);
+			parametricEQ_set_freq(highShelf[channel], *hsFreqParameter);
+			parametricEQ_set_q(highShelf[channel], *hsQParameter);
+			parametricEQ_set_gain(highShelf[channel], *hsGainParameter);
 
 			for (int i = 0; i < getBlockSize(); i++) {
 				channelData[i] = parametricEQ_process(lowShelf[channel], channelData[i]);
-
-
+				channelData[i] = parametricEQ_process(peak01[channel], channelData[i]);
+				channelData[i] = parametricEQ_process(peak02[channel], channelData[i]);
+				channelData[i] = parametricEQ_process(peak03[channel], channelData[i]);
+				channelData[i] = parametricEQ_process(peak04[channel], channelData[i]);
+				channelData[i] = parametricEQ_process(peak05[channel], channelData[i]);
+				channelData[i] = parametricEQ_process(peak06[channel], channelData[i]);
+				channelData[i] = parametricEQ_process(highShelf[channel], channelData[i]);
 			}
 		}
 }

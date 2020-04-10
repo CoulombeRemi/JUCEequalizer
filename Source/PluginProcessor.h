@@ -16,6 +16,7 @@
 //==============================================================================
 /**
 */
+
 class EqualizerMusAudioProcessor  : public AudioProcessor
 {
 public:
@@ -104,7 +105,6 @@ private:
 	std::atomic<float> *hsGainParameter;
 	std::atomic<float> *hsFreqParameter;
 	std::atomic<float> *hsQParameter;
-
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (EqualizerMusAudioProcessor)
