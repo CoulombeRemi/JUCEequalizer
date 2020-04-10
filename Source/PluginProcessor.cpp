@@ -136,7 +136,11 @@ void EqualizerMusAudioProcessor::prepareToPlay(double sampleRate, int samplesPer
 	// init des in/out ?
 	for (int i = 0; i < 2; i++) {
 		x1[i] = x2[i] = y1[i] = y2[i] = 0.f;
+
+		lowShelf[i] = parametricEQ_init(30.f, float q, float gain, LOWSHELF, sr);
 	}
+
+
 
 
 }

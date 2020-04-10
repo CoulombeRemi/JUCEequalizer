@@ -11,6 +11,7 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "parametricEQ.h"
 
 //==============================================================================
 /**
@@ -61,6 +62,9 @@ public:
 
 private:
 	AudioProcessorValueTreeState parameters;
+
+
+	struct parametricEQ *lowShelf[2];
 
 	float lsCoeff, hsCoeff, lcCoeff, hcCoeff;
 	float bpCoeff, bCoeff, nCoeff;

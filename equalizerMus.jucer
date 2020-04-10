@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="Jgdc5L" name="equalizerMus" projectType="audioplug" jucerVersion="5.4.7"
-              pluginFormats="buildStandalone,buildVST,buildVST3">
+              pluginFormats="buildStandalone,buildVST,buildVST3" headerPath="../../lib/">
   <MAINGROUP id="BSCVCH" name="equalizerMus">
     <GROUP id="{D151EEF4-D58B-0407-B7CB-6FD3CAB08601}" name="Source">
+      <GROUP id="{A07D10B5-0D1B-7480-D65C-FC24CC9512A2}" name="lib">
+        <FILE id="mur5OK" name="parametricEQ.c" compile="1" resource="0" file="lib/parametricEQ.c"/>
+        <FILE id="KXEz1h" name="parametricEQ.h" compile="0" resource="0" file="lib/parametricEQ.h"/>
+      </GROUP>
       <FILE id="GhNDDP" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="SclVhf" name="PluginProcessor.h" compile="0" resource="0"
