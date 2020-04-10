@@ -29,15 +29,67 @@ AudioProcessorValueTreeState::ParameterLayout createParameterLayout() {
 	std::vector < std::unique_ptr<Parameter>> parameters;
 	// string -> id, name in daw, description
 	// gain values in dB
-	parameters.push_back(std::make_unique<Parameter>(String("peakGain"), String("Gain"), String(),
-													NormalisableRange<float>(-15.f, 15.f, 0.1f, 1.f), 
-													0.f, nullptr, nullptr));
-	parameters.push_back(std::make_unique<Parameter>(String("peakFreq"), String("Hz"), String(),
-													NormalisableRange<float>(10.f, 20000.f, 0.5f, 0.3f), 
-													200.f, nullptr, nullptr));
-	parameters.push_back(std::make_unique<Parameter>(String("peakQ"), String("Q"), String(),
+
+	// low shelft - 30 Hz
+	parameters.push_back(std::make_unique<Parameter>(String("lsGain"), String("Gain"), String(),
+													NormalisableRange<float>(-15.f, 15.f, 0.1f, 1.f),
+													0.0f, nullptr, nullptr));
+	parameters.push_back(std::make_unique<Parameter>(String("lsFreq"), String("Hz"), String(),
+													NormalisableRange<float>(10.f, 20000.f, 0.5f, 0.3f),
+													30.0f, nullptr, nullptr));
+	parameters.push_back(std::make_unique<Parameter>(String("lsQ"), String("Q"), String(),
 													NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
-													1.f, nullptr, nullptr));
+													1.0f, nullptr, nullptr));
+	// peak 01 - 100 Hz
+	parameters.push_back(std::make_unique<Parameter>(String("peak01Gain"), String("Gain"), String(),
+													NormalisableRange<float>(-15.f, 15.f, 0.1f, 1.f), 
+													0.0f, nullptr, nullptr));
+	parameters.push_back(std::make_unique<Parameter>(String("peak01Freq"), String("Hz"), String(),
+													NormalisableRange<float>(10.f, 20000.f, 0.5f, 0.3f), 
+													100.0f, nullptr, nullptr));
+	parameters.push_back(std::make_unique<Parameter>(String("peak01Q"), String("Q"), String(),
+													NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
+													1.0f, nullptr, nullptr));
+	// peak 02 - 200 Hz
+	parameters.push_back(std::make_unique<Parameter>(String("peak02Gain"), String("Gain"), String(),
+													NormalisableRange<float>(-15.f, 15.f, 0.1f, 1.f),
+													0.0f, nullptr, nullptr));
+	parameters.push_back(std::make_unique<Parameter>(String("peak02Freq"), String("Hz"), String(),
+													NormalisableRange<float>(10.f, 20000.f, 0.5f, 0.3f),
+													200.0f, nullptr, nullptr));
+	parameters.push_back(std::make_unique<Parameter>(String("peak02Q"), String("Q"), String(),
+													NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
+													1.0f, nullptr, nullptr));
+	// peak 03 - 1 kHz
+	parameters.push_back(std::make_unique<Parameter>(String("peak03Gain"), String("Gain"), String(),
+													NormalisableRange<float>(-15.f, 15.f, 0.1f, 1.f),
+													0.0f, nullptr, nullptr));
+	parameters.push_back(std::make_unique<Parameter>(String("peak03Freq"), String("Hz"), String(),
+													NormalisableRange<float>(10.f, 20000.f, 0.5f, 0.3f),
+													1000.0f, nullptr, nullptr));
+	parameters.push_back(std::make_unique<Parameter>(String("peak03Q"), String("Q"), String(),
+													NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
+													1.0f, nullptr, nullptr));
+	// peak 04 - 5 kHz
+	parameters.push_back(std::make_unique<Parameter>(String("peak04Gain"), String("Gain"), String(),
+													NormalisableRange<float>(-15.f, 15.f, 0.1f, 1.f),
+													0.0f, nullptr, nullptr));
+	parameters.push_back(std::make_unique<Parameter>(String("peak04Freq"), String("Hz"), String(),
+													NormalisableRange<float>(10.f, 20000.f, 0.5f, 0.3f),
+													5000.0f, nullptr, nullptr));
+	parameters.push_back(std::make_unique<Parameter>(String("peak04Q"), String("Q"), String(),
+													NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
+													1.0f, nullptr, nullptr));
+	// high shelft - 18 kHz
+	parameters.push_back(std::make_unique<Parameter>(String("hsGain"), String("Gain"), String(),
+													NormalisableRange<float>(-15.f, 15.f, 0.1f, 1.f),
+													0.0f, nullptr, nullptr));
+	parameters.push_back(std::make_unique<Parameter>(String("hsFreq"), String("Hz"), String(),
+													NormalisableRange<float>(10.f, 20000.f, 0.5f, 0.3f),
+													18000.0f, nullptr, nullptr));
+	parameters.push_back(std::make_unique<Parameter>(String("hsQ"), String("Q"), String(),
+													NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
+													1.0f, nullptr, nullptr));
 
 	return{parameters.begin(), parameters.end()};
 }
@@ -57,9 +109,30 @@ EqualizerMusAudioProcessor::EqualizerMusAudioProcessor()
 #endif
 	parameters(*this, nullptr, Identifier(JucePlugin_Name), createParameterLayout())
 {
-	peakGainParameter = parameters.getRawParameterValue("peakGain");
-	peakFreqParameter = parameters.getRawParameterValue("peakFreq");
-	peakQParameter = parameters.getRawParameterValue("peakQ");
+	// low shelf
+	lsGainParameter = parameters.getRawParameterValue("lsGain");
+	lsFreqParameter = parameters.getRawParameterValue("lsFreq");
+	lsQParameter = parameters.getRawParameterValue("lsQ");
+	// peak 01
+	peak01GainParameter = parameters.getRawParameterValue("peak01Gain");
+	peak01FreqParameter = parameters.getRawParameterValue("peak01Freq");
+	peak01QParameter = parameters.getRawParameterValue("peak01Q");
+	// peak 02
+	peak02GainParameter = parameters.getRawParameterValue("peak02Gain");
+	peak02FreqParameter = parameters.getRawParameterValue("peak02Freq");
+	peak02QParameter = parameters.getRawParameterValue("peak02Q");
+	// peak 03
+	peak03GainParameter = parameters.getRawParameterValue("peak03Gain");
+	peak03FreqParameter = parameters.getRawParameterValue("peak03Freq");
+	peak03QParameter = parameters.getRawParameterValue("peak03Q");
+	// peak 04
+	peak04GainParameter = parameters.getRawParameterValue("peak04Gain");
+	peak04FreqParameter = parameters.getRawParameterValue("peak04Freq");
+	peak04QParameter = parameters.getRawParameterValue("peak04Q");
+	// high shelf
+	hsGainParameter = parameters.getRawParameterValue("hsGain");
+	hsFreqParameter = parameters.getRawParameterValue("hsFreq");
+	hsQParameter = parameters.getRawParameterValue("hsQ");
 }
 
 EqualizerMusAudioProcessor::~EqualizerMusAudioProcessor()
@@ -137,7 +210,7 @@ void EqualizerMusAudioProcessor::prepareToPlay(double sampleRate, int samplesPer
 	for (int i = 0; i < 2; i++) {
 		x1[i] = x2[i] = y1[i] = y2[i] = 0.f;
 
-		lowShelf[i] = parametricEQ_init(30.f, float q, float gain, LOWSHELF, sr);
+		//lowShelf[i] = parametricEQ_init(30.f, float q, float gain, LOWSHELF, sr);
 	}
 
 
@@ -235,13 +308,13 @@ void EqualizerMusAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiB
 
 	for (int sample = 0; sample < buffer.getNumSamples(); sample++){
 
-		float q = *peakQParameter;
-		float cutoff = *peakFreqParameter;
-		float dbScale = *peakGainParameter;
+		float q = *peak01QParameter;
+		float cutoff = *peak01FreqParameter;
+		float dbScale = *peak01GainParameter;
 		float gain = Decibels::decibelsToGain(dbScale);
 
 		a = powf(10.f, gain / 40.f);
-		w0 = (2.f * M_PI) * cutoff / sr;
+		w0 = (2.f * (float)M_PI) * cutoff / sr;
 		c = cosf(w0);
 		alpha = sinf(w0) / (2.f * q);
 

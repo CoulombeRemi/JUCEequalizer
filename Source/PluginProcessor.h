@@ -95,11 +95,31 @@ private:
 	*/
 	void coeff_process_hc();
 	void coeff_process_hs();
-	
 
-	std::atomic<float> *peakGainParameter;
-	std::atomic<float> *peakFreqParameter;
-	std::atomic<float> *peakQParameter;
+	// low shelf
+	std::atomic<float> *lsGainParameter;
+	std::atomic<float> *lsFreqParameter;
+	std::atomic<float> *lsQParameter;
+	// peak 01
+	std::atomic<float> *peak01GainParameter;
+	std::atomic<float> *peak01FreqParameter;
+	std::atomic<float> *peak01QParameter;
+	// peak 02
+	std::atomic<float> *peak02GainParameter;
+	std::atomic<float> *peak02FreqParameter;
+	std::atomic<float> *peak02QParameter;
+	// peak 03
+	std::atomic<float> *peak03GainParameter;
+	std::atomic<float> *peak03FreqParameter;
+	std::atomic<float> *peak03QParameter;
+	// peak 04
+	std::atomic<float> *peak04GainParameter;
+	std::atomic<float> *peak04FreqParameter;
+	std::atomic<float> *peak04QParameter;
+	// high shelf
+	std::atomic<float> *hsGainParameter;
+	std::atomic<float> *hsFreqParameter;
+	std::atomic<float> *hsQParameter;
 
 
     //==============================================================================
