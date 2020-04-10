@@ -63,38 +63,14 @@ public:
 private:
 	AudioProcessorValueTreeState parameters;
 
-
 	struct parametricEQ *lowShelf[2];
-
-	float lsCoeff, hsCoeff, lcCoeff, hcCoeff;
-	float bpCoeff, bCoeff, nCoeff;
-	float filterMemory[2];
-
-	float sr;
-	float nyquist;
-
-	// -- peak --
-	float w0, c, alpha, a;
-	float a0, a1, a2, b0, b1, b2;
-	float x1[2], x2[2], y1[2], y2[2];
-	void coeff_process_peak();
-
-	// variables pour coeff du lowcut?
-	/*
-	float w0_lc, c_lc, alpha_lc, a_lc;
-	float a0_lc, a1_lc, a2_lc, b0_lc, b1_lc, b2_lc;
-	float x1_lc[2], x2_lc[2], y1_lc[2], y2_lc[2];
-	*/
-	void coeff_process_lc();
-	void coeff_process_ls();
-
-	/*
-	float w0_hc, c_hc, alpha_hc, a_hc;
-	float a0_hc, a1_hc, a2_hc, b0_hc, b1_hc, b2_hc;
-	float x1_hc[2], x2_hc[2], y1_hc[2], y2_hc[2];
-	*/
-	void coeff_process_hc();
-	void coeff_process_hs();
+	struct parametricEQ *peak01[2];
+	struct parametricEQ *peak02[2];
+	struct parametricEQ *peak03[2];
+	struct parametricEQ *peak04[2];
+	struct parametricEQ *peak05[2];
+	struct parametricEQ *peak06[2];
+	struct parametricEQ *highShelf[2];
 
 	// low shelf
 	std::atomic<float> *lsGainParameter;
