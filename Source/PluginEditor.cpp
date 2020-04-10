@@ -126,6 +126,27 @@ EqualizerMusAudioProcessorEditor::EqualizerMusAudioProcessorEditor (EqualizerMus
 	peak04_q.setTextValueSuffix(" Q");
 	peak04_qAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "peak04Q", peak04_q));
 	addAndMakeVisible(&peak04_q);
+	// peak 05
+	peak05_gain.setSliderStyle(Slider::LinearBarVertical);
+	peak05_gain.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+	peak05_gain.setPopupDisplayEnabled(true, true, this);
+	peak05_gain.setTextValueSuffix(" dB");
+	peak05_gainAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "peak05Gain", peak05_gain));
+	addAndMakeVisible(&peak05_gain);
+
+	peak05_freq.setSliderStyle(Slider::LinearBarVertical);
+	peak05_freq.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+	peak05_freq.setPopupDisplayEnabled(true, true, this);
+	peak05_freq.setTextValueSuffix(" Hz");
+	peak05_freqAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "peak05Freq", peak05_freq));
+	addAndMakeVisible(&peak05_freq);
+
+	peak05_q.setSliderStyle(Slider::LinearBarVertical);
+	peak05_q.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+	peak05_q.setPopupDisplayEnabled(true, true, this);
+	peak05_q.setTextValueSuffix(" Q");
+	peak05_qAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "peak05Q", peak05_q));
+	addAndMakeVisible(&peak05_q);
 	// high shelf
 	hs_gain.setSliderStyle(Slider::LinearBarVertical);
 	hs_gain.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
@@ -189,8 +210,16 @@ void EqualizerMusAudioProcessorEditor::resized()
 	peak04_gain.setBounds(450, 20, 20, getHeight() - 50);
 	peak04_freq.setBounds(480, 20, 20, getHeight() - 50);
 	peak04_q.setBounds(510, 20, 20, getHeight() - 50);
+	// peak 05
+	peak05_gain.setBounds(550, 20, 20, getHeight() - 50);
+	peak05_freq.setBounds(580, 20, 20, getHeight() - 50);
+	peak05_q.setBounds(610, 20, 20, getHeight() - 50);
+	// peak 06
+	peak06_gain.setBounds(650, 20, 20, getHeight() - 50);
+	peak06_freq.setBounds(680, 20, 20, getHeight() - 50);
+	peak06_q.setBounds(710, 20, 20, getHeight() - 50);
 	// high shelf
-	hs_gain.setBounds(550, 20, 20, getHeight() - 50);
-	hs_freq.setBounds(580, 20, 20, getHeight() - 50);
-	hs_q.setBounds(610,20, 20, getHeight() - 50);
+	hs_gain.setBounds(750, 20, 20, getHeight() - 50);
+	hs_freq.setBounds(780, 20, 20, getHeight() - 50);
+	hs_q.setBounds(810,20, 20, getHeight() - 50);
 }

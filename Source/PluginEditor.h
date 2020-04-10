@@ -66,6 +66,20 @@ private:
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> peak04_freqAttachment;
 	Slider peak04_q;
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> peak04_qAttachment;
+	// peak 05
+	Slider peak05_gain;
+	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> peak05_gainAttachment;
+	Slider peak05_freq;
+	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> peak05_freqAttachment;
+	Slider peak05_q;
+	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> peak05_qAttachment;
+	// peak 06
+	Slider peak06_gain;
+	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> peak06_gainAttachment;
+	Slider peak06_freq;
+	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> peak06_freqAttachment;
+	Slider peak06_q;
+	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> peak06_qAttachment;
 	// high shelf
 	Slider hs_gain;
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> hs_gainAttachment;

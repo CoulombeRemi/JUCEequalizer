@@ -50,34 +50,54 @@ AudioProcessorValueTreeState::ParameterLayout createParameterLayout() {
 	parameters.push_back(std::make_unique<Parameter>(String("peak01Q"), String("Q"), String(),
 													NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
 													1.0f, nullptr, nullptr));
-	// peak 02 - 200 Hz
+	// peak 02 - 300 Hz
 	parameters.push_back(std::make_unique<Parameter>(String("peak02Gain"), String("Gain"), String(),
 													NormalisableRange<float>(-15.f, 15.f, 0.1f, 1.f),
 													0.0f, nullptr, nullptr));
 	parameters.push_back(std::make_unique<Parameter>(String("peak02Freq"), String("Hz"), String(),
 													NormalisableRange<float>(10.f, 20000.f, 0.5f, 0.3f),
-													200.0f, nullptr, nullptr));
+													300.0f, nullptr, nullptr));
 	parameters.push_back(std::make_unique<Parameter>(String("peak02Q"), String("Q"), String(),
 													NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
 													1.0f, nullptr, nullptr));
-	// peak 03 - 1 kHz
+	// peak 03 - 700 kHz
 	parameters.push_back(std::make_unique<Parameter>(String("peak03Gain"), String("Gain"), String(),
 													NormalisableRange<float>(-15.f, 15.f, 0.1f, 1.f),
 													0.0f, nullptr, nullptr));
 	parameters.push_back(std::make_unique<Parameter>(String("peak03Freq"), String("Hz"), String(),
 													NormalisableRange<float>(10.f, 20000.f, 0.5f, 0.3f),
-													1000.0f, nullptr, nullptr));
+													700.0f, nullptr, nullptr));
 	parameters.push_back(std::make_unique<Parameter>(String("peak03Q"), String("Q"), String(),
 													NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
 													1.0f, nullptr, nullptr));
-	// peak 04 - 5 kHz
+	// peak 04 - 1.8 kHz
 	parameters.push_back(std::make_unique<Parameter>(String("peak04Gain"), String("Gain"), String(),
 													NormalisableRange<float>(-15.f, 15.f, 0.1f, 1.f),
 													0.0f, nullptr, nullptr));
 	parameters.push_back(std::make_unique<Parameter>(String("peak04Freq"), String("Hz"), String(),
 													NormalisableRange<float>(10.f, 20000.f, 0.5f, 0.3f),
-													5000.0f, nullptr, nullptr));
+													1800.0f, nullptr, nullptr));
 	parameters.push_back(std::make_unique<Parameter>(String("peak04Q"), String("Q"), String(),
+													NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
+													1.0f, nullptr, nullptr));
+	// peak 05 - 4 kHz
+	parameters.push_back(std::make_unique<Parameter>(String("peak05Gain"), String("Gain"), String(),
+													NormalisableRange<float>(-15.f, 15.f, 0.1f, 1.f),
+													0.0f, nullptr, nullptr));
+	parameters.push_back(std::make_unique<Parameter>(String("peak05Freq"), String("Hz"), String(),
+													NormalisableRange<float>(10.f, 20000.f, 0.5f, 0.3f),
+													4000.0f, nullptr, nullptr));
+	parameters.push_back(std::make_unique<Parameter>(String("peak05Q"), String("Q"), String(),
+													NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
+													1.0f, nullptr, nullptr));
+	// peak 06 - 8 kHz
+	parameters.push_back(std::make_unique<Parameter>(String("peak06Gain"), String("Gain"), String(),
+													NormalisableRange<float>(-15.f, 15.f, 0.1f, 1.f),
+													0.0f, nullptr, nullptr));
+	parameters.push_back(std::make_unique<Parameter>(String("peak06Freq"), String("Hz"), String(),
+													NormalisableRange<float>(10.f, 20000.f, 0.5f, 0.3f),
+													8000.0f, nullptr, nullptr));
+	parameters.push_back(std::make_unique<Parameter>(String("peak06Q"), String("Q"), String(),
 													NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
 													1.0f, nullptr, nullptr));
 	// high shelft - 18 kHz
@@ -129,6 +149,14 @@ EqualizerMusAudioProcessor::EqualizerMusAudioProcessor()
 	peak04GainParameter = parameters.getRawParameterValue("peak04Gain");
 	peak04FreqParameter = parameters.getRawParameterValue("peak04Freq");
 	peak04QParameter = parameters.getRawParameterValue("peak04Q");
+	// peak 05
+	peak05GainParameter = parameters.getRawParameterValue("peak05Gain");
+	peak05FreqParameter = parameters.getRawParameterValue("peak05Freq");
+	peak05QParameter = parameters.getRawParameterValue("peak05Q");
+	// peak 06
+	peak06GainParameter = parameters.getRawParameterValue("peak06Gain");
+	peak06FreqParameter = parameters.getRawParameterValue("peak06Freq");
+	peak06QParameter = parameters.getRawParameterValue("peak06Q");
 	// high shelf
 	hsGainParameter = parameters.getRawParameterValue("hsGain");
 	hsFreqParameter = parameters.getRawParameterValue("hsFreq");

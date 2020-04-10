@@ -116,6 +116,14 @@ private:
 	std::atomic<float> *peak04GainParameter;
 	std::atomic<float> *peak04FreqParameter;
 	std::atomic<float> *peak04QParameter;
+	// peak 05
+	std::atomic<float> *peak05GainParameter;
+	std::atomic<float> *peak05FreqParameter;
+	std::atomic<float> *peak05QParameter;
+	// peak 06
+	std::atomic<float> *peak06GainParameter;
+	std::atomic<float> *peak06FreqParameter;
+	std::atomic<float> *peak06QParameter;
 	// high shelf
 	std::atomic<float> *hsGainParameter;
 	std::atomic<float> *hsFreqParameter;
