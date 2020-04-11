@@ -4,6 +4,7 @@
               pluginFormats="buildStandalone,buildVST,buildVST3" headerPath="../../lib/">
   <MAINGROUP id="BSCVCH" name="equalizerMus">
     <GROUP id="{D151EEF4-D58B-0407-B7CB-6FD3CAB08601}" name="Source">
+      <FILE id="dsLHcN" name="CustomLnF.h" compile="0" resource="0" file="Source/CustomLnF.h"/>
       <GROUP id="{A07D10B5-0D1B-7480-D65C-FC24CC9512A2}" name="lib">
         <FILE id="mur5OK" name="parametricEQ.c" compile="1" resource="0" file="lib/parametricEQ.c"/>
         <FILE id="KXEz1h" name="parametricEQ.h" compile="0" resource="0" file="lib/parametricEQ.h"/>
@@ -17,7 +18,6 @@
       <FILE id="JI6OlV" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
       <FILE id="KlJPSl" name="Images.cpp" compile="1" resource="0" file="Source/Images.cpp"/>
       <FILE id="zMHEFM" name="Images.h" compile="0" resource="0" file="Source/Images.h"/>
-      <FILE id="NMBypL" name="CustomLnF.h" compile="0" resource="0" file="Source/CustomLnF.h"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
