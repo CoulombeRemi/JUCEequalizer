@@ -13,11 +13,12 @@
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
 #include "Images.h"
+#include "CustomLnF.h"
 
 //==============================================================================
 /**
 */
-class EqualizerMusAudioProcessorEditor  : public AudioProcessorEditor
+class EqualizerMusAudioProcessorEditor : public AudioProcessorEditor
 {
 public:
     EqualizerMusAudioProcessorEditor (EqualizerMusAudioProcessor&, AudioProcessorValueTreeState& vts);
@@ -28,6 +29,13 @@ public:
     void resized() override;
 
 private:
+
+	CustomLnF lookAndFeel;
+
+	Label freqLabel;
+	Label qLabel;
+	Label gainLabel;
+
 	Image backgroundImg;
 	AudioProcessorValueTreeState& valueTreeState;
 

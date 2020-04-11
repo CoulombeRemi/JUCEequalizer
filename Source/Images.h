@@ -50,6 +50,8 @@ public:
     // Binary resources:
     static const char* pluginbg_png;
     static const int pluginbg_pngSize;
+    static const char* knobRoll_png;
+    static const int knobRoll_pngSize;
 
 
 private:

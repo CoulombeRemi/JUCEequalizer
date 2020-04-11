@@ -21,6 +21,14 @@ https://forum.juce.com/t/multiple-iirfilters/20331/9
 #define M_PI (3.14159265358979323846264338327950288)
 #endif
 
+// 2h22m16s
+static String freqValueToText(float value) {return String(value, 2)+String(" Hz");}
+static String freqTextToValue(const String& text) { return text.getFloatValue();}
+static String qValueToText(float value) { return String(value, 2) + String(" Q");}
+static String qTextToValue(const String& text) { return text.getFloatValue(); }
+static String gainValueToText(float value) { return String(value, 2) + String(" dB");}
+static String gainTextToValue(const String& text) { return text.getFloatValue();}
+
 // return parameter configuration
 // need to call createParameter() for initialization of the audiovaluetree....
 AudioProcessorValueTreeState::ParameterLayout createParameterLayout() {
@@ -33,83 +41,83 @@ AudioProcessorValueTreeState::ParameterLayout createParameterLayout() {
 	// low shelft - 30 Hz
 	parameters.push_back(std::make_unique<Parameter>(String("lsGain"), String("Gain"), String(),
 													NormalisableRange<float>(-24.f, 24.f, 0.1f, 1.0f),
-													0.0f, nullptr, nullptr));
+													0.0f, gainValueToText, gainTextToValue));
 	parameters.push_back(std::make_unique<Parameter>(String("lsFreq"), String("Hz"), String(),
-													NormalisableRange<float>(10.0f, 22000.0f, 0.5f, 0.3f),
-													30.0f, nullptr, nullptr));
+		NormalisableRange<float>(10.0f, 22000.0f, 0.5f, 0.3f),
+		30.0f, freqValueToText, freqTextToValue));
 	parameters.push_back(std::make_unique<Parameter>(String("lsQ"), String("Q"), String(),
-													NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
-													1.0f, nullptr, nullptr));
+		NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
+		1.0f, qValueToText, qTextToValue));
 	// peak 01 - 100 Hz
 	parameters.push_back(std::make_unique<Parameter>(String("peak01Gain"), String("Gain"), String(),
-													NormalisableRange<float>(-24.0f, 24.0f, 0.1f, 1.f), 
-													0.0f, nullptr, nullptr));
+		NormalisableRange<float>(-24.0f, 24.0f, 0.1f, 1.f),
+		0.0f, gainValueToText, gainTextToValue));
 	parameters.push_back(std::make_unique<Parameter>(String("peak01Freq"), String("Hz"), String(),
-													NormalisableRange<float>(10.0f, 22000.0f, 0.5f, 0.3f), 
-													100.0f, nullptr, nullptr));
+		NormalisableRange<float>(10.0f, 22000.0f, 0.5f, 0.3f),
+		100.0f, freqValueToText, freqTextToValue));
 	parameters.push_back(std::make_unique<Parameter>(String("peak01Q"), String("Q"), String(),
-													NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
-													1.0f, nullptr, nullptr));
+		NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
+		1.0f, qValueToText, qTextToValue));
 	// peak 02 - 300 Hz
 	parameters.push_back(std::make_unique<Parameter>(String("peak02Gain"), String("Gain"), String(),
-													NormalisableRange<float>(-24.0f, 24.0f, 0.1f, 1.f),
-													0.0f, nullptr, nullptr));
+		NormalisableRange<float>(-24.0f, 24.0f, 0.1f, 1.f),
+		0.0f, gainValueToText, gainTextToValue));
 	parameters.push_back(std::make_unique<Parameter>(String("peak02Freq"), String("Hz"), String(),
-													NormalisableRange<float>(10.0f, 22000.0f, 0.5f, 0.3f),
-													300.0f, nullptr, nullptr));
+		NormalisableRange<float>(10.0f, 22000.0f, 0.5f, 0.3f),
+		300.0f, freqValueToText, freqTextToValue));
 	parameters.push_back(std::make_unique<Parameter>(String("peak02Q"), String("Q"), String(),
-													NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
-													1.0f, nullptr, nullptr));
+		NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
+		1.0f, qValueToText, qTextToValue));
 	// peak 03 - 700 kHz
 	parameters.push_back(std::make_unique<Parameter>(String("peak03Gain"), String("Gain"), String(),
-													NormalisableRange<float>(-24.0f, 24.0f, 0.1f, 1.f),
-													0.0f, nullptr, nullptr));
+		NormalisableRange<float>(-24.0f, 24.0f, 0.1f, 1.f),
+		0.0f, gainValueToText, gainTextToValue));
 	parameters.push_back(std::make_unique<Parameter>(String("peak03Freq"), String("Hz"), String(),
-													NormalisableRange<float>(10.0f, 22000.0f, 0.5f, 0.3f),
-													700.0f, nullptr, nullptr));
+		NormalisableRange<float>(10.0f, 22000.0f, 0.5f, 0.3f),
+		700.0f, freqValueToText, freqTextToValue));
 	parameters.push_back(std::make_unique<Parameter>(String("peak03Q"), String("Q"), String(),
-													NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
-													1.0f, nullptr, nullptr));
+		NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
+		1.0f, qValueToText, qTextToValue));
 	// peak 04 - 1.8 kHz
 	parameters.push_back(std::make_unique<Parameter>(String("peak04Gain"), String("Gain"), String(),
-													NormalisableRange<float>(-24.0f, 24.0f, 0.1f, 1.f),
-													0.0f, nullptr, nullptr));
+		NormalisableRange<float>(-24.0f, 24.0f, 0.1f, 1.f),
+		0.0f, gainValueToText, gainTextToValue));
 	parameters.push_back(std::make_unique<Parameter>(String("peak04Freq"), String("Hz"), String(),
-													NormalisableRange<float>(10.0f, 22000.0f, 0.5f, 0.3f),
-													1800.0f, nullptr, nullptr));
+		NormalisableRange<float>(10.0f, 22000.0f, 0.5f, 0.3f),
+		1800.0f, freqValueToText, freqTextToValue));
 	parameters.push_back(std::make_unique<Parameter>(String("peak04Q"), String("Q"), String(),
-													NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
-													1.0f, nullptr, nullptr));
+		NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
+		1.0f, qValueToText, qTextToValue));
 	// peak 05 - 4 kHz
 	parameters.push_back(std::make_unique<Parameter>(String("peak05Gain"), String("Gain"), String(),
-													NormalisableRange<float>(-24.0f, 24.0f, 0.1f, 1.f),
-													0.0f, nullptr, nullptr));
+		NormalisableRange<float>(-24.0f, 24.0f, 0.1f, 1.f),
+		0.0f, gainValueToText, gainTextToValue));
 	parameters.push_back(std::make_unique<Parameter>(String("peak05Freq"), String("Hz"), String(),
-													NormalisableRange<float>(10.0f, 22000.0f, 0.5f, 0.3f),
-													4000.0f, nullptr, nullptr));
+		NormalisableRange<float>(10.0f, 22000.0f, 0.5f, 0.3f),
+		4000.0f, freqValueToText, freqTextToValue));
 	parameters.push_back(std::make_unique<Parameter>(String("peak05Q"), String("Q"), String(),
-													NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
-													1.0f, nullptr, nullptr));
+		NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
+		1.0f, qValueToText, qTextToValue));
 	// peak 06 - 8 kHz
 	parameters.push_back(std::make_unique<Parameter>(String("peak06Gain"), String("Gain"), String(),
-													NormalisableRange<float>(-24.0f, 24.0f, 0.1f, 1.f),
-													0.0f, nullptr, nullptr));
+		NormalisableRange<float>(-24.0f, 24.0f, 0.1f, 1.f),
+		0.0f, gainValueToText, gainTextToValue));
 	parameters.push_back(std::make_unique<Parameter>(String("peak06Freq"), String("Hz"), String(),
-													NormalisableRange<float>(10.0f, 22000.0f, 0.5f, 0.3f),
-													8000.0f, nullptr, nullptr));
+		NormalisableRange<float>(10.0f, 22000.0f, 0.5f, 0.3f),
+		8000.0f, freqValueToText, freqTextToValue));
 	parameters.push_back(std::make_unique<Parameter>(String("peak06Q"), String("Q"), String(),
-													NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
-													1.0f, nullptr, nullptr));
+		NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
+		1.0f, qValueToText, qTextToValue));
 	// high shelft - 18 kHz
 	parameters.push_back(std::make_unique<Parameter>(String("hsGain"), String("Gain"), String(),
-													NormalisableRange<float>(-24.0f, 24.0f, 0.1f, 1.f),
-													0.0f, nullptr, nullptr));
+		NormalisableRange<float>(-24.0f, 24.0f, 0.1f, 1.f),
+		0.0f, gainValueToText, gainTextToValue));
 	parameters.push_back(std::make_unique<Parameter>(String("hsFreq"), String("Hz"), String(),
-													NormalisableRange<float>(10.0f, 22000.0f, 0.5f, 0.3f),
-													18000.0f, nullptr, nullptr));
+		NormalisableRange<float>(10.0f, 22000.0f, 0.5f, 0.3f),
+		18000.0f, freqValueToText, freqTextToValue));
 	parameters.push_back(std::make_unique<Parameter>(String("hsQ"), String("Q"), String(),
-													NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
-													1.0f, nullptr, nullptr));
+		NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
+		1.0f, qValueToText, qTextToValue));
 
 	return{parameters.begin(), parameters.end()};
 }

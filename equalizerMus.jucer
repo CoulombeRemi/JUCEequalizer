@@ -17,6 +17,7 @@
       <FILE id="JI6OlV" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
       <FILE id="KlJPSl" name="Images.cpp" compile="1" resource="0" file="Source/Images.cpp"/>
       <FILE id="zMHEFM" name="Images.h" compile="0" resource="0" file="Source/Images.h"/>
+      <FILE id="NMBypL" name="CustomLnF.h" compile="0" resource="0" file="Source/CustomLnF.h"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
