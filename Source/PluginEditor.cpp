@@ -32,7 +32,7 @@ EqualizerMusAudioProcessorEditor::EqualizerMusAudioProcessorEditor(EqualizerMusA
 	gainLabel.setText("GAIN", NotificationType::dontSendNotification);
 	gainLabel.setJustificationType(Justification::centred);
 	addAndMakeVisible(&gainLabel);*/
-	int textBoxSizeX = 80, textBoxSizeY = 20;
+	int textBoxSizeX = 80, textBoxSizeY = 15;
 
 
 	// low shelf
@@ -181,42 +181,41 @@ void EqualizerMusAudioProcessorEditor::paint(Graphics& g)
 
 void EqualizerMusAudioProcessorEditor::resized()
 {
+	int freqQW = 70, freqQH = 80;
+	int gainW = 80, gainH = 90;
 	// posX, posY, widht, heigh
-	// low shelf - ls_gain - ls_freq - ls_q
-	ls_freq.setBounds(50, 50, 80, 100);
-	ls_q.setBounds(150, 50, 80, 100);
-	ls_gain.setBounds(75, 100, 80, 100);
-	/*
-	freqLabel.setBounds(50, 20, 20, 20);
-	qLabel.setBounds(150, 20, 20, 20);
-	gainLabel.setBounds(250, 20, 20, 20);*/
+
+	// low shelf
+	ls_freq.setBounds(50, 50, freqQW, freqQH);
+	ls_q.setBounds(120, 50, freqQW, freqQH);
+	ls_gain.setBounds(75, 130, gainW, gainH);
 	// peak 01
-	peak01_freq.setBounds(50, 50, 80, 100);
-	peak01_q.setBounds(150, 50, 80, 100);
-	peak01_gain.setBounds(150, 50, 80, 100);
-	/*
+	peak01_freq.setBounds(210, 140, freqQW, freqQH);
+	peak01_q.setBounds(280, 140, freqQW, freqQH);
+	peak01_gain.setBounds(235, 40, gainW, gainH);
 	// peak 02
-	peak02_freq.setBounds(250, 50, 20, getHeight() - 50);
-	peak02_q.setBounds(280, 50, 20, getHeight() - 50);
-	peak02_gain.setBounds(310, 50, 20, getHeight() - 50);
+	peak02_freq.setBounds(370, 50, freqQW, freqQH);
+	peak02_q.setBounds(440, 50, freqQW, freqQH);
+	peak02_gain.setBounds(395, 130, gainW, gainH);
 	// peak 03
-	peak03_freq.setBounds(350, 50, 20, getHeight() - 50);
-	peak03_q.setBounds(380, 50, 20, getHeight() - 50);
-	peak03_gain.setBounds(410, 50, 20, getHeight() - 50);
+	peak03_freq.setBounds(530, 140, freqQW, freqQH);
+	peak03_q.setBounds(600, 140, freqQW, freqQH);
+	peak03_gain.setBounds(555, 40, gainW, gainH);
+	// second row
 	// peak 04
-	peak04_freq.setBounds(450, 50, 20, getHeight() - 50);
-	peak04_q.setBounds(480, 50, 20, getHeight() - 50);
-	peak04_gain.setBounds(510, 50, 20, getHeight() - 50);
+	peak04_freq.setBounds(50, 350, freqQW, freqQH);
+	peak04_q.setBounds(120, 350, freqQW, freqQH);
+	peak04_gain.setBounds(75, 250, gainW, gainH);
 	// peak 05
-	peak05_freq.setBounds(550, 50, 20, getHeight() - 50);
-	peak05_q.setBounds(580, 50, 20, getHeight() - 50);
-	peak05_gain.setBounds(610, 50, 20, getHeight() - 50);
+	peak05_freq.setBounds(210, 260, freqQW, freqQH);
+	peak05_q.setBounds(280, 260, freqQW, freqQH);
+	peak05_gain.setBounds(235, 340, gainW, gainH);
 	// peak 06
-	peak06_freq.setBounds(650, 50, 20, getHeight() - 50);
-	peak06_q.setBounds(680, 50, 20, getHeight() - 50);
-	peak06_gain.setBounds(710, 50, 20, getHeight() - 50);
+	peak06_freq.setBounds(370, 350, freqQW, freqQH);
+	peak06_q.setBounds(440, 350, freqQW, freqQH);
+	peak06_gain.setBounds(395, 250, gainW, gainH);
 	// high shelf
-	hs_freq.setBounds(750, 50, 20, getHeight() - 50);
-	hs_q.setBounds(780, 50, 20, getHeight() - 50);
-	hs_gain.setBounds(810, 50, 20, getHeight() - 50);*/
+	hs_freq.setBounds(530, 260, freqQW, freqQH);
+	hs_q.setBounds(600, 260, freqQW, freqQH);
+	hs_gain.setBounds(555, 340, gainW, gainH);
 }
