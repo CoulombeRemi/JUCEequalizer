@@ -1,19 +1,10 @@
-/*
-  ==============================================================================
-
-    CustomLnF.h
-    Created: 10 Apr 2020 5:29:30pm
-    Author:  Remi PC
-
-  ==============================================================================
-*/
-
 #pragma once
+
 #include <JuceHeader.h>
 
 
-class CustomLnF : public LookAndFeel_V4{
-
+class CustomLnF : public LookAndFeel_V4
+{
 public:
 	Colour light = Colour(212, 211, 224);
 
@@ -45,7 +36,7 @@ public:
 	}
 
 	void drawRotarySlider(Graphics& g, int x, int y, int width, int height, float sliderPos,
-		const float rotaryStartAngle, const float rotaryEndAngle, Slider& slider)
+		const float rotaryStartAngle, const float rotaryEndAngle, Slider& slider)override
 	{
 		auto bounds = Rectangle<int>((width - height) / 2.0f, y, height, height).toFloat().reduced(10);
 
@@ -74,5 +65,5 @@ public:
 		thumb.addLineSegment(Line<float>(bounds.getCentre(), thumbPoint), 1.5f);
 		g.strokePath(thumb, PathStrokeType(lineW, PathStrokeType::curved, PathStrokeType::rounded));
 	}
-		
+
 };

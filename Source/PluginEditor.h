@@ -1,9 +1,9 @@
 /*
   ==============================================================================
 
-    This file was auto-generated!
+	This file was auto-generated!
 
-    It contains the basic framework code for a JUCE plugin editor.
+	It contains the basic framework code for a JUCE plugin editor.
 
   ==============================================================================
 */
@@ -21,12 +21,12 @@
 class EqualizerMusAudioProcessorEditor : public AudioProcessorEditor
 {
 public:
-    EqualizerMusAudioProcessorEditor (EqualizerMusAudioProcessor&, AudioProcessorValueTreeState& vts);
-    ~EqualizerMusAudioProcessorEditor();
+	EqualizerMusAudioProcessorEditor(EqualizerMusAudioProcessor&, AudioProcessorValueTreeState& vts);
+	~EqualizerMusAudioProcessorEditor();
 
-    //==============================================================================
-    void paint (Graphics&) override;
-    void resized() override;
+	//==============================================================================
+	void paint(Graphics&) override;
+	void resized() override;
 
 private:
 
@@ -96,7 +96,7 @@ private:
 	Slider hs_q;
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> hs_qAttachment;
 
-    EqualizerMusAudioProcessor& processor;
+	EqualizerMusAudioProcessor& processor;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (EqualizerMusAudioProcessorEditor)
+	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(EqualizerMusAudioProcessorEditor)
 };
