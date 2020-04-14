@@ -31,12 +31,12 @@ public:
 private:
 
 	CustomLnF lookAndFeel;
+	Image backgroundImg;
 
 	Label freqLabel;
 	Label qLabel;
 	Label gainLabel;
 
-	Image backgroundImg;
 	AudioProcessorValueTreeState& valueTreeState;
 
 	// low shelf

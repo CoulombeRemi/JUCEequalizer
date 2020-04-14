@@ -16,10 +16,10 @@ EqualizerMusAudioProcessorEditor::EqualizerMusAudioProcessorEditor(EqualizerMusA
 	: AudioProcessorEditor(&p), processor(p), valueTreeState(vts)
 {
 	// backgroundImg = ImageCache::getFromMemory(Images::background_jpg, Images::background_jpgSize);
-	backgroundImg = ImageCache::getFromMemory(Images::pluginbg_png, Images::pluginbg_pngSize);
+	// backgroundImg = ImageCache::getFromMemory(Images::pluginbg_png, Images::pluginbg_pngSize);
 	// Make sure that before the constructor has finished, you've set the
 	// editor's size to whatever you need it to be.
-	setSize(935, 526);
+	setSize(935, 480);
 
 	setLookAndFeel(&lookAndFeel);
 	/*
@@ -172,11 +172,12 @@ EqualizerMusAudioProcessorEditor::~EqualizerMusAudioProcessorEditor()
 //==============================================================================
 void EqualizerMusAudioProcessorEditor::paint(Graphics& g)
 {
-	//g.drawImage(backgroundImg, 0,0,935,526,0,0,935,526);
+	backgroundImg = ImageCache::getFromMemory(Images::pluginbg_png, Images::pluginbg_pngSize);
 	g.fillAll(getLookAndFeel().findColour(ResizableWindow::backgroundColourId));
 	g.setColour(Colours::white);
+
+	g.drawImage(backgroundImg, 0, 0, 935, 526, 0, 0, 935, 526);
 	g.setFont(15.0f);
-	g.drawFittedText("ok", getLocalBounds(), Justification::centred, 1);
 }
 
 void EqualizerMusAudioProcessorEditor::resized()

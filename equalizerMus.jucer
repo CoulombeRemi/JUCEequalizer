@@ -18,6 +18,10 @@
       <FILE id="JI6OlV" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
       <FILE id="KlJPSl" name="Images.cpp" compile="1" resource="0" file="Source/Images.cpp"/>
       <FILE id="zMHEFM" name="Images.h" compile="0" resource="0" file="Source/Images.h"/>
+      <FILE id="VORWP7" name="FilmStripSlider.cpp" compile="1" resource="0"
+            file="Source/FilmStripSlider.cpp"/>
+      <FILE id="drcZMq" name="FilmStripSlider.h" compile="0" resource="0"
+            file="Source/FilmStripSlider.h"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>

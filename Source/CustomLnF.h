@@ -1,15 +1,17 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "Images.h"
 
 
 class CustomLnF : public LookAndFeel_V4
 {
 public:
+
 	Colour light = Colour(212, 211, 224);
 
 	// Blue
-	Colour darktheme = Colour(6, 28, 64);
+	Colour darktheme = Colour(217, 228, 246);
 	Colour lighttheme = Colour(113, 137, 209);
 	// Steal
 	//Colour darktheme = Colour(35, 46, 54);
@@ -19,16 +21,16 @@ public:
 	CustomLnF() {
 
 		setColour(ResizableWindow::backgroundColourId, darktheme);
-
-		setColour(Label::textColourId, light);
-		setColour(Label::textWhenEditingColourId, light);
-		setColour(Label::outlineWhenEditingColourId, Colours::transparentBlack);
-		setColour(Label::backgroundWhenEditingColourId, Colours::transparentBlack);
+		
+		setColour(Label::textColourId, Colours::yellow);
+		setColour(Label::textWhenEditingColourId, Colours::orange);
+		setColour(Label::outlineWhenEditingColourId, Colours::green);
+		setColour(Label::backgroundWhenEditingColourId, Colours::black);
 
 		setColour(Slider::textBoxTextColourId, light);
-		setColour(Slider::textBoxOutlineColourId, Colours::transparentBlack);
+		setColour(Slider::textBoxOutlineColourId, Colours::purple);
 		setColour(Slider::textBoxHighlightColourId, lighttheme.withAlpha(0.5f));
-		setColour(Slider::backgroundColourId, Colours::transparentBlack);
+		setColour(Slider::backgroundColourId, lighttheme.withAlpha(0.0f));
 		setColour(Slider::rotarySliderOutlineColourId, lighttheme);
 		setColour(Slider::rotarySliderFillColourId, lighttheme.withAlpha(0.25f));
 		setColour(Slider::trackColourId, lighttheme.withAlpha(0.25f));
@@ -65,5 +67,4 @@ public:
 		thumb.addLineSegment(Line<float>(bounds.getCentre(), thumbPoint), 1.5f);
 		g.strokePath(thumb, PathStrokeType(lineW, PathStrokeType::curved, PathStrokeType::rounded));
 	}
-
 };
