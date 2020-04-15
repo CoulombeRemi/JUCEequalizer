@@ -52,6 +52,12 @@ public:
     static const int pluginbg_pngSize;
     static const char* knobRoll_png;
     static const int knobRoll_pngSize;
+    static const char* redKnob_png;
+    static const int redKnob_pngSize;
+    static const char* yellowKnob_png;
+    static const int yellowKnob_pngSize;
+    static const char* greenKnob_png;
+    static const int greenKnob_pngSize;
 
 
 private:

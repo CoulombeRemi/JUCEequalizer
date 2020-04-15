@@ -6,8 +6,14 @@
     <GROUP id="{D151EEF4-D58B-0407-B7CB-6FD3CAB08601}" name="Source">
       <FILE id="dsLHcN" name="CustomLnF.h" compile="0" resource="0" file="Source/CustomLnF.h"/>
       <GROUP id="{A07D10B5-0D1B-7480-D65C-FC24CC9512A2}" name="lib">
+        <FILE id="VxaQyz" name="compress.c" compile="1" resource="0" file="lib/compress.c"/>
+        <FILE id="cQngKN" name="compress.h" compile="0" resource="0" file="lib/compress.h"/>
+        <FILE id="y0OtNp" name="delay.c" compile="1" resource="0" file="lib/delay.c"/>
+        <FILE id="SCC6AX" name="delay.h" compile="0" resource="0" file="lib/delay.h"/>
         <FILE id="mur5OK" name="parametricEQ.c" compile="1" resource="0" file="lib/parametricEQ.c"/>
         <FILE id="KXEz1h" name="parametricEQ.h" compile="0" resource="0" file="lib/parametricEQ.h"/>
+        <FILE id="SNkLXa" name="utils.c" compile="1" resource="0" file="lib/utils.c"/>
+        <FILE id="AO5Kt9" name="utils.h" compile="0" resource="0" file="lib/utils.h"/>
       </GROUP>
       <FILE id="GhNDDP" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
@@ -18,10 +24,6 @@
       <FILE id="JI6OlV" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
       <FILE id="KlJPSl" name="Images.cpp" compile="1" resource="0" file="Source/Images.cpp"/>
       <FILE id="zMHEFM" name="Images.h" compile="0" resource="0" file="Source/Images.h"/>
-      <FILE id="VORWP7" name="FilmStripSlider.cpp" compile="1" resource="0"
-            file="Source/FilmStripSlider.cpp"/>
-      <FILE id="drcZMq" name="FilmStripSlider.h" compile="0" resource="0"
-            file="Source/FilmStripSlider.h"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>

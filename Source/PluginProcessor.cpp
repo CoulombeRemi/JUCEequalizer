@@ -28,6 +28,9 @@ static String qValueToText(float value) { return String(value, 2) + String(" Q")
 static float qTextToValue(const String& text) { return text.getFloatValue(); }
 static String gainValueToText(float value) { return String(value, 2) + String(" dB"); }
 static float gainTextToValue(const String& text) { return text.getFloatValue(); }
+static String threshValueToText(float value) { return String(value, 2) + String(" dB"); }
+static float threshTextToValue(const String& text) { return text.getFloatValue(); }
+
 
 // return parameter configuration
 // need to call createParameter() for initialization of the audiovaluetree....
@@ -119,6 +122,33 @@ AudioProcessorValueTreeState::ParameterLayout createParameterLayout() {
 		NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
 		1.0f, qValueToText, qTextToValue));
 
+	// compressor
+	parameters.push_back(std::make_unique<Parameter>(String("lsThresh"), String("Threshold"), String(),
+		NormalisableRange<float>(-90.0f, -1.0f, 0.1f, 1.f),
+		-20.0f, threshValueToText, threshTextToValue));
+	parameters.push_back(std::make_unique<Parameter>(String("p01Thresh"), String("Threshold"), String(),
+		NormalisableRange<float>(-90.0f, -1.0f, 0.1f, 1.f),
+		-20.0f, threshValueToText, threshTextToValue));
+	parameters.push_back(std::make_unique<Parameter>(String("p02Thresh"), String("Threshold"), String(),
+		NormalisableRange<float>(-90.0f, -1.0f, 0.1f, 1.f),
+		-20.0f, threshValueToText, threshTextToValue));
+	parameters.push_back(std::make_unique<Parameter>(String("p03Thresh"), String("Threshold"), String(),
+		NormalisableRange<float>(-90.0f, -1.0f, 0.1f, 1.f),
+		-20.0f, threshValueToText, threshTextToValue));
+	parameters.push_back(std::make_unique<Parameter>(String("p04Thresh"), String("Threshold"), String(),
+		NormalisableRange<float>(-90.0f, -1.0f, 0.1f, 1.f),
+		-20.0f, threshValueToText, threshTextToValue));
+	parameters.push_back(std::make_unique<Parameter>(String("p05Thresh"), String("Threshold"), String(),
+		NormalisableRange<float>(-90.0f, -1.0f, 0.1f, 1.f),
+		-20.0f, threshValueToText, threshTextToValue));
+	parameters.push_back(std::make_unique<Parameter>(String("p06Thresh"), String("Threshold"), String(),
+		NormalisableRange<float>(-90.0f, -1.0f, 0.1f, 1.f),
+		-20.0f, threshValueToText, threshTextToValue));
+	parameters.push_back(std::make_unique<Parameter>(String("hsThresh"), String("Threshold"), String(),
+		NormalisableRange<float>(-90.0f, -1.0f, 0.1f, 1.f),
+		-20.0f, threshValueToText, threshTextToValue));
+
+
 	return{ parameters.begin(), parameters.end() };
 }
 
@@ -169,6 +199,15 @@ EqualizerMusAudioProcessor::EqualizerMusAudioProcessor()
 	hsGainParameter = parameters.getRawParameterValue("hsGain");
 	hsFreqParameter = parameters.getRawParameterValue("hsFreq");
 	hsQParameter = parameters.getRawParameterValue("hsQ");
+	// compressor
+	lsThreshParameter = parameters.getRawParameterValue("lsThresh");
+	p01ThreshParameter = parameters.getRawParameterValue("p01Thresh");
+	p02ThreshParameter = parameters.getRawParameterValue("p02Thresh");
+	p03ThreshParameter = parameters.getRawParameterValue("p03Thresh");
+	p04ThreshParameter = parameters.getRawParameterValue("p04Thresh");
+	p05ThreshParameter = parameters.getRawParameterValue("p05Thresh");
+	p06ThreshParameter = parameters.getRawParameterValue("p06Thresh");
+	hsThreshParameter = parameters.getRawParameterValue("hsThresh");
 }
 
 EqualizerMusAudioProcessor::~EqualizerMusAudioProcessor()
@@ -241,6 +280,7 @@ void EqualizerMusAudioProcessor::prepareToPlay(double sampleRate, int samplesPer
 {
 	// init
 	for (int i = 0; i < 2; i++) {
+		// EQ
 		lowShelf[i] = parametricEQ_init(*lsFreqParameter, *lsQParameter, *lsGainParameter, LOWSHELF, sampleRate);
 		peak01[i] = parametricEQ_init(*peak01FreqParameter, *peak01QParameter, *peak01GainParameter, PEAK, sampleRate);
 		peak02[i] = parametricEQ_init(*peak02FreqParameter, *peak02QParameter, *peak02GainParameter, PEAK, sampleRate);
@@ -249,6 +289,15 @@ void EqualizerMusAudioProcessor::prepareToPlay(double sampleRate, int samplesPer
 		peak05[i] = parametricEQ_init(*peak05FreqParameter, *peak05QParameter, *peak05GainParameter, PEAK, sampleRate);
 		peak06[i] = parametricEQ_init(*peak06FreqParameter, *peak06QParameter, *peak06GainParameter, PEAK, sampleRate);
 		highShelf[i] = parametricEQ_init(*hsFreqParameter, *hsQParameter, *hsGainParameter, HIGHSHELF, sampleRate);
+		// Comp
+		lowShelfComp[i] = compress_init(*lsThreshParameter, 2.0f, 50.0f, 150.0f, 5.0f, sampleRate);
+		peak01Comp[i] = compress_init(*p01ThreshParameter, 2.0f, 50.0f, 150.0f, 5.0f, sampleRate);
+		peak02Comp[i] = compress_init(*p02ThreshParameter, 2.0f, 50.0f, 150.0f, 5.0f, sampleRate);
+		peak03Comp[i] = compress_init(*p03ThreshParameter, 2.0f, 50.0f, 150.0f, 5.0f, sampleRate);
+		peak04Comp[i] = compress_init(*p04ThreshParameter, 2.0f, 50.0f, 150.0f, 5.0f, sampleRate);
+		peak05Comp[i] = compress_init(*p05ThreshParameter, 2.0f, 50.0f, 150.0f, 5.0f, sampleRate);
+		peak06Comp[i] = compress_init(*p06ThreshParameter, 2.0f, 50.0f, 150.0f, 5.0f, sampleRate);
+		highShelfComp[i] = compress_init(*hsThreshParameter, 2.0f, 50.0f, 150.0f, 5.0f, sampleRate);
 	}
 }
 
@@ -333,6 +382,16 @@ void EqualizerMusAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBu
 		parametricEQ_set_freq(highShelf[channel], *hsFreqParameter);
 		parametricEQ_set_q(highShelf[channel], *hsQParameter);
 		parametricEQ_set_gain(highShelf[channel], *hsGainParameter);
+
+		// compressor
+		compress_set_thresh(lowShelfComp[channel], *lsThreshParameter);
+		compress_set_thresh(peak01Comp[channel], *p01ThreshParameter);
+		compress_set_thresh(peak02Comp[channel], *p02ThreshParameter);
+		compress_set_thresh(peak03Comp[channel], *p03ThreshParameter);
+		compress_set_thresh(peak04Comp[channel], *p04ThreshParameter);
+		compress_set_thresh(peak05Comp[channel], *p05ThreshParameter);
+		compress_set_thresh(peak06Comp[channel], *p06ThreshParameter);
+		compress_set_thresh(highShelfComp[channel], *hsThreshParameter);
 
 		for (int i = 0; i < getBlockSize(); i++) {
 			channelData[i] = parametricEQ_process(lowShelf[channel], channelData[i]);
