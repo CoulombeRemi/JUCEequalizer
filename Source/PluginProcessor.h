@@ -105,23 +105,14 @@ private:
 	std::atomic<float> *hsQParameter;
 
 	// compressor
-	struct compress *lowShelfComp[2];
-	struct compress *peak01Comp[2];
-	struct compress *peak02Comp[2];
-	struct compress *peak03Comp[2];
-	struct compress *peak04Comp[2];
-	struct compress *peak05Comp[2];
-	struct compress *peak06Comp[2];
-	struct compress *highShelfComp[2];
+	struct compress *compressor[2];
 
-	std::atomic<float> *lsThreshParameter;
-	std::atomic<float> *p01ThreshParameter;
-	std::atomic<float> *p02ThreshParameter;
-	std::atomic<float> *p03ThreshParameter;
-	std::atomic<float> *p04ThreshParameter;
-	std::atomic<float> *p05ThreshParameter;
-	std::atomic<float> *p06ThreshParameter;
-	std::atomic<float> *hsThreshParameter;
+	std::atomic<float> *compThreshParameter;
+	std::atomic<float> *compRatioParameter;
+	std::atomic<float> *compAttParameter;
+	std::atomic<float> *compRelParameter;
+	std::atomic<float> *compLHParameter;
+
 
 	//==============================================================================
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(EqualizerMusAudioProcessor)
