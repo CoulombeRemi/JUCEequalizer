@@ -36,6 +36,7 @@ private:
 	Label freqLabel;
 	Label qLabel;
 	Label gainLabel;
+	Label threshLab, ratioLab, attLab, relLab, lhLab;
 
 	AudioProcessorValueTreeState& valueTreeState;
 
@@ -95,6 +96,18 @@ private:
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> hs_freqAttachment;
 	Slider hs_q;
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> hs_qAttachment;
+
+	// compressor
+	Slider comp_Thresh;
+	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> comp_ThreshAttachment;
+	Slider comp_Ratio;
+	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> comp_RatioAttachment;
+	Slider comp_Att;
+	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> comp_AttAttachment;
+	Slider comp_Rel;
+	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> comp_RelAttachment;
+	Slider comp_LH;
+	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> comp_LHAttachment;
 
 	EqualizerMusAudioProcessor& processor;
 

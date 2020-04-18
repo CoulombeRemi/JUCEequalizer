@@ -106,7 +106,6 @@ private:
 
 	// compressor
 	struct compress *compressor[2];
-
 	std::atomic<float> *compThreshParameter;
 	std::atomic<float> *compRatioParameter;
 	std::atomic<float> *compAttParameter;
