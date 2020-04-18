@@ -23,6 +23,7 @@ EqualizerMusAudioProcessorEditor::EqualizerMusAudioProcessorEditor(EqualizerMusA
 	Colour gainColor = Colour(188, 49, 28);
 	Colour freqColor = Colour(230, 245, 3);
 	Colour qColor = Colour(43, 106, 70);
+	Colour boxbg = Colour(75,75,75);
 
 	setLookAndFeel(&lookAndFeel);
 	/*
@@ -205,6 +206,8 @@ EqualizerMusAudioProcessorEditor::EqualizerMusAudioProcessorEditor(EqualizerMusA
 	comp_Ratio.setVelocityBasedMode(true);
 	comp_Ratio.setVelocityModeParameters(0.4, 1, 0.09, false);
 	comp_Ratio.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
+	comp_Ratio.setColour(Slider::trackColourId, boxbg);
+	comp_Ratio.setColour(Slider::backgroundColourId, boxbg.withAlpha(1.0f));
 	addAndMakeVisible(&comp_Ratio);
 	comp_RatioAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "compRatio", comp_Ratio));
 
@@ -213,6 +216,8 @@ EqualizerMusAudioProcessorEditor::EqualizerMusAudioProcessorEditor(EqualizerMusA
 	comp_Att.setVelocityBasedMode(true);
 	comp_Att.setVelocityModeParameters(0.4, 1, 0.09, false);
 	comp_Att.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
+	comp_Att.setColour(Slider::trackColourId, boxbg);
+	comp_Att.setColour(Slider::backgroundColourId, boxbg.withAlpha(1.0f));
 	addAndMakeVisible(&comp_Att);
 	comp_AttAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "compAtt", comp_Att));
 
@@ -221,6 +226,8 @@ EqualizerMusAudioProcessorEditor::EqualizerMusAudioProcessorEditor(EqualizerMusA
 	comp_Rel.setVelocityBasedMode(true);
 	comp_Rel.setVelocityModeParameters(0.4, 1, 0.09, false);
 	comp_Rel.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
+	comp_Rel.setColour(Slider::trackColourId, boxbg);
+	comp_Rel.setColour(Slider::backgroundColourId, boxbg.withAlpha(1.0f));
 	addAndMakeVisible(&comp_Rel);
 	comp_RelAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "compRel", comp_Rel));
 
@@ -229,6 +236,8 @@ EqualizerMusAudioProcessorEditor::EqualizerMusAudioProcessorEditor(EqualizerMusA
 	comp_LH.setVelocityBasedMode(true);
 	comp_LH.setVelocityModeParameters(0.4, 1, 0.09, false);
 	comp_LH.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
+	comp_LH.setColour(Slider::trackColourId, boxbg);
+	comp_LH.setColour(Slider::backgroundColourId, boxbg);
 	addAndMakeVisible(&comp_LH);
 	comp_LHAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "compLH", comp_LH));
 

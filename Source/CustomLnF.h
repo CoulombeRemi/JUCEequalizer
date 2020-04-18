@@ -8,12 +8,17 @@ class CustomLnF : public LookAndFeel_V4
 {
 public:
 
+	Colour redC = Colour(255,0,0);
+
 	Colour light = Colour(212, 211, 224);
-	Colour def = Colour(0,0,0);
+	Colour def = Colour(75, 75, 75);
 
 	// Blue
 	Colour darktheme = Colour(217, 228, 246);
 	Colour lighttheme = Colour(113, 137, 209);
+	// textBox
+	Colour boxOutLine = Colour(0,0,0);
+	Colour boxHighlight = Colour(255,255,255);
 	// Steal
 	//Colour darktheme = Colour(35, 46, 54);
 	//Colour lighttheme = Colour(118, 154, 181);
@@ -23,19 +28,21 @@ public:
 
 		setColour(ResizableWindow::backgroundColourId, darktheme);
 		
-		setColour(Label::textColourId, Colours::yellow);
+		setColour(Label::textColourId, Colours::white);
 		setColour(Label::textWhenEditingColourId, Colours::orange);
 		setColour(Label::outlineWhenEditingColourId, Colours::green);
 		setColour(Label::backgroundWhenEditingColourId, Colours::black);
 
-		setColour(Slider::textBoxTextColourId, light);
-		setColour(Slider::textBoxOutlineColourId, Colours::purple);
+		setColour(Slider::textBoxTextColourId, boxHighlight);
+		setColour(Slider::textBoxOutlineColourId, boxOutLine.withAlpha(0.0f));
 		setColour(Slider::textBoxHighlightColourId, lighttheme.withAlpha(0.5f));
-		setColour(Slider::backgroundColourId, lighttheme.withAlpha(0.0f));
-		setColour(Slider::rotarySliderOutlineColourId, lighttheme); // outer ring
+		setColour(Slider::textBoxBackgroundColourId, def.withAlpha(0.0f));
+
+		setColour(Slider::backgroundColourId, redC);
+		setColour(Slider::rotarySliderOutlineColourId, def);
 		setColour(Slider::rotarySliderFillColourId, lighttheme.withAlpha(0.25f));
-		setColour(Slider::trackColourId, lighttheme.withAlpha(0.25f));
-		setColour(Slider::thumbColourId, lighttheme);
+		setColour(Slider::trackColourId, def);
+		setColour(Slider::thumbColourId, def);
 
 		setColour(Slider::trackColourId, def.withAlpha(0.0f));
 	}
