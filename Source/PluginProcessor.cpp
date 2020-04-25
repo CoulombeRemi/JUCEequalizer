@@ -283,6 +283,8 @@ void EqualizerMusAudioProcessor::prepareToPlay(double sampleRate, int samplesPer
 		highShelf[i] = parametricEQ_init(*hsFreqParameter, *hsQParameter, *hsGainParameter, HIGHSHELF, sampleRate);
 		// Comp
 		compressor[i] = compress_init(*compThreshParameter, *compRatioParameter, *compAttParameter, *compRelParameter, *compLHParameter, sampleRate);
+		//deesser
+		deesser[i] = filter_init(5500.0, sampleRate, -24.0, 8, 5.0, 150, 5.0);
 	}
 }
 
@@ -388,9 +390,12 @@ void EqualizerMusAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBu
 			channelData[i] = parametricEQ_process(highShelf[channel], channelData[i]);
 			// disto
 
-			// comp
+			// compressor
 			channelData[i] = compress_process(compressor[channel], channelData[i]);
+			// deesser
+			channelData[i] = filter_process(deesser[channel], channelData[i]);
 		}
+
 	}
 }
 

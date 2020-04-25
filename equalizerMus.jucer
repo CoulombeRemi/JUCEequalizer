@@ -10,6 +10,10 @@
         <FILE id="cQngKN" name="compress.h" compile="0" resource="0" file="lib/compress.h"/>
         <FILE id="y0OtNp" name="delay.c" compile="1" resource="0" file="lib/delay.c"/>
         <FILE id="SCC6AX" name="delay.h" compile="0" resource="0" file="lib/delay.h"/>
+        <FILE id="AUNOYw" name="linkwitzRileyFilter.c" compile="1" resource="0"
+              file="lib/linkwitzRileyFilter.c"/>
+        <FILE id="jhXvw1" name="linkwitzRileyFilter.h" compile="0" resource="0"
+              file="lib/linkwitzRileyFilter.h"/>
         <FILE id="mur5OK" name="parametricEQ.c" compile="1" resource="0" file="lib/parametricEQ.c"/>
         <FILE id="KXEz1h" name="parametricEQ.h" compile="0" resource="0" file="lib/parametricEQ.h"/>
         <FILE id="SNkLXa" name="utils.c" compile="1" resource="0" file="lib/utils.c"/>

@@ -13,6 +13,7 @@
 #include <JuceHeader.h>
 #include "parametricEQ.h"
 #include "compress.h"
+#include "linkwitzRileyFilter.h"
 
 //==============================================================================
 /**
@@ -61,7 +62,11 @@ public:
 
 private:
 	AudioProcessorValueTreeState parameters;
+	/*
+	Eq -> sat/disto -> compressor -> deesser -> limiter
+	*/
 
+	// Eq
 	struct parametricEQ *lowShelf[2];
 	struct parametricEQ *peak01[2];
 	struct parametricEQ *peak02[2];
@@ -112,6 +117,8 @@ private:
 	std::atomic<float> *compRelParameter;
 	std::atomic<float> *compLHParameter;
 
+	// deesser
+	struct filter *deesser[2];
 
 	//==============================================================================
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(EqualizerMusAudioProcessor)
