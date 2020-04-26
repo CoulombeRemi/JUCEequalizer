@@ -64,13 +64,13 @@ float filter_process(struct filter *data, float input) {
 	data->x0_lp = data->a1_lp * input - data->b1 * lop_out + data->x1_lp;
 	data->x1_lp = data->a2_lp * input - data->b2 * lop_out;
 	// hip
-	float deesserIn = compress_process(data->comp, input);
-	float hip_out = data->a0_hp * deesserIn + data->x0_hp;
-	data->x0_hp = data->a1_hp * deesserIn - data->b1 * hip_out + data->x1_hp;
-	data->x1_hp = data->a2_hp * deesserIn - data->b2 * hip_out;
+	float hip_out = data->a0_hp * input + data->x0_hp;
+	data->x0_hp = data->a1_hp * input - data->b1 * hip_out + data->x1_hp;
+	data->x1_hp = data->a2_hp * input - data->b2 * hip_out;
 
 	// invert hip phase
-	float output = lop_out + hip_out * -1;
+	float deesserOut = compress_process(data->comp, hip_out);
+	float output = lop_out + deesserOut * -1;
 
 	return output;
 }

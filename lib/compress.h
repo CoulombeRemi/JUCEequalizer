@@ -94,7 +94,7 @@ void compress_set_release(struct compress *data, float release);
  */
 void compress_set_lookahead(struct compress *data, float lookahead);
 
-float compress_sidechain(struct compress *data, float input);
+//float compress_sidechain(struct compress *data, float input);
 
 #ifdef __cplusplus
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="Jgdc5L" name="equalizerMus" projectType="audioplug" jucerVersion="5.4.7"
-              pluginFormats="buildStandalone,buildVST,buildVST3" headerPath="../../lib/">
+              pluginFormats="buildStandalone,buildVST" headerPath="../../lib/">
   <MAINGROUP id="BSCVCH" name="equalizerMus">
     <GROUP id="{D151EEF4-D58B-0407-B7CB-6FD3CAB08601}" name="Source">
       <FILE id="dsLHcN" name="CustomLnF.h" compile="0" resource="0" file="Source/CustomLnF.h"/>

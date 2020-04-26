@@ -184,7 +184,7 @@ void compress_set_lookahead(struct compress *data, float lookahead){
         data->lookahead = lookahead;
     }
 }
-
+/*
 float compress_sidechain(struct compress *data, float input) {
 	float absin = fabsf(input), diff;
 	if (absin > data->y0){
@@ -199,4 +199,4 @@ float compress_sidechain(struct compress *data, float input) {
 		att = pow(10, (diff - diff / data->ratio) * 0.05);
 	}
 	return att;
-}
+}*/

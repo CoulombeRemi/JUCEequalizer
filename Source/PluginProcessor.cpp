@@ -378,20 +378,23 @@ void EqualizerMusAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBu
 		compress_set_release(compressor[channel], *compRelParameter);
 		compress_set_lookahead(compressor[channel], *compLHParameter);
 
-		for (int i = 0; i < getBlockSize(); i++) {
+
+		register int i = 0;
+		int blockSize = getBlockSize();
+		for (i = 0; i < blockSize; i++) {
 			// Eq
-			channelData[i] = parametricEQ_process(lowShelf[channel], channelData[i]);
+			/*channelData[i] = parametricEQ_process(lowShelf[channel], channelData[i]);
 			channelData[i] = parametricEQ_process(peak01[channel], channelData[i]);
 			channelData[i] = parametricEQ_process(peak02[channel], channelData[i]);
 			channelData[i] = parametricEQ_process(peak03[channel], channelData[i]);
 			channelData[i] = parametricEQ_process(peak04[channel], channelData[i]);
 			channelData[i] = parametricEQ_process(peak05[channel], channelData[i]);
 			channelData[i] = parametricEQ_process(peak06[channel], channelData[i]);
-			channelData[i] = parametricEQ_process(highShelf[channel], channelData[i]);
+			channelData[i] = parametricEQ_process(highShelf[channel], channelData[i]);*/
 			// disto
 
 			// compressor
-			channelData[i] = compress_process(compressor[channel], channelData[i]);
+			//channelData[i] = compress_process(compressor[channel], channelData[i]);
 			// deesser
 			channelData[i] = filter_process(deesser[channel], channelData[i]);
 		}
