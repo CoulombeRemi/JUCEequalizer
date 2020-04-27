@@ -9,11 +9,11 @@
 
 static void filter_compute_coeffs(struct filter *data, float freq) {
 
-	if (freq > data->nyquist) {
-		data->freq = data->nyquist;
+	if (freq > 16000.0f) {
+		data->freq = 16000.0f;
 	}
-	else if (freq < 10.0f) {
-		data->freq = 10.0f;
+	else if (freq < 2000.0f) {
+		data->freq = 2000.0f;
 	}
 	else {
 		data->freq = freq;

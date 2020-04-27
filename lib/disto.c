@@ -8,6 +8,7 @@ tanh / atan disto
 #include <math.h>
 #include "disto.h"
 #include "utils.h"
+
 #ifndef M_PI
 #define M_PI (3.14159265358979323846264338327950288)
 #endif
@@ -15,7 +16,7 @@ tanh / atan disto
 struct disto * disto_init(float drive, float mix, float freq, float q, float sr) {
 	struct disto *data = malloc(sizeof(struct disto));
 	data->drive = drive;
-	data->mix = mix;
+	data->mix = mix * 0.01;
 	data->freq = freq;
 	data->q = q;
 	data->sr = sr;
@@ -32,12 +33,11 @@ void disto_delete(struct disto *data) {
 
 float disto_process(struct disto *data, float input) {
 	float output_disto, output_mix;
-	float mix = data->mix * 0.01;
-	float compensation = scale(data->drive, 0.0f, 25.0f, 1.0f, 0.017f, 3.0f);
-	//output_disto = (0.5f * M_PI) * atanf(input * data->drive);
-	output_disto = (0.5f * M_PI) * tanhf(input * data->drive);
-	output_mix = (1.0f - 1.0) * input + 1.0 * distoFltr_process(data->filter, output_disto)/* * compensation*/;
-
+	float compensation = scale(data->drive, 0.0f, 25.0f, 1.0f, 0.0017f, 3.0f);
+	output_disto = (0.5f * M_PI) * atanf(input * data->drive);
+	//output_disto = (0.5f * M_PI) * tanhf(input * data->drive);
+	output_mix = ((1.0f - data->mix) * input) + (data->mix * distoFltr_process(data->filter, output_disto) * compensation);
+	//distoFltr_process(data->filter, output_disto)
 	return output_mix;
 }
 

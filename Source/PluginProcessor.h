@@ -120,6 +120,8 @@ private:
 	std::atomic<float> *compLHParameter;
 	// deesser
 	struct filter *deesser[2];
+	std::atomic<float> *deesserFreqParameter;
+	std::atomic<float> *deesserThreshParameter;
 
 	//==============================================================================
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(EqualizerMusAudioProcessor)

@@ -135,6 +135,13 @@ AudioProcessorValueTreeState::ParameterLayout createParameterLayout() {
 		NormalisableRange<float>(0.5f, 10.0f, 0.1f, 1.f),
 		5.0f, timeValueToText, timeTextToValue));
 
+	// deesser
+	parameters.push_back(std::make_unique<Parameter>(String("deesserThresh"), String("Threshold"), String(),
+		NormalisableRange<float>(-70.0f, 0.0f, 0.1f, 1.f),
+		0.0f, gainValueToText, gainTextToValue));
+	parameters.push_back(std::make_unique<Parameter>(String("deesserFreq"), String("Hz"), String(),
+		NormalisableRange<float>(2000.0f, 16000.0f, 0.5f, 0.3f),
+		5500.0f, freqValueToText, freqTextToValue));
 
 
 	return{ parameters.begin(), parameters.end() };
@@ -193,6 +200,9 @@ EqualizerMusAudioProcessor::EqualizerMusAudioProcessor()
 	compAttParameter = parameters.getRawParameterValue("compAtt");
 	compRelParameter = parameters.getRawParameterValue("compRel");
 	compLHParameter = parameters.getRawParameterValue("compLH");
+	// deesser
+	deesserThreshParameter = parameters.getRawParameterValue("deesserThresh");
+	deesserFreqParameter = parameters.getRawParameterValue("deesserFreq");
 
 }
 
@@ -276,11 +286,11 @@ void EqualizerMusAudioProcessor::prepareToPlay(double sampleRate, int samplesPer
 		peak06[i] = parametricEQ_init(*peak06FreqParameter, *peak06QParameter, *peak06GainParameter, PEAK, sampleRate);
 		highShelf[i] = parametricEQ_init(*hsFreqParameter, *hsQParameter, *hsGainParameter, HIGHSHELF, sampleRate);
 		// disto
-		dist[i] = disto_init(25.0f, 50.0f);
+		dist[i] = disto_init(25.0f, 0.0f, 8000.0f, 4.0f, sampleRate);
 		// Comp
 		compressor[i] = compress_init(*compThreshParameter, *compRatioParameter, *compAttParameter, *compRelParameter, *compLHParameter, sampleRate);
 		//deesser
-		deesser[i] = filter_init(5500.0, sampleRate, -24.0, 8, 5.0, 150, 5.0);
+		deesser[i] = filter_init(*deesserFreqParameter, sampleRate, *deesserThreshParameter, 8, 5.0, 150, 5.0);
 	}
 }
 
@@ -373,6 +383,9 @@ void EqualizerMusAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBu
 		compress_set_attack(compressor[channel], *compAttParameter);
 		compress_set_release(compressor[channel], *compRelParameter);
 		compress_set_lookahead(compressor[channel], *compLHParameter);
+		// deesser
+		filter_set_compThresh(deesser[channel], *deesserThreshParameter);
+		filter_set_freq(deesser[channel], *deesserFreqParameter);
 
 
 		int blockSize = getBlockSize();

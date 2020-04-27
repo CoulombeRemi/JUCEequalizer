@@ -109,6 +109,14 @@ private:
 	Slider comp_LH;
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> comp_LHAttachment;
 
+	// deesser
+	Slider deesser_Thresh;
+	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> deesser_ThreshAttachment;
+	Slider deesser_Freq;
+	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> deesser_FreqAttachment;
+
+
+
 	EqualizerMusAudioProcessor& processor;
 
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(EqualizerMusAudioProcessorEditor)

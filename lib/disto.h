@@ -5,6 +5,8 @@ tanh / atan disto
 #ifndef __DISTO_H__
 #define __DISTO_H__
 
+#include "distoFiltr.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -18,7 +20,7 @@ struct disto {
 	float q;
 };
 
-struct disto * disto_init(float thresh, float mix);
+struct disto * disto_init(float thresh, float mix, float freq, float q, float sr);
 
 void disto_delete(struct disto *data);
 

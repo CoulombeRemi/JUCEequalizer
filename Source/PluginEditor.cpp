@@ -242,6 +242,20 @@ EqualizerMusAudioProcessorEditor::EqualizerMusAudioProcessorEditor(EqualizerMusA
 	comp_LHAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "compLH", comp_LH));
 
 
+	// deesser
+	deesser_Thresh.setLookAndFeel(&lookAndFeel);
+	deesser_Thresh.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+	deesser_Thresh.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
+	deesser_Thresh.setColour(Slider::trackColourId, Colours::yellow);
+	addAndMakeVisible(&deesser_Thresh);
+	deesser_ThreshAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "compThresh", deesser_Thresh));
+
+	deesser_Freq.setLookAndFeel(&lookAndFeel);
+	deesser_Freq.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+	deesser_Freq.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
+	deesser_Freq.setColour(Slider::trackColourId, Colours::yellow);
+	addAndMakeVisible(&deesser_Freq);
+	deesser_FreqAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "compThresh", deesser_Freq));
 }
 
 EqualizerMusAudioProcessorEditor::~EqualizerMusAudioProcessorEditor()
@@ -310,4 +324,8 @@ void EqualizerMusAudioProcessorEditor::resized()
 	comp_Rel.setBounds(800, 145, 80, 15);
 	lhLab.setBounds(800, 170, 80, 15);
 	comp_LH.setBounds(800, 185, 80, 15);
+
+	// deesser
+	deesser_Thresh.setBounds(530, 250, freqQW, freqQH);
+	deesser_Freq.setBounds(530, 350, freqQW, freqQH);
 }
