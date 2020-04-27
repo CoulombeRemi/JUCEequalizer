@@ -12,6 +12,8 @@
         <FILE id="SCC6AX" name="delay.h" compile="0" resource="0" file="lib/delay.h"/>
         <FILE id="gACa8H" name="disto.c" compile="1" resource="0" file="lib/disto.c"/>
         <FILE id="wvFEaJ" name="disto.h" compile="0" resource="0" file="lib/disto.h"/>
+        <FILE id="UMT4Be" name="distoFiltr.c" compile="1" resource="0" file="lib/distoFiltr.c"/>
+        <FILE id="sI3vvC" name="distoFiltr.h" compile="0" resource="0" file="lib/distoFiltr.h"/>
         <FILE id="AUNOYw" name="linkwitzRileyFilter.c" compile="1" resource="0"
               file="lib/linkwitzRileyFilter.c"/>
         <FILE id="jhXvw1" name="linkwitzRileyFilter.h" compile="0" resource="0"

@@ -1,3 +1,7 @@
+/*
+Remi Coulombe
+tanh / atan disto
+*/
 #ifndef __DISTO_H__
 #define __DISTO_H__
 
@@ -8,6 +12,10 @@ extern "C" {
 struct disto {
 	float drive;
 	float mix;
+	struct distoFltr* filter;
+	float freq;
+	float sr;
+	float q;
 };
 
 struct disto * disto_init(float thresh, float mix);
@@ -18,8 +26,11 @@ float disto_process(struct disto *data, float input);
 
 void disto_set_drive(struct disto *data, float newDrive);
 
-// mix --> [0,1]
 void disto_set_mix(struct disto *data, float mix);
+
+void disto_set_freq(struct disto *data, float newFreq);
+
+void disto_set_q(struct disto *data, float newQ);
 
 #ifdef __cplusplus
 }
