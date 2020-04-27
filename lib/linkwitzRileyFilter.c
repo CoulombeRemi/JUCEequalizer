@@ -59,18 +59,19 @@ void filter_delete(struct filter *data) {
 }
 
 float filter_process(struct filter *data, float input) {
+	float lop_out, hip_out, deesserIO, output;
 	// lop
-	float lop_out = data->a0_lp * input + data->x0_lp;
+	lop_out = data->a0_lp * input + data->x0_lp;
 	data->x0_lp = data->a1_lp * input - data->b1 * lop_out + data->x1_lp;
 	data->x1_lp = data->a2_lp * input - data->b2 * lop_out;
 	// hip
-	float hip_out = data->a0_hp * input + data->x0_hp;
+	hip_out = data->a0_hp * input + data->x0_hp;
 	data->x0_hp = data->a1_hp * input - data->b1 * hip_out + data->x1_hp;
 	data->x1_hp = data->a2_hp * input - data->b2 * hip_out;
 
+	deesserIO = compress_process(data->comp, hip_out);
 	// invert hip phase
-	float deesserOut = compress_process(data->comp, hip_out);
-	float output = lop_out + deesserOut * -1;
+	output = lop_out + deesserIO * -1;
 
 	return output;
 }

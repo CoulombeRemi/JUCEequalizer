@@ -8,12 +8,6 @@
   ==============================================================================
 */
 
-/*
-
-https://forum.juce.com/t/multiple-iirfilters/20331/9
-
-*/
-
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
@@ -281,6 +275,8 @@ void EqualizerMusAudioProcessor::prepareToPlay(double sampleRate, int samplesPer
 		peak05[i] = parametricEQ_init(*peak05FreqParameter, *peak05QParameter, *peak05GainParameter, PEAK, sampleRate);
 		peak06[i] = parametricEQ_init(*peak06FreqParameter, *peak06QParameter, *peak06GainParameter, PEAK, sampleRate);
 		highShelf[i] = parametricEQ_init(*hsFreqParameter, *hsQParameter, *hsGainParameter, HIGHSHELF, sampleRate);
+		// disto
+		dist[i] = disto_init(100.f, 0.5f);
 		// Comp
 		compressor[i] = compress_init(*compThreshParameter, *compRatioParameter, *compAttParameter, *compRelParameter, *compLHParameter, sampleRate);
 		//deesser
@@ -370,7 +366,7 @@ void EqualizerMusAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBu
 		parametricEQ_set_q(highShelf[channel], *hsQParameter);
 		parametricEQ_set_gain(highShelf[channel], *hsGainParameter);
 		// disto
-
+		
 		// compressor
 		compress_set_thresh(compressor[channel], *compThreshParameter);
 		compress_set_ratio(compressor[channel], *compRatioParameter);
@@ -379,22 +375,21 @@ void EqualizerMusAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBu
 		compress_set_lookahead(compressor[channel], *compLHParameter);
 
 
-		register int i = 0;
 		int blockSize = getBlockSize();
-		for (i = 0; i < blockSize; i++) {
+		for (int i = 0; i < blockSize; i++) {
 			// Eq
-			/*channelData[i] = parametricEQ_process(lowShelf[channel], channelData[i]);
+			channelData[i] = parametricEQ_process(lowShelf[channel], channelData[i]);
 			channelData[i] = parametricEQ_process(peak01[channel], channelData[i]);
 			channelData[i] = parametricEQ_process(peak02[channel], channelData[i]);
 			channelData[i] = parametricEQ_process(peak03[channel], channelData[i]);
 			channelData[i] = parametricEQ_process(peak04[channel], channelData[i]);
 			channelData[i] = parametricEQ_process(peak05[channel], channelData[i]);
 			channelData[i] = parametricEQ_process(peak06[channel], channelData[i]);
-			channelData[i] = parametricEQ_process(highShelf[channel], channelData[i]);*/
+			channelData[i] = parametricEQ_process(highShelf[channel], channelData[i]);
 			// disto
-
+			channelData[i] = disto_process(dist[channel], channelData[i]);
 			// compressor
-			//channelData[i] = compress_process(compressor[channel], channelData[i]);
+			channelData[i] = compress_process(compressor[channel], channelData[i]);
 			// deesser
 			channelData[i] = filter_process(deesser[channel], channelData[i]);
 		}

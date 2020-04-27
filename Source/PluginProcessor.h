@@ -14,6 +14,7 @@
 #include "parametricEQ.h"
 #include "compress.h"
 #include "linkwitzRileyFilter.h"
+#include "disto.h"
 
 //==============================================================================
 /**
@@ -108,7 +109,8 @@ private:
 	std::atomic<float> *hsGainParameter;
 	std::atomic<float> *hsFreqParameter;
 	std::atomic<float> *hsQParameter;
-
+	// fold back disto
+	struct disto *dist[2];
 	// compressor
 	struct compress *compressor[2];
 	std::atomic<float> *compThreshParameter;
@@ -116,7 +118,6 @@ private:
 	std::atomic<float> *compAttParameter;
 	std::atomic<float> *compRelParameter;
 	std::atomic<float> *compLHParameter;
-
 	// deesser
 	struct filter *deesser[2];
 

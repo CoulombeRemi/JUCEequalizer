@@ -10,6 +10,8 @@
         <FILE id="cQngKN" name="compress.h" compile="0" resource="0" file="lib/compress.h"/>
         <FILE id="y0OtNp" name="delay.c" compile="1" resource="0" file="lib/delay.c"/>
         <FILE id="SCC6AX" name="delay.h" compile="0" resource="0" file="lib/delay.h"/>
+        <FILE id="gACa8H" name="disto.c" compile="1" resource="0" file="lib/disto.c"/>
+        <FILE id="wvFEaJ" name="disto.h" compile="0" resource="0" file="lib/disto.h"/>
         <FILE id="AUNOYw" name="linkwitzRileyFilter.c" compile="1" resource="0"
               file="lib/linkwitzRileyFilter.c"/>
         <FILE id="jhXvw1" name="linkwitzRileyFilter.h" compile="0" resource="0"
