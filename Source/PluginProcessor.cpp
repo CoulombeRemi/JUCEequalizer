@@ -139,8 +139,8 @@ AudioProcessorValueTreeState::ParameterLayout createParameterLayout() {
 		0.0f, gainValueToText, gainTextToValue));
 	// comp og
 	parameters.push_back(std::make_unique<Parameter>(String("compOG"), String("out gain"), String(),
-		NormalisableRange<float>(1.0f, 8.0f, 0.1f, 1.f),
-		1.0f, gainValueToText, gainTextToValue));
+		NormalisableRange<float>(0.0f, 18.0f, 0.1f, 1.f),
+		0.0f, gainValueToText, gainTextToValue));
 	// deesser
 	parameters.push_back(std::make_unique<Parameter>(String("deesserThresh"), String("Threshold"), String(),
 		NormalisableRange<float>(-70.0f, 0.0f, 0.1f, 1.f),
@@ -408,7 +408,8 @@ void EqualizerMusAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBu
 			// disto
 			channelData[i] = disto_process(dist[channel], channelData[i]);
 			// compressor with output control
-			channelData[i] = compress_process(compressor[channel], channelData[i]) * *compOGParameter;
+			float gain = *compOGParameter;
+			channelData[i] = compress_process(compressor[channel], channelData[i]) * Decibels::decibelsToGain(gain);
 			// deesser
 			channelData[i] = filter_process(deesser[channel], channelData[i]);
 			
