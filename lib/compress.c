@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include <math.h>
+#include <math.h> 
 #include "compress.h"
 #include "delay.h"
 
@@ -69,7 +69,6 @@ struct compress *compress_init(float thresh, float ratio, float attack, float re
     }
     float freq2 = 1 / (data->release * 0.001);
     data->rcoeff = exp(-2 * M_PI * freq2 / data->sr);
-
 
     data->lookahead = lookahead;    // Set Lookahead
     data->sr = sr;                  // Set Samplerate

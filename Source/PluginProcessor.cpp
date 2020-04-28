@@ -134,7 +134,13 @@ AudioProcessorValueTreeState::ParameterLayout createParameterLayout() {
 	parameters.push_back(std::make_unique<Parameter>(String("compLH"), String(" ms"), String(),
 		NormalisableRange<float>(0.5f, 10.0f, 0.1f, 1.f),
 		5.0f, timeValueToText, timeTextToValue));
-
+	parameters.push_back(std::make_unique<Parameter>(String("compMakeup"), String("makeup"), String(),
+		NormalisableRange<float>(0.0f, 100.0f, 0.1f, 1.f),
+		0.0f, gainValueToText, gainTextToValue));
+	// comp og
+	parameters.push_back(std::make_unique<Parameter>(String("compOG"), String("out gain"), String(),
+		NormalisableRange<float>(1.0f, 8.0f, 0.1f, 1.f),
+		1.0f, gainValueToText, gainTextToValue));
 	// deesser
 	parameters.push_back(std::make_unique<Parameter>(String("deesserThresh"), String("Threshold"), String(),
 		NormalisableRange<float>(-70.0f, 0.0f, 0.1f, 1.f),
@@ -200,6 +206,8 @@ EqualizerMusAudioProcessor::EqualizerMusAudioProcessor()
 	compAttParameter = parameters.getRawParameterValue("compAtt");
 	compRelParameter = parameters.getRawParameterValue("compRel");
 	compLHParameter = parameters.getRawParameterValue("compLH");
+	// og
+	compOGParameter = parameters.getRawParameterValue("compOG");
 	// deesser
 	deesserThreshParameter = parameters.getRawParameterValue("deesserThresh");
 	deesserFreqParameter = parameters.getRawParameterValue("deesserFreq");
@@ -290,7 +298,7 @@ void EqualizerMusAudioProcessor::prepareToPlay(double sampleRate, int samplesPer
 		// Comp
 		compressor[i] = compress_init(*compThreshParameter, *compRatioParameter, *compAttParameter, *compRelParameter, *compLHParameter, sampleRate);
 		//deesser
-		deesser[i] = filter_init(*deesserFreqParameter, sampleRate, *deesserThreshParameter, 8, 5.0, 150, 5.0);
+		deesser[i] = filter_init(*deesserFreqParameter, sampleRate, *deesserThreshParameter, 4.0f, 5.0f, 150.0f, 5.0f);
 	}
 }
 
@@ -387,9 +395,7 @@ void EqualizerMusAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBu
 		filter_set_compThresh(deesser[channel], *deesserThreshParameter);
 		filter_set_freq(deesser[channel], *deesserFreqParameter);
 
-
-		int blockSize = getBlockSize();
-		for (int i = 0; i < blockSize; i++) {
+		for (int i = 0; i < getBlockSize(); i++) {
 			// Eq
 			channelData[i] = parametricEQ_process(lowShelf[channel], channelData[i]);
 			channelData[i] = parametricEQ_process(peak01[channel], channelData[i]);
@@ -401,10 +407,11 @@ void EqualizerMusAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBu
 			channelData[i] = parametricEQ_process(highShelf[channel], channelData[i]);
 			// disto
 			channelData[i] = disto_process(dist[channel], channelData[i]);
-			// compressor
-			channelData[i] = compress_process(compressor[channel], channelData[i]);
+			// compressor with output control
+			channelData[i] = compress_process(compressor[channel], channelData[i]) * *compOGParameter;
 			// deesser
 			channelData[i] = filter_process(deesser[channel], channelData[i]);
+			
 		}
 
 	}

@@ -118,6 +118,8 @@ private:
 	std::atomic<float> *compAttParameter;
 	std::atomic<float> *compRelParameter;
 	std::atomic<float> *compLHParameter;
+	// comp out gain
+	std::atomic<float> *compOGParameter;
 	// deesser
 	struct filter *deesser[2];
 	std::atomic<float> *deesserFreqParameter;

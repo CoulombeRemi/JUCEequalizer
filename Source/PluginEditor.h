@@ -108,7 +108,9 @@ private:
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> comp_RelAttachment;
 	Slider comp_LH;
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> comp_LHAttachment;
-
+	// gain output
+	Slider comp_outGain;
+	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> comp_OGAttachment;
 	// deesser
 	Slider deesser_Thresh;
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> deesser_ThreshAttachment;
