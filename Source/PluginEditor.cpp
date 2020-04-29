@@ -43,6 +43,9 @@ EqualizerMusAudioProcessorEditor::EqualizerMusAudioProcessorEditor(EqualizerMusA
 	lhLab.setText("Look a head", NotificationType::dontSendNotification);
 	lhLab.setJustificationType(Justification::centred);
 	addAndMakeVisible(&lhLab);
+	comp_out.setText("Output", NotificationType::dontSendNotification);
+	comp_out.setJustificationType(Justification::centred);
+	addAndMakeVisible(&comp_out);
 
 	int textBoxSizeX = widthB, textBoxSizeY = 10;
 	// low shelf
@@ -182,19 +185,53 @@ EqualizerMusAudioProcessorEditor::EqualizerMusAudioProcessorEditor(EqualizerMusA
 	addAndMakeVisible(&hs_q);
 	hs_qAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "hsQ", hs_q));
 
+	// disto
+	disto_in.setLookAndFeel(&lookAndFeel);
+	disto_in.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+	disto_in.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
+	disto_in.setColour(Slider::trackColourId, Colours::yellow);
+	addAndMakeVisible(&disto_in);
+	disto_inAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "distoIn", disto_in));
+
+	disto_amount.setLookAndFeel(&lookAndFeel);
+	disto_amount.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+	disto_amount.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
+	disto_amount.setColour(Slider::trackColourId, Colours::yellow);
+	addAndMakeVisible(&disto_amount);
+	disto_amountAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "distoAmount", disto_amount));
+
+	disto_dw.setLookAndFeel(&lookAndFeel);
+	disto_dw.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+	disto_dw.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
+	disto_dw.setColour(Slider::trackColourId, Colours::yellow);
+	addAndMakeVisible(&disto_dw);
+	disto_dwAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "distoDW", disto_dw));
+
+	disto_filterF.setLookAndFeel(&lookAndFeel);
+	disto_filterF.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+	disto_filterF.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
+	disto_filterF.setColour(Slider::trackColourId, Colours::yellow);
+	addAndMakeVisible(&disto_filterF);
+	disto_freqAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "distoFreq", disto_filterF));
+
+	disto_out.setLookAndFeel(&lookAndFeel);
+	disto_out.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+	disto_out.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
+	disto_out.setColour(Slider::trackColourId, Colours::yellow);
+	addAndMakeVisible(&disto_out);
+	disto_outAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "distoOut", disto_out));
+
 
 	// compressor
 	comp_Thresh.setLookAndFeel(&lookAndFeel);
-	comp_Thresh.setSliderStyle(Slider::LinearBarVertical);
+	comp_Thresh.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	comp_Thresh.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
 	comp_Thresh.setColour(Slider::trackColourId, Colours::yellow);
 	addAndMakeVisible(&comp_Thresh);
 	comp_ThreshAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "compThresh", comp_Thresh));
 
 	comp_Ratio.setLookAndFeel(&lookAndFeel);
-	comp_Ratio.setSliderStyle(Slider::SliderStyle::LinearBarVertical);
-	comp_Ratio.setVelocityBasedMode(true);
-	comp_Ratio.setVelocityModeParameters(0.4, 1, 0.09, false);
+	comp_Ratio.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	comp_Ratio.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
 	comp_Ratio.setColour(Slider::trackColourId, boxbg);
 	comp_Ratio.setColour(Slider::backgroundColourId, boxbg.withAlpha(1.0f));
@@ -202,9 +239,7 @@ EqualizerMusAudioProcessorEditor::EqualizerMusAudioProcessorEditor(EqualizerMusA
 	comp_RatioAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "compRatio", comp_Ratio));
 
 	comp_Att.setLookAndFeel(&lookAndFeel);
-	comp_Att.setSliderStyle(Slider::SliderStyle::LinearBarVertical);
-	comp_Att.setVelocityBasedMode(true);
-	comp_Att.setVelocityModeParameters(0.4, 1, 0.09, false);
+	comp_Att.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	comp_Att.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
 	comp_Att.setColour(Slider::trackColourId, boxbg);
 	comp_Att.setColour(Slider::backgroundColourId, boxbg.withAlpha(1.0f));
@@ -212,9 +247,7 @@ EqualizerMusAudioProcessorEditor::EqualizerMusAudioProcessorEditor(EqualizerMusA
 	comp_AttAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "compAtt", comp_Att));
 
 	comp_Rel.setLookAndFeel(&lookAndFeel);
-	comp_Rel.setSliderStyle(Slider::SliderStyle::LinearBarVertical);
-	comp_Rel.setVelocityBasedMode(true);
-	comp_Rel.setVelocityModeParameters(0.4, 1, 0.09, false);
+	comp_Rel.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	comp_Rel.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
 	comp_Rel.setColour(Slider::trackColourId, boxbg);
 	comp_Rel.setColour(Slider::backgroundColourId, boxbg.withAlpha(1.0f));
@@ -222,9 +255,7 @@ EqualizerMusAudioProcessorEditor::EqualizerMusAudioProcessorEditor(EqualizerMusA
 	comp_RelAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "compRel", comp_Rel));
 
 	comp_LH.setLookAndFeel(&lookAndFeel);
-	comp_LH.setSliderStyle(Slider::SliderStyle::LinearBarVertical);
-	comp_LH.setVelocityBasedMode(true);
-	comp_LH.setVelocityModeParameters(0.4, 1, 0.09, false);
+	comp_LH.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	comp_LH.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
 	comp_LH.setColour(Slider::trackColourId, boxbg);
 	comp_LH.setColour(Slider::backgroundColourId, boxbg);
@@ -233,8 +264,6 @@ EqualizerMusAudioProcessorEditor::EqualizerMusAudioProcessorEditor(EqualizerMusA
 	// comp gain output
 	comp_outGain.setLookAndFeel(&lookAndFeel);
 	comp_outGain.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-	comp_outGain.setVelocityBasedMode(true);
-	comp_outGain.setVelocityModeParameters(0.4,1,0.09, false);
 	comp_outGain.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
 	addAndMakeVisible(&comp_outGain);
 	comp_OGAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "compOG", comp_outGain));
@@ -272,7 +301,8 @@ void EqualizerMusAudioProcessorEditor::paint(Graphics& g)
 void EqualizerMusAudioProcessorEditor::resized()
 {
 	int knob_small_w = 70, knob_small_h = 65;
-	int knob_big_w = 70, knob_big_h = 65;
+	int knob_big_w = 100, knob_big_h = 95;
+	int knob_bigboy_w = 110, knob_bigboy_h = 105;
 	int eq_left = 30, eq_right = 120;
 	// posX, posY, widht, heigh	
 	// low shelf
@@ -313,23 +343,32 @@ void EqualizerMusAudioProcessorEditor::resized()
 	hs_freq.setBounds(eq_right, 502, knob_small_w, knob_small_h);
 	hs_q.setBounds(eq_right, 567, knob_small_w, knob_small_h);
 	hs_gain.setBounds(eq_left, 535, knob_small_w, knob_small_h);
+
+	// disto
+	int disto_mid = 341;
+	disto_in.setBounds(disto_mid, 112, knob_bigboy_w, knob_bigboy_h);
+
 	
 	// compressor
-	threshLab.setBounds(690, 50, 80, 15);
-	comp_Thresh.setBounds(725, 65, 10, 250);
-	ratioLab.setBounds(800, 50, 80, 15);
-	comp_Ratio.setBounds(800, 65, 80, 15);
-	attLab.setBounds(800, 90, 80, 15);
-	comp_Att.setBounds(800, 105, 80, 15);
-	relLab.setBounds(800, 130, 80, 15);
-	comp_Rel.setBounds(800, 145, 80, 15);
-	lhLab.setBounds(800, 170, 80, 15);
-	comp_LH.setBounds(800, 185, 80, 15);
+	int comp_mid = 562;
+		threshLab.setBounds(comp_mid - 90, 65, 80, 15);
+	comp_Thresh.setBounds(comp_mid-100, 80, knob_big_w, knob_big_h);
+		ratioLab.setBounds(comp_mid+10, 65, 80, 15);
+	comp_Ratio.setBounds(comp_mid, 80, knob_big_w, knob_big_h);
 
+		attLab.setBounds(comp_mid - 90, 200, 80, 15);
+	comp_Att.setBounds(comp_mid-100, 215, knob_big_w, knob_big_h);
+		relLab.setBounds(comp_mid + 10, 200, 80, 15);
+	comp_Rel.setBounds(comp_mid, 215, knob_big_w, knob_big_h);
+
+		lhLab.setBounds(comp_mid - 90, 335, 80, 15);
+	comp_LH.setBounds(comp_mid-100, 350, knob_big_w, knob_big_h);
 	// comp og
-	comp_outGain.setBounds(600, 350, knob_small_w, knob_small_h);
+	comp_out.setBounds(comp_mid+10, 335, 80, 15);
+	comp_outGain.setBounds(comp_mid, 350, knob_big_w, knob_big_h);
 
 	// deesser
-	deesser_Thresh.setBounds(800, 250, freqQW, freqQH);
-	deesser_Freq.setBounds(800, 350, freqQW, freqQH);
+	int de_mid_btn = (784 - (knob_big_w / 2));
+	deesser_Thresh.setBounds(de_mid_btn, 80, knob_big_w, knob_big_h);
+	deesser_Freq.setBounds(de_mid_btn, 410, knob_big_w, knob_big_h);
 }

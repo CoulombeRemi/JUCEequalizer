@@ -20,7 +20,7 @@ struct disto {
 	float q;
 };
 
-struct disto * disto_init(float thresh, float mix, float freq, float q, float sr);
+struct disto * disto_init(float drive, float mix, float freq, float q, float sr);
 
 void disto_delete(struct disto *data);
 

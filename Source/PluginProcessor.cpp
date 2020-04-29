@@ -120,7 +120,22 @@ AudioProcessorValueTreeState::ParameterLayout createParameterLayout() {
 	parameters.push_back(std::make_unique<Parameter>(String("hsQ"), String("Q"), String(),
 		NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
 		1.0f, qValueToText, qTextToValue));
-
+	// disto
+	parameters.push_back(std::make_unique<Parameter>(String("distoIn"), String("distoIn"), String(),
+		NormalisableRange<float>(-32.0f, 18.0f, 0.1f, 1.f),
+		0.0f, gainValueToText, gainTextToValue));
+	parameters.push_back(std::make_unique<Parameter>(String("distoAmount"), String("Amount"), String(),
+		NormalisableRange<float>(0.0f, 100.0f, 0.1f, 1.f),
+		10.0f, nullptr, nullptr));
+	parameters.push_back(std::make_unique<Parameter>(String("distoDW"), String("dryWet"), String(),
+		NormalisableRange<float>(0.0f, 100.0f, 0.1f, 1.f),
+		0.0f, nullptr, nullptr));
+	parameters.push_back(std::make_unique<Parameter>(String("distoFreq"), String("Hz"), String(),
+		NormalisableRange<float>(20.0f, 20000.0f, 0.1f, 1.f),
+		8000.0f, freqValueToText, freqTextToValue));
+	parameters.push_back(std::make_unique<Parameter>(String("distoOut"), String("distoOut"), String(),
+		NormalisableRange<float>(-32.0f, 18.0f, 0.1f, 1.f),
+		0.0f, gainValueToText, gainTextToValue));
 	// compressor
 	parameters.push_back(std::make_unique<Parameter>(String("compThresh"), String("Threshold"), String(),
 		NormalisableRange<float>(-70.0f, 0.0f, 0.1f, 1.f),
@@ -142,7 +157,7 @@ AudioProcessorValueTreeState::ParameterLayout createParameterLayout() {
 		0.0f, gainValueToText, gainTextToValue));
 	// comp og
 	parameters.push_back(std::make_unique<Parameter>(String("compOG"), String("out gain"), String(),
-		NormalisableRange<float>(0.0f, 18.0f, 0.1f, 1.f),
+		NormalisableRange<float>(-18.0f, 18.0f, 0.1f, 1.f),
 		0.0f, gainValueToText, gainTextToValue));
 	// deesser
 	parameters.push_back(std::make_unique<Parameter>(String("deesserThresh"), String("Threshold"), String(),
@@ -203,13 +218,18 @@ EqualizerMusAudioProcessor::EqualizerMusAudioProcessor()
 	hsGainParameter = parameters.getRawParameterValue("hsGain");
 	hsFreqParameter = parameters.getRawParameterValue("hsFreq");
 	hsQParameter = parameters.getRawParameterValue("hsQ");
+	// disto
+	distoInParameter = parameters.getRawParameterValue("distoIn");
+	distoAmountParameter = parameters.getRawParameterValue("distoAmount");
+	distoDWParameter = parameters.getRawParameterValue("distoDW");
+	distoFreqParameter = parameters.getRawParameterValue("distoFreq");
+	distoOutParameter = parameters.getRawParameterValue("distoOut");
 	// compressor
 	compThreshParameter = parameters.getRawParameterValue("compThresh");
 	compRatioParameter = parameters.getRawParameterValue("compRatio");
 	compAttParameter = parameters.getRawParameterValue("compAtt");
 	compRelParameter = parameters.getRawParameterValue("compRel");
 	compLHParameter = parameters.getRawParameterValue("compLH");
-	// og
 	compOGParameter = parameters.getRawParameterValue("compOG");
 	// deesser
 	deesserThreshParameter = parameters.getRawParameterValue("deesserThresh");
@@ -299,7 +319,7 @@ void EqualizerMusAudioProcessor::prepareToPlay(double sampleRate, int samplesPer
 		peak06[i] = parametricEQ_init(*peak06FreqParameter, *peak06QParameter, *peak06GainParameter, PEAK, sampleRate);
 		highShelf[i] = parametricEQ_init(*hsFreqParameter, *hsQParameter, *hsGainParameter, HIGHSHELF, sampleRate);
 		// disto
-		dist[i] = disto_init(25.0f, 0.0f, 8000.0f, 4.0f, sampleRate);
+		dist[i] = disto_init(*distoAmountParameter, *distoDWParameter, *distoFreqParameter, 4.0f, sampleRate);
 		// Comp
 		compressor[i] = compress_init(*compThreshParameter, *compRatioParameter, *compAttParameter, *compRelParameter, *compLHParameter, sampleRate);
 		//deesser
@@ -389,7 +409,9 @@ void EqualizerMusAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBu
 		parametricEQ_set_q(highShelf[channel], *hsQParameter);
 		parametricEQ_set_gain(highShelf[channel], *hsGainParameter);
 		// disto
-		
+		disto_set_drive(dist[channel], *distoAmountParameter);
+		disto_set_mix(dist[channel], *distoDWParameter);
+		disto_set_freq(dist[channel], *distoFreqParameter);
 		// compressor
 		compress_set_thresh(compressor[channel], *compThreshParameter);
 		compress_set_ratio(compressor[channel], *compRatioParameter);
@@ -412,7 +434,8 @@ void EqualizerMusAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBu
 			channelData[i] = parametricEQ_process(peak06[channel], channelData[i]);
 			channelData[i] = parametricEQ_process(highShelf[channel], channelData[i]);
 			// disto
-			channelData[i] = disto_process(dist[channel], channelData[i]);
+			float in_gain = *distoInParameter, out_gain = *distoOutParameter;
+			channelData[i] = disto_process(dist[channel], channelData[i] * Decibels::decibelsToGain(in_gain)) * Decibels::decibelsToGain(out_gain);
 			// compressor with output control
 			float gain = *compOGParameter;
 			channelData[i] = compress_process(compressor[channel], channelData[i]) * Decibels::decibelsToGain(gain);

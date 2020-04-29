@@ -38,7 +38,7 @@ private:
 	Label freqLabel;
 	Label qLabel;
 	Label gainLabel;
-	Label threshLab, ratioLab, attLab, relLab, lhLab;
+	Label threshLab, ratioLab, attLab, relLab, lhLab, comp_out;
 	
 
 	AudioProcessorValueTreeState& valueTreeState;
@@ -99,7 +99,17 @@ private:
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> hs_freqAttachment;
 	Slider hs_q;
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> hs_qAttachment;
-
+	// disto
+	Slider disto_in;
+	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> disto_inAttachment;
+	Slider disto_amount;
+	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> disto_amountAttachment;
+	Slider disto_dw;
+	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> disto_dwAttachment;
+	Slider disto_filterF;
+	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> disto_freqAttachment;
+	Slider disto_out;
+	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> disto_outAttachment;
 	// compressor
 	Slider comp_Thresh;
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> comp_ThreshAttachment;

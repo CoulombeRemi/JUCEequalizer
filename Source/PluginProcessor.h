@@ -115,6 +115,11 @@ private:
 	std::atomic<float> *hsQParameter;
 	// fold back disto
 	struct disto *dist[2];
+	std::atomic<float> *distoInParameter;
+	std::atomic<float> *distoAmountParameter;
+	std::atomic<float> *distoDWParameter;
+	std::atomic<float> *distoFreqParameter;
+	std::atomic<float> *distoOutParameter;
 	// compressor
 	struct compress *compressor[2];
 	std::atomic<float> *compThreshParameter;
