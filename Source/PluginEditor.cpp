@@ -46,6 +46,22 @@ EqualizerMusAudioProcessorEditor::EqualizerMusAudioProcessorEditor(EqualizerMusA
 	comp_out.setText("Output", NotificationType::dontSendNotification);
 	comp_out.setJustificationType(Justification::centred);
 	addAndMakeVisible(&comp_out);
+	inGainLab.setText("INPUT", NotificationType::dontSendNotification);
+	inGainLab.setJustificationType(Justification::centred);
+	addAndMakeVisible(&inGainLab);
+	outGainLab.setText("OUTPUT", NotificationType::dontSendNotification);
+	outGainLab.setJustificationType(Justification::centred);
+	addAndMakeVisible(&outGainLab);
+	distoLab.setText("DRIVE", NotificationType::dontSendNotification);
+	distoLab.setJustificationType(Justification::centred);
+	addAndMakeVisible(&distoLab);
+	drywetLab.setText("DRY-WET", NotificationType::dontSendNotification);
+	drywetLab.setJustificationType(Justification::centred);
+	addAndMakeVisible(&drywetLab);
+	freqLab.setText("FREQ", NotificationType::dontSendNotification);
+	freqLab.setJustificationType(Justification::centred);
+	addAndMakeVisible(&freqLab);
+
 
 	int textBoxSizeX = widthB, textBoxSizeY = 10;
 	// low shelf
@@ -192,35 +208,30 @@ EqualizerMusAudioProcessorEditor::EqualizerMusAudioProcessorEditor(EqualizerMusA
 	disto_in.setColour(Slider::trackColourId, Colours::yellow);
 	addAndMakeVisible(&disto_in);
 	disto_inAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "distoIn", disto_in));
-
 	disto_amount.setLookAndFeel(&lookAndFeel);
 	disto_amount.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	disto_amount.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
 	disto_amount.setColour(Slider::trackColourId, Colours::yellow);
 	addAndMakeVisible(&disto_amount);
 	disto_amountAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "distoAmount", disto_amount));
-
 	disto_dw.setLookAndFeel(&lookAndFeel);
 	disto_dw.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	disto_dw.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
 	disto_dw.setColour(Slider::trackColourId, Colours::yellow);
 	addAndMakeVisible(&disto_dw);
 	disto_dwAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "distoDW", disto_dw));
-
 	disto_filterF.setLookAndFeel(&lookAndFeel);
 	disto_filterF.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	disto_filterF.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
 	disto_filterF.setColour(Slider::trackColourId, Colours::yellow);
 	addAndMakeVisible(&disto_filterF);
 	disto_freqAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "distoFreq", disto_filterF));
-
 	disto_out.setLookAndFeel(&lookAndFeel);
 	disto_out.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	disto_out.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
 	disto_out.setColour(Slider::trackColourId, Colours::yellow);
 	addAndMakeVisible(&disto_out);
 	disto_outAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "distoOut", disto_out));
-
 
 	// compressor
 	comp_Thresh.setLookAndFeel(&lookAndFeel);
@@ -302,7 +313,7 @@ void EqualizerMusAudioProcessorEditor::resized()
 {
 	int knob_small_w = 70, knob_small_h = 65;
 	int knob_big_w = 100, knob_big_h = 95;
-	int knob_bigboy_w = 110, knob_bigboy_h = 105;
+	int knob_bigboy_w = 125, knob_bigboy_h = 120;
 	int eq_left = 30, eq_right = 120;
 	// posX, posY, widht, heigh	
 	// low shelf
@@ -343,32 +354,35 @@ void EqualizerMusAudioProcessorEditor::resized()
 	hs_freq.setBounds(eq_right, 502, knob_small_w, knob_small_h);
 	hs_q.setBounds(eq_right, 567, knob_small_w, knob_small_h);
 	hs_gain.setBounds(eq_left, 535, knob_small_w, knob_small_h);
-
 	// disto
 	int disto_mid = 341;
-	disto_in.setBounds(disto_mid, 112, knob_bigboy_w, knob_bigboy_h);
-
-	
+		inGainLab.setBounds(disto_mid - 90, 435, 80, 15);
+	disto_in.setBounds(disto_mid-100, 450, knob_big_w, knob_big_h);
+		outGainLab.setBounds(disto_mid+10, 435, 80, 15);
+	disto_out.setBounds(disto_mid, 450, knob_big_w, knob_big_h);
+		distoLab.setBounds(disto_mid - knob_bigboy_w+30, 125, 80, 15);
+	disto_amount.setBounds(disto_mid - knob_bigboy_w+10, 140, knob_bigboy_w, knob_bigboy_h);
+		drywetLab.setBounds(disto_mid+10, 197, 80, 15);
+	disto_dw.setBounds(disto_mid-10, 212, knob_bigboy_w, knob_bigboy_h);
+		freqLab.setBounds(disto_mid - 88, 285, 80, 15);
+	disto_filterF.setBounds(disto_mid - 83, 300, knob_small_w, knob_small_h);
 	// compressor
 	int comp_mid = 562;
 		threshLab.setBounds(comp_mid - 90, 65, 80, 15);
 	comp_Thresh.setBounds(comp_mid-100, 80, knob_big_w, knob_big_h);
 		ratioLab.setBounds(comp_mid+10, 65, 80, 15);
 	comp_Ratio.setBounds(comp_mid, 80, knob_big_w, knob_big_h);
-
 		attLab.setBounds(comp_mid - 90, 200, 80, 15);
 	comp_Att.setBounds(comp_mid-100, 215, knob_big_w, knob_big_h);
 		relLab.setBounds(comp_mid + 10, 200, 80, 15);
 	comp_Rel.setBounds(comp_mid, 215, knob_big_w, knob_big_h);
-
 		lhLab.setBounds(comp_mid - 90, 335, 80, 15);
 	comp_LH.setBounds(comp_mid-100, 350, knob_big_w, knob_big_h);
 	// comp og
 	comp_out.setBounds(comp_mid+10, 335, 80, 15);
 	comp_outGain.setBounds(comp_mid, 350, knob_big_w, knob_big_h);
-
 	// deesser
-	int de_mid_btn = (784 - (knob_big_w / 2));
-	deesser_Thresh.setBounds(de_mid_btn, 80, knob_big_w, knob_big_h);
+	int de_mid_btn = (784 - (knob_big_w / 2)), de_mid_btn_bb = (784 - (knob_bigboy_w / 2));
+	deesser_Thresh.setBounds(de_mid_btn_bb, 80, knob_bigboy_w, knob_bigboy_h);
 	deesser_Freq.setBounds(de_mid_btn, 410, knob_big_w, knob_big_h);
 }

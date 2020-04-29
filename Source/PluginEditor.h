@@ -34,10 +34,7 @@ private:
 
 	CustomLnF lookAndFeel;
 	Image backgroundImg;
-
-	Label freqLabel;
-	Label qLabel;
-	Label gainLabel;
+	Label inGainLab, outGainLab, distoLab, drywetLab, freqLab;
 	Label threshLab, ratioLab, attLab, relLab, lhLab, comp_out;
 	
 
