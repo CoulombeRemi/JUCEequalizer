@@ -36,6 +36,7 @@ private:
 	Image backgroundImg;
 	Label inGainLab, outGainLab, distoLab, drywetLab, freqLab;
 	Label threshLab, ratioLab, attLab, relLab, lhLab, comp_out;
+	Label de_threshLab, de_freqLab;
 	
 
 	AudioProcessorValueTreeState& valueTreeState;

@@ -9,9 +9,11 @@ class CustomLnF : public LookAndFeel_V4
 public:
 
 	Colour redC = Colour(255,0,0);
-
+	Colour black = Colour(0,0,0);
+	Colour darkGrey = Colour(37,37,37);
 	Colour light = Colour(212, 211, 224);
 	Colour def = Colour(75, 75, 75);
+	ColourGradient gradient = ColourGradient(black, 0.0f, 0.0f, darkGrey, 10.0f, 10.0f, true);
 
 	// Blue
 	Colour darktheme = Colour(217, 228, 246);
@@ -50,6 +52,9 @@ public:
 	void drawRotarySlider(Graphics& g, int x, int y, int width, int height, float sliderPos,
 		const float rotaryStartAngle, const float rotaryEndAngle, Slider& slider)override
 	{
+
+		Image strip;
+		strip = ImageCache::getFromMemory(Images::redKnob_png, Images::redKnob_pngSize);
 		auto bounds = Rectangle<int>((width - height) / 2.0f, y, height, height).toFloat().reduced(10);
 
 		auto radius = jmin(bounds.getWidth(), bounds.getHeight()) / 2.0f;

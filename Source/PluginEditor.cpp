@@ -46,21 +46,39 @@ EqualizerMusAudioProcessorEditor::EqualizerMusAudioProcessorEditor(EqualizerMusA
 	comp_out.setText("Output", NotificationType::dontSendNotification);
 	comp_out.setJustificationType(Justification::centred);
 	addAndMakeVisible(&comp_out);
+	//disto
 	inGainLab.setText("INPUT", NotificationType::dontSendNotification);
 	inGainLab.setJustificationType(Justification::centred);
+	inGainLab.setColour(Label::textColourId, Colours::black);
+	inGainLab.setFont(Font(16.0f, Font::bold));
 	addAndMakeVisible(&inGainLab);
 	outGainLab.setText("OUTPUT", NotificationType::dontSendNotification);
 	outGainLab.setJustificationType(Justification::centred);
+	outGainLab.setColour(Label::textColourId, Colours::black);
+	outGainLab.setFont(Font(16.0f, Font::bold));
 	addAndMakeVisible(&outGainLab);
 	distoLab.setText("DRIVE", NotificationType::dontSendNotification);
 	distoLab.setJustificationType(Justification::centred);
+	distoLab.setColour(Label::textColourId, Colours::black);
+	distoLab.setFont(Font(16.0f, Font::bold));
 	addAndMakeVisible(&distoLab);
 	drywetLab.setText("DRY-WET", NotificationType::dontSendNotification);
 	drywetLab.setJustificationType(Justification::centred);
+	drywetLab.setColour(Label::textColourId, Colours::black);
+	drywetLab.setFont(Font(16.0f, Font::bold));
 	addAndMakeVisible(&drywetLab);
 	freqLab.setText("FREQ", NotificationType::dontSendNotification);
 	freqLab.setJustificationType(Justification::centred);
+	freqLab.setColour(Label::textColourId, Colours::black);
+	freqLab.setFont(Font(16.0f, Font::bold));
 	addAndMakeVisible(&freqLab);
+	//deesser
+	de_threshLab.setText("THRESHOLD", NotificationType::dontSendNotification);
+	de_threshLab.setJustificationType(Justification::centred);
+	addAndMakeVisible(&de_threshLab);
+	de_freqLab.setText("FREQUENCY", NotificationType::dontSendNotification);
+	de_freqLab.setJustificationType(Justification::centred);
+	addAndMakeVisible(&de_freqLab);
 
 
 	int textBoxSizeX = widthB, textBoxSizeY = 10;
@@ -383,6 +401,8 @@ void EqualizerMusAudioProcessorEditor::resized()
 	comp_outGain.setBounds(comp_mid, 350, knob_big_w, knob_big_h);
 	// deesser
 	int de_mid_btn = (784 - (knob_big_w / 2)), de_mid_btn_bb = (784 - (knob_bigboy_w / 2));
+	de_threshLab.setBounds(744, 210, 80, 15);
 	deesser_Thresh.setBounds(de_mid_btn_bb, 80, knob_bigboy_w, knob_bigboy_h);
+	de_freqLab.setBounds(744, 395, 80, 15);
 	deesser_Freq.setBounds(de_mid_btn, 410, knob_big_w, knob_big_h);
 }
