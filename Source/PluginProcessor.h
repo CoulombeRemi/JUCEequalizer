@@ -60,6 +60,8 @@ public:
 	void getStateInformation(MemoryBlock& destData) override;
 	void setStateInformation(const void* data, int sizeInBytes) override;
 
+	void filterUpdate();
+
 
 private:
 	AudioProcessorValueTreeState parameters;
@@ -76,6 +78,8 @@ private:
 	struct parametricEQ *peak05[2];
 	struct parametricEQ *peak06[2];
 	struct parametricEQ *highShelf[2];
+	struct filter *lowPass[2];
+	struct filter *highPass[2];
 
 	// low shelf
 	std::atomic<float> *lsGainParameter;

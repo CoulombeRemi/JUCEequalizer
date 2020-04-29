@@ -19,23 +19,15 @@ EqualizerMusAudioProcessorEditor::EqualizerMusAudioProcessorEditor(EqualizerMusA
 	// backgroundImg = ImageCache::getFromMemory(Images::pluginbg_png, Images::pluginbg_pngSize);
 	// Make sure that before the constructor has finished, you've set the
 	// editor's size to whatever you need it to be.
-	setSize(935, 480);
+	setSize(1125, 650);
 	Colour gainColor = Colour(188, 49, 28);
 	Colour freqColor = Colour(230, 245, 3);
 	Colour qColor = Colour(43, 106, 70);
 	Colour boxbg = Colour(75,75,75);
+	Colour transparent = Colour::fromFloatRGBA(0,0,0,0);
 
 	setLookAndFeel(&lookAndFeel);
-	/*
-	freqLabel.setText("FREQ", NotificationType::dontSendNotification);
-	freqLabel.setJustificationType(Justification::centred);
-	addAndMakeVisible(&freqLabel);
-	qLabel.setText("Q", NotificationType::dontSendNotification);
-	qLabel.setJustificationType(Justification::centred);
-	addAndMakeVisible(&qLabel);
-	gainLabel.setText("GAIN", NotificationType::dontSendNotification);
-	gainLabel.setJustificationType(Justification::centred);
-	addAndMakeVisible(&gainLabel);*/
+	// labels
 	threshLab.setText("Threshold", NotificationType::dontSendNotification);
 	threshLab.setJustificationType(Justification::centred);
 	addAndMakeVisible(&threshLab);
@@ -52,9 +44,7 @@ EqualizerMusAudioProcessorEditor::EqualizerMusAudioProcessorEditor(EqualizerMusA
 	lhLab.setJustificationType(Justification::centred);
 	addAndMakeVisible(&lhLab);
 
-	int textBoxSizeX = 80, textBoxSizeY = 15;
-
-
+	int textBoxSizeX = widthB, textBoxSizeY = 10;
 	// low shelf
 	ls_gain.setLookAndFeel(&lookAndFeel);
 	ls_gain.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
@@ -271,42 +261,46 @@ EqualizerMusAudioProcessorEditor::~EqualizerMusAudioProcessorEditor()
 //==============================================================================
 void EqualizerMusAudioProcessorEditor::paint(Graphics& g)
 {
-	backgroundImg = ImageCache::getFromMemory(Images::pluginbg_png, Images::pluginbg_pngSize);
+	backgroundImg = ImageCache::getFromMemory(Images::bg_png, Images::bg_pngSize);
 	g.fillAll(getLookAndFeel().findColour(ResizableWindow::backgroundColourId));
 	g.setColour(Colours::white);
 
-	g.drawImage(backgroundImg, 0, 0, 935, 526, 0, 0, 935, 526);
-	g.setFont(15.0f);
+	g.drawImage(backgroundImg, 0, 0, 1125, 650, 0, 0, 1125, 650);
+	//g.setFont(1.0f);
 }
 
 void EqualizerMusAudioProcessorEditor::resized()
 {
-	int freqQW = 70, freqQH = 80;
-	int gainW = 80, gainH = 90;
-	// posX, posY, widht, heigh
-
+	int freqQW = 70, freqQH = 65;
+	int gainW = freqQW, gainH = freqQH;
+	int eq_left = 30, eq_right = 120;
+	// posX, posY, widht, heigh	
 	// low shelf
-	ls_freq.setBounds(50, 50, freqQW, freqQH);
-	ls_q.setBounds(120, 50, freqQW, freqQH);
-	ls_gain.setBounds(75, 130, gainW, gainH);
+	ls_freq.setBounds(eq_left, 30, freqQW, freqQH);
+	ls_q.setBounds(eq_left, 95, freqQW, freqQH);
+	ls_gain.setBounds(eq_right, 62, gainW, gainH);
+	//ls_gain.getBounds;
 	// peak 01
-	peak01_freq.setBounds(210, 140, freqQW, freqQH);
-	peak01_q.setBounds(280, 140, freqQW, freqQH);
-	peak01_gain.setBounds(235, 40, gainW, gainH);
+	
+	peak01_freq.setBounds(eq_right, 135, freqQW, freqQH);
+	peak01_q.setBounds(eq_right, 205, freqQW, freqQH);
+	peak01_gain.setBounds(eq_left, 160, gainW, gainH);
 	// peak 02
-	peak02_freq.setBounds(370, 50, freqQW, freqQH);
-	peak02_q.setBounds(440, 50, freqQW, freqQH);
-	peak02_gain.setBounds(395, 130, gainW, gainH);
+	
+	peak02_freq.setBounds(eq_left, 225, freqQW, freqQH);
+	peak02_q.setBounds(eq_left, 290, freqQW, freqQH);
+	peak02_gain.setBounds(eq_right, 130, gainW, gainH);
 	// peak 03
-	peak03_freq.setBounds(530, 140, freqQW, freqQH);
-	peak03_q.setBounds(600, 140, freqQW, freqQH);
-	peak03_gain.setBounds(555, 40, gainW, gainH);
+	peak03_freq.setBounds(eq_right, 140, freqQW, freqQH);
+	peak03_q.setBounds(eq_right, 140, freqQW, freqQH);
+	peak03_gain.setBounds(eq_left, 355, gainW, gainH);
 	// second row
 	// peak 04
-	peak04_freq.setBounds(50, 350, freqQW, freqQH);
-	peak04_q.setBounds(120, 350, freqQW, freqQH);
-	peak04_gain.setBounds(75, 250, gainW, gainH);
+	peak04_freq.setBounds(eq_left, 420, freqQW, freqQH);
+	peak04_q.setBounds(eq_left, 485, freqQW, freqQH);
+	peak04_gain.setBounds(eq_right, 250, gainW, gainH);
 	// peak 05
+	/*
 	peak05_freq.setBounds(210, 260, freqQW, freqQH);
 	peak05_q.setBounds(280, 260, freqQW, freqQH);
 	peak05_gain.setBounds(235, 340, gainW, gainH);
@@ -314,11 +308,13 @@ void EqualizerMusAudioProcessorEditor::resized()
 	peak06_freq.setBounds(370, 350, freqQW, freqQH);
 	peak06_q.setBounds(440, 350, freqQW, freqQH);
 	peak06_gain.setBounds(395, 250, gainW, gainH);
+	*/
 	// high shelf
-	hs_freq.setBounds(530, 260, freqQW, freqQH);
-	hs_q.setBounds(600, 260, freqQW, freqQH);
-	hs_gain.setBounds(555, 340, gainW, gainH);
-
+	
+	hs_freq.setBounds(eq_right, 260, freqQW, freqQH);
+	hs_q.setBounds(eq_right, 260, freqQW, freqQH);
+	hs_gain.setBounds(eq_left, 550, gainW, gainH);
+	
 	// compressor
 	threshLab.setBounds(690, 50, 80, 15);
 	comp_Thresh.setBounds(725, 65, 10, 250);

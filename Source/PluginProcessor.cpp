@@ -33,10 +33,13 @@ static float timeTextToValue(const String& text) { return text.getFloatValue(); 
 AudioProcessorValueTreeState::ParameterLayout createParameterLayout() {
 	// shortcut for AudioProcessorValueTreeState::Parameter;
 	using Parameter = AudioProcessorValueTreeState::Parameter;
+	//using RangedAudioParameter = AudioProcessorValueTreeState::Parameter;
 	std::vector < std::unique_ptr<Parameter>> parameters;
+	std::vector < std::unique_ptr<RangedAudioParameter>> btn_parameters;
 	// string -> id, name in daw, description
-	// gain values in dB
+	btn_parameters.push_back(std::make_unique<AudioParameterBool>("EQ_LOW_STATE", "hip", "false"));
 
+	// gain values in dB
 	// low shelft - 30 Hz
 	parameters.push_back(std::make_unique<Parameter>(String("lsGain"), String("Gain"), String(),
 		NormalisableRange<float>(-24.f, 24.f, 0.1f, 1.0f),
@@ -285,6 +288,8 @@ void EqualizerMusAudioProcessor::prepareToPlay(double sampleRate, int samplesPer
 	// init
 	for (int i = 0; i < 2; i++) {
 		// EQ
+		highPass[i] = filter_init(*lsFreqParameter, sampleRate, LOWPASS, 0.0f, 1.0f, 5.0f, 150.0f, 5.0f);
+		highPass[i] = filter_init(*lsFreqParameter, sampleRate, HIGHPASS, 0.0f, 1.0f, 5.0f, 150.0f, 5.0f);
 		lowShelf[i] = parametricEQ_init(*lsFreqParameter, *lsQParameter, *lsGainParameter, LOWSHELF, sampleRate);
 		peak01[i] = parametricEQ_init(*peak01FreqParameter, *peak01QParameter, *peak01GainParameter, PEAK, sampleRate);
 		peak02[i] = parametricEQ_init(*peak02FreqParameter, *peak02QParameter, *peak02GainParameter, PEAK, sampleRate);
@@ -298,7 +303,7 @@ void EqualizerMusAudioProcessor::prepareToPlay(double sampleRate, int samplesPer
 		// Comp
 		compressor[i] = compress_init(*compThreshParameter, *compRatioParameter, *compAttParameter, *compRelParameter, *compLHParameter, sampleRate);
 		//deesser
-		deesser[i] = filter_init(*deesserFreqParameter, sampleRate, *deesserThreshParameter, 4.0f, 5.0f, 150.0f, 5.0f);
+		deesser[i] = filter_init(*deesserFreqParameter, sampleRate, CROSS,*deesserThreshParameter, 4.0f, 5.0f, 150.0f, 5.0f);
 	}
 }
 
@@ -397,6 +402,7 @@ void EqualizerMusAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBu
 
 		for (int i = 0; i < getBlockSize(); i++) {
 			// Eq
+			
 			channelData[i] = parametricEQ_process(lowShelf[channel], channelData[i]);
 			channelData[i] = parametricEQ_process(peak01[channel], channelData[i]);
 			channelData[i] = parametricEQ_process(peak02[channel], channelData[i]);
@@ -412,7 +418,6 @@ void EqualizerMusAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBu
 			channelData[i] = compress_process(compressor[channel], channelData[i]) * Decibels::decibelsToGain(gain);
 			// deesser
 			channelData[i] = filter_process(deesser[channel], channelData[i]);
-			
 		}
 
 	}

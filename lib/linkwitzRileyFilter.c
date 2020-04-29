@@ -7,6 +7,27 @@
 #endif
 #include "compress.h"
 
+static float filter_compute_lop(struct filter *data, float input) {
+	float lop_out;
+	lop_out = data->a0_lp * input + data->x0_lp;
+	data->x0_lp = data->a1_lp * input - data->b1 * lop_out + data->x1_lp;
+	data->x1_lp = data->a2_lp * input - data->b2 * lop_out;
+	return lop_out;
+}
+static float filter_compute_hip(struct filter *data, float input) {
+	float hip_out;
+	hip_out = data->a0_hp * input + data->x0_hp;
+	data->x0_hp = data->a1_hp * input - data->b1 * hip_out + data->x1_hp;
+	data->x1_hp = data->a2_hp * input - data->b2 * hip_out;
+	return hip_out;
+}
+static float filter_compute_cross(struct filter *data, float input) {
+	float deesserIO, lop_out;
+	lop_out = filter_compute_lop(data, input);
+	deesserIO = compress_process(data->comp, filter_compute_hip(data, input));
+	return lop_out + deesserIO * -1;
+}
+
 static void filter_compute_coeffs(struct filter *data, float freq) {
 
 	if (freq > 16000.0f) {
@@ -31,6 +52,7 @@ static void filter_compute_coeffs(struct filter *data, float freq) {
 
 	data->b1 = ((-1 * data->k22) + data->wc22) / data->tmpk;
 	data->b2 = ((-1 * data->wck) + data->k2 + data->wc2) / data->tmpk;
+
 	// lop
 	data->a0_lp = data->wc2 / data->tmpk;
 	data->a1_lp = data->wc22 / data->tmpk;
@@ -41,9 +63,9 @@ static void filter_compute_coeffs(struct filter *data, float freq) {
 	data->a2_hp = data->a0_hp;
 }
 
-struct filter * filter_init(float freq, float sr, float thresh, float ratio, float att, float rel, float look) {
+struct filter * filter_init(float freq, float sr, filterEQT type, float thresh, float ratio, float att, float rel, float look) {
 	struct filter *data = malloc(sizeof(struct filter));
-	
+	data->type = type;
 	data->sr = sr;
 	data->nyquist = sr * 0.499;
 	data->x0_lp = data->x1_lp = data->x0_hp = data->x1_hp = 0.0;
@@ -60,18 +82,32 @@ void filter_delete(struct filter *data) {
 
 float filter_process(struct filter *data, float input) {
 	float lop_out, hip_out, deesserIO, output;
+	switch (data->type) {
+		case LOWPASS:
+			output = filter_compute_lop(data, input);
+			break;
+		case HIGHPASS:
+			output = filter_compute_hip(data, input);
+			break;
+		case CROSS:
+			output = filter_compute_cross(data, input);
+			break;
+		default:
+			break;
+	}
 	// lop
+	/*
 	lop_out = data->a0_lp * input + data->x0_lp;
 	data->x0_lp = data->a1_lp * input - data->b1 * lop_out + data->x1_lp;
 	data->x1_lp = data->a2_lp * input - data->b2 * lop_out;
 	// hip
 	hip_out = data->a0_hp * input + data->x0_hp;
 	data->x0_hp = data->a1_hp * input - data->b1 * hip_out + data->x1_hp;
-	data->x1_hp = data->a2_hp * input - data->b2 * hip_out;
+	data->x1_hp = data->a2_hp * input - data->b2 * hip_out;*/
 
-	deesserIO = compress_process(data->comp, hip_out);
+	//deesserIO = compress_process(data->comp, hip_out);
 	// invert hip phase
-	output = lop_out + deesserIO * -1;
+	//output = lop_out + deesserIO * -1;
 
 	return output;
 }

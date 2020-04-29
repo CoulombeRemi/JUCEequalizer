@@ -95,9 +95,6 @@ static void parametricEQ_compute_vars(struct parametricEQ *data, float freq, flo
     default:
         break;
     }
-        
-    
-
 }
 
 struct parametricEQ *parametricEQ_init(float freq, float q, float gain, filterT type, float sr)

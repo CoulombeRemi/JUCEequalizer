@@ -46,6 +46,7 @@ public:
 
     void paint (Graphics& g) override;
     void resized() override;
+    bool hitTest (int x, int y) override;
 
     // Binary resources:
     static const char* pluginbg_png;
@@ -58,6 +59,16 @@ public:
     static const int yellowKnob_pngSize;
     static const char* greenKnob_png;
     static const int greenKnob_pngSize;
+    static const char* actif_hip_png;
+    static const int actif_hip_pngSize;
+    static const char* actif_lop_png;
+    static const int actif_lop_pngSize;
+    static const char* inactif_hip_png;
+    static const int inactif_hip_pngSize;
+    static const char* inactif_lop_png;
+    static const int inactif_lop_pngSize;
+    static const char* bg_png;
+    static const int bg_pngSize;
 
 
 private:

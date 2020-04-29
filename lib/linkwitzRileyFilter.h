@@ -7,6 +7,11 @@ extern "C" {
 
 #include "compress.h"
 // 4th order Linkwitz-Riley Filter for crossover
+typedef enum {
+	LOWPASS = 0,
+	HIGHPASS = 1,
+	CROSS = 2
+} filterEQT;
 
 struct filter {
     float freq, sr;
@@ -21,10 +26,11 @@ struct filter {
 	float x0_hp, x1_hp, y1_hp, y2_hp;
     float a0_lp, a1_lp, a2_lp, a0_hp, a1_hp, a2_hp, b1, b2;
     float last_freq;
+	filterEQT type;
 	struct compress * comp;
 };
 
-struct filter * filter_init(float freq, float sr, float thresh, float ratio, float att, float rel, float look);
+struct filter * filter_init(float freq, float sr, filterEQT type, float thresh, float ratio, float att, float rel, float look);
 
 void filter_delete(struct filter *data);
 

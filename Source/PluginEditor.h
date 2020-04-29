@@ -30,6 +30,8 @@ public:
 
 private:
 
+	int widthB = 70;
+
 	CustomLnF lookAndFeel;
 	Image backgroundImg;
 
@@ -37,6 +39,7 @@ private:
 	Label qLabel;
 	Label gainLabel;
 	Label threshLab, ratioLab, attLab, relLab, lhLab;
+	
 
 	AudioProcessorValueTreeState& valueTreeState;
 
@@ -116,8 +119,6 @@ private:
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> deesser_ThreshAttachment;
 	Slider deesser_Freq;
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> deesser_FreqAttachment;
-
-
 
 	EqualizerMusAudioProcessor& processor;
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="Jgdc5L" name="equalizerMus" projectType="audioplug" jucerVersion="5.4.7"
-              pluginFormats="buildStandalone,buildVST" headerPath="../../lib/"
-              pluginVST3Category="Distortion,Dynamics,EQ,Fx" companyName="Remi Coulombe">
+              pluginFormats="buildStandalone" headerPath="../../lib/" pluginVST3Category="Distortion,Dynamics,EQ,Fx"
+              companyName="Remi Coulombe">
   <MAINGROUP id="BSCVCH" name="equalizerMus">
     <GROUP id="{D151EEF4-D58B-0407-B7CB-6FD3CAB08601}" name="Source">
       <FILE id="dsLHcN" name="CustomLnF.h" compile="0" resource="0" file="Source/CustomLnF.h"/>
@@ -15,6 +15,8 @@
         <FILE id="wvFEaJ" name="disto.h" compile="0" resource="0" file="lib/disto.h"/>
         <FILE id="UMT4Be" name="distoFiltr.c" compile="1" resource="0" file="lib/distoFiltr.c"/>
         <FILE id="sI3vvC" name="distoFiltr.h" compile="0" resource="0" file="lib/distoFiltr.h"/>
+        <FILE id="ktSiEI" name="eqFilter.c" compile="1" resource="0" file="lib/eqFilter.c"/>
+        <FILE id="KpHNA3" name="eqFilter.h" compile="0" resource="0" file="lib/eqFilter.h"/>
         <FILE id="AUNOYw" name="linkwitzRileyFilter.c" compile="1" resource="0"
               file="lib/linkwitzRileyFilter.c"/>
         <FILE id="jhXvw1" name="linkwitzRileyFilter.h" compile="0" resource="0"
