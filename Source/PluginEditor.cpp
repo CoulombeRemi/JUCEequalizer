@@ -271,34 +271,33 @@ void EqualizerMusAudioProcessorEditor::paint(Graphics& g)
 
 void EqualizerMusAudioProcessorEditor::resized()
 {
-	int freqQW = 70, freqQH = 65;
-	int gainW = freqQW, gainH = freqQH;
+	int knob_small_w = 70, knob_small_h = 65;
+	int knob_big_w = 70, knob_big_h = 65;
 	int eq_left = 30, eq_right = 120;
 	// posX, posY, widht, heigh	
 	// low shelf
-	ls_freq.setBounds(eq_left, 30, freqQW, freqQH);
-	ls_q.setBounds(eq_left, 95, freqQW, freqQH);
-	ls_gain.setBounds(eq_right, 62, gainW, gainH);
+	ls_freq.setBounds(eq_left, 15, knob_small_w, knob_small_h);
+	ls_q.setBounds(eq_left, 80, knob_small_w, knob_small_h);
+	ls_gain.setBounds(eq_right, 47, knob_small_w, knob_small_h);
 	//ls_gain.getBounds;
 	// peak 01
-	
-	peak01_freq.setBounds(eq_right, 135, freqQW, freqQH);
-	peak01_q.setBounds(eq_right, 205, freqQW, freqQH);
-	peak01_gain.setBounds(eq_left, 160, gainW, gainH);
+	peak01_freq.setBounds(eq_right, 112, knob_small_w, knob_small_h);
+	peak01_q.setBounds(eq_right, 177, knob_small_w, knob_small_h);
+	peak01_gain.setBounds(eq_left, 145, knob_small_w, knob_small_h);
 	// peak 02
-	
-	peak02_freq.setBounds(eq_left, 225, freqQW, freqQH);
-	peak02_q.setBounds(eq_left, 290, freqQW, freqQH);
-	peak02_gain.setBounds(eq_right, 130, gainW, gainH);
+
+	peak02_freq.setBounds(eq_left, 210, knob_small_w, knob_small_h);
+	peak02_q.setBounds(eq_left, 275, knob_small_w, knob_small_h);
+	peak02_gain.setBounds(eq_right, 242, knob_small_w, knob_small_h);
 	// peak 03
-	peak03_freq.setBounds(eq_right, 140, freqQW, freqQH);
-	peak03_q.setBounds(eq_right, 140, freqQW, freqQH);
-	peak03_gain.setBounds(eq_left, 355, gainW, gainH);
+	peak03_freq.setBounds(eq_right, 307, knob_small_w, knob_small_h);
+	peak03_q.setBounds(eq_right, 372, knob_small_w, knob_small_h);
+	peak03_gain.setBounds(eq_left, 340, knob_small_w, knob_small_h);
 	// second row
 	// peak 04
-	peak04_freq.setBounds(eq_left, 420, freqQW, freqQH);
-	peak04_q.setBounds(eq_left, 485, freqQW, freqQH);
-	peak04_gain.setBounds(eq_right, 250, gainW, gainH);
+	peak04_freq.setBounds(eq_left, 405, knob_small_w, knob_small_h);
+	peak04_q.setBounds(eq_left, 470, knob_small_w, knob_small_h);
+	peak04_gain.setBounds(eq_right, 437, knob_small_w, knob_small_h);
 	// peak 05
 	/*
 	peak05_freq.setBounds(210, 260, freqQW, freqQH);
@@ -310,10 +309,10 @@ void EqualizerMusAudioProcessorEditor::resized()
 	peak06_gain.setBounds(395, 250, gainW, gainH);
 	*/
 	// high shelf
-	
-	hs_freq.setBounds(eq_right, 260, freqQW, freqQH);
-	hs_q.setBounds(eq_right, 260, freqQW, freqQH);
-	hs_gain.setBounds(eq_left, 550, gainW, gainH);
+
+	hs_freq.setBounds(eq_right, 502, knob_small_w, knob_small_h);
+	hs_q.setBounds(eq_right, 567, knob_small_w, knob_small_h);
+	hs_gain.setBounds(eq_left, 535, knob_small_w, knob_small_h);
 	
 	// compressor
 	threshLab.setBounds(690, 50, 80, 15);
@@ -328,7 +327,7 @@ void EqualizerMusAudioProcessorEditor::resized()
 	comp_LH.setBounds(800, 185, 80, 15);
 
 	// comp og
-	comp_outGain.setBounds(600, 350, freqQW, freqQH);
+	comp_outGain.setBounds(600, 350, knob_small_w, knob_small_h);
 
 	// deesser
 	deesser_Thresh.setBounds(800, 250, freqQW, freqQH);

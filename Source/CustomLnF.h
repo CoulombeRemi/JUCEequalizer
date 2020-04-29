@@ -172,7 +172,7 @@ public:
 	Label* createSliderTextBox(Slider& slider)
 	{
 		auto* l = LookAndFeel_V2::createSliderTextBox(slider);
-		l->setFont(12.0f);
+		l->setFont(10.0f);
 		if (getCurrentColourScheme() == LookAndFeel_V4::getGreyColourScheme() && (slider.getSliderStyle() == Slider::LinearBar
 			|| slider.getSliderStyle() == Slider::LinearBarVertical))
 		{
