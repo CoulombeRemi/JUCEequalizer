@@ -83,18 +83,18 @@ EqualizerMusAudioProcessorEditor::EqualizerMusAudioProcessorEditor(EqualizerMusA
 
 	int textBoxSizeX = widthB, textBoxSizeY = 10;
 	// low shelf
-	ls_gain.setLookAndFeel(&lookAndFeel);
+	ls_gain.setLookAndFeel(&lookAndFeelEq4);
 	ls_gain.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	ls_gain.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
 	ls_gain.setColour(Slider::rotarySliderFillColourId, gainColor);
 	addAndMakeVisible(&ls_gain);
 	ls_gainAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "lsGain", ls_gain));
-	ls_freq.setLookAndFeel(&lookAndFeel);
+	ls_freq.setLookAndFeel(&lookAndFeelEq4);
 	ls_freq.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	ls_freq.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
 	addAndMakeVisible(&ls_freq);
 	ls_freqAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "lsFreq", ls_freq));
-	ls_q.setLookAndFeel(&lookAndFeel);
+	ls_q.setLookAndFeel(&lookAndFeelEq4);
 	ls_q.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	ls_q.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
 	addAndMakeVisible(&ls_q);
@@ -117,35 +117,35 @@ EqualizerMusAudioProcessorEditor::EqualizerMusAudioProcessorEditor(EqualizerMusA
 	addAndMakeVisible(&peak01_q);
 	peak01_qAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "peak01Q", peak01_q));
 	// peak 02
-	peak02_gain.setLookAndFeel(&lookAndFeel);
+	peak02_gain.setLookAndFeel(&lookAndFeelEq3);
 	peak02_gain.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	peak02_gain.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
 	peak02_gain.setColour(Slider::rotarySliderFillColourId, gainColor);
 	addAndMakeVisible(&peak02_gain);
 	peak02_gainAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "peak02Gain", peak02_gain));
-	peak02_freq.setLookAndFeel(&lookAndFeel);
+	peak02_freq.setLookAndFeel(&lookAndFeelEq3);
 	peak02_freq.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	peak02_freq.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
 	addAndMakeVisible(&peak02_freq);
 	peak02_freqAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "peak02Freq", peak02_freq));
-	peak02_q.setLookAndFeel(&lookAndFeel);
+	peak02_q.setLookAndFeel(&lookAndFeelEq3);
 	peak02_q.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	peak02_q.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
 	addAndMakeVisible(&peak02_q);
 	peak02_qAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "peak02Q", peak02_q));
 	// peak 03
-	peak03_gain.setLookAndFeel(&lookAndFeel);
+	peak03_gain.setLookAndFeel(&lookAndFeelEq2);
 	peak03_gain.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	peak03_gain.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
 	peak03_gain.setColour(Slider::rotarySliderFillColourId, gainColor);
 	addAndMakeVisible(&peak03_gain);
 	peak03_gainAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "peak03Gain", peak03_gain));
-	peak03_freq.setLookAndFeel(&lookAndFeel);
+	peak03_freq.setLookAndFeel(&lookAndFeelEq2);
 	peak03_freq.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	peak03_freq.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
 	addAndMakeVisible(&peak03_freq);
 	peak03_freqAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "peak03Freq", peak03_freq));
-	peak03_q.setLookAndFeel(&lookAndFeel);
+	peak03_q.setLookAndFeel(&lookAndFeelEq2);
 	peak03_q.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	peak03_q.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
 	addAndMakeVisible(&peak03_q);
@@ -202,18 +202,18 @@ EqualizerMusAudioProcessorEditor::EqualizerMusAudioProcessorEditor(EqualizerMusA
 	addAndMakeVisible(&peak06_q);
 	peak06_qAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "peak65Q", peak06_q));
 	// high shelf
-	hs_gain.setLookAndFeel(&lookAndFeel);
+	hs_gain.setLookAndFeel(&lookAndFeelEq5);
 	hs_gain.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	hs_gain.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
 	hs_gain.setColour(Slider::rotarySliderFillColourId, gainColor);
 	addAndMakeVisible(&hs_gain);
 	hs_gainAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "hsGain", hs_gain));
-	hs_freq.setLookAndFeel(&lookAndFeel);
+	hs_freq.setLookAndFeel(&lookAndFeelEq5);
 	hs_freq.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	hs_freq.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
 	addAndMakeVisible(&hs_freq);
 	hs_freqAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "hsFreq", hs_freq));
-	hs_q.setLookAndFeel(&lookAndFeel);
+	hs_q.setLookAndFeel(&lookAndFeelEq5);
 	hs_q.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	hs_q.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
 	addAndMakeVisible(&hs_q);

@@ -49,26 +49,24 @@ public:
     bool hitTest (int x, int y) override;
 
     // Binary resources:
-    static const char* pluginbg_png;
-    static const int pluginbg_pngSize;
-    static const char* knobRoll_png;
-    static const int knobRoll_pngSize;
-    static const char* redKnob_png;
-    static const int redKnob_pngSize;
-    static const char* yellowKnob_png;
-    static const int yellowKnob_pngSize;
-    static const char* greenKnob_png;
-    static const int greenKnob_pngSize;
-    static const char* actif_hip_png;
-    static const int actif_hip_pngSize;
-    static const char* actif_lop_png;
-    static const int actif_lop_pngSize;
-    static const char* inactif_hip_png;
-    static const int inactif_hip_pngSize;
-    static const char* inactif_lop_png;
-    static const int inactif_lop_pngSize;
     static const char* bg_png;
     static const int bg_pngSize;
+    static const char* blackKnob01_png;
+    static const int blackKnob01_pngSize;
+    static const char* knobred_png;
+    static const int knobred_pngSize;
+    static const char* knobgre_png;
+    static const int knobgre_pngSize;
+    static const char* knobyel_png;
+    static const int knobyel_pngSize;
+    static const char* knobble_png;
+    static const int knobble_pngSize;
+    static const char* knobwht_png;
+    static const int knobwht_pngSize;
+    static const char* knobbla_png;
+    static const int knobbla_pngSize;
+    static const char* moogKn_png;
+    static const int moogKn_pngSize;
 
 
 private:

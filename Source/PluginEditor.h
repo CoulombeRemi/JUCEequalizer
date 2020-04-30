@@ -32,7 +32,13 @@ private:
 
 	int widthB = 70;
 
-	CustomLnF lookAndFeel;
+	CustomLnFRed lookAndFeel;
+	CustomLnFBlue lookAndFeelEq2;
+	CustomLnFGreen lookAndFeelEq3;
+	CustomLnFWhite lookAndFeelEq4;
+	CustomLnFBlack lookAndFeelEq5;
+	CustomLnFMoog lookAndFeelDist;
+
 	Image backgroundImg;
 	Label inGainLab, outGainLab, distoLab, drywetLab, freqLab;
 	Label threshLab, ratioLab, attLab, relLab, lhLab, comp_out;

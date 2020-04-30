@@ -3,48 +3,15 @@
 #include <JuceHeader.h>
 #include "Images.h"
 
-
-class CustomLnF : public LookAndFeel_V4
+/*******************************************
+Red
+*******************************************/
+class CustomLnFRed : public LookAndFeel_V4
 {
 public:
-
-	Colour redC = Colour(255,0,0);
-	Colour black = Colour(0,0,0);
-	Colour darkGrey = Colour(37,37,37);
-	Colour light = Colour(212, 211, 224);
 	Colour def = Colour(75, 75, 75);
-	ColourGradient gradient = ColourGradient(black, 0.0f, 0.0f, darkGrey, 10.0f, 10.0f, true);
-
-	// Blue
-	Colour darktheme = Colour(217, 228, 246);
-	Colour lighttheme = Colour(113, 137, 209);
-	// textBox
-	Colour boxOutLine = Colour(0,0,0);
-	Colour boxHighlight = Colour(255,255,255);
-	// Steal
-	//Colour darktheme = Colour(35, 46, 54);
-	//Colour lighttheme = Colour(118, 154, 181);
-
-	// Constructeur.
-	CustomLnF() {
-
-		setColour(ResizableWindow::backgroundColourId, darktheme);
-		
-		setColour(Label::textColourId, Colours::white);
-		setColour(Label::textWhenEditingColourId, Colours::orange);
-		setColour(Label::outlineWhenEditingColourId, Colours::green);
-		setColour(Label::backgroundWhenEditingColourId, Colours::black);
-
-		setColour(Slider::textBoxTextColourId, boxHighlight);
-		setColour(Slider::textBoxOutlineColourId, boxOutLine.withAlpha(0.0f));
-		setColour(Slider::textBoxHighlightColourId, lighttheme.withAlpha(0.5f));
-		setColour(Slider::textBoxBackgroundColourId, def.withAlpha(0.0f));
-
-		setColour(Slider::backgroundColourId, redC);
-		setColour(Slider::rotarySliderOutlineColourId, def);
-		setColour(Slider::rotarySliderFillColourId, lighttheme.withAlpha(0.25f));
-		setColour(Slider::trackColourId, def);
-		setColour(Slider::thumbColourId, def);
+	CustomLnFRed() {
+		setColour(Label::backgroundColourId, def.withAlpha(0.0f));
 
 		setColour(Slider::trackColourId, def.withAlpha(0.0f));
 	}
@@ -52,35 +19,23 @@ public:
 	void drawRotarySlider(Graphics& g, int x, int y, int width, int height, float sliderPos,
 		const float rotaryStartAngle, const float rotaryEndAngle, Slider& slider)override
 	{
+		// https://forum.juce.com/t/skinning-the-slider-replacing-knob-and-slider-track-with-pngs/12026/8
 
 		Image strip;
-		strip = ImageCache::getFromMemory(Images::redKnob_png, Images::redKnob_pngSize);
-		auto bounds = Rectangle<int>((width - height) / 2.0f, y, height, height).toFloat().reduced(10);
+		strip = ImageCache::getFromMemory(Images::knobred_png, Images::knobred_pngSize);
+		const double fractRotation = (slider.getValue() - slider.getMinimum()) / (slider.getMaximum() - slider.getMinimum()); //value between 0 and 1 for current amount of rotation
+		const int nFrames = strip.getHeight() / strip.getWidth(); // number of frames for vertical film strip
+		const int frameIdx = (int)ceil(fractRotation * ((double)nFrames - 1.0)); // current index from 0 --> nFrames-1
 
-		auto radius = jmin(bounds.getWidth(), bounds.getHeight()) / 2.0f;
-		auto toAngle = rotaryStartAngle + sliderPos * (rotaryEndAngle - rotaryStartAngle);
-		auto lineW = jmin(1.5f, radius * 0.5f);
-		auto arcRadius = radius - lineW * 0.5f;
+		const float radius = jmin(width / 2.0f, height / 2.0f);
+		const float centreX = x + width * 0.5f;
+		const float centreY = y + height * 0.5f;
+		const float rx = centreX - radius - 1.0f;
+		const float ry = centreY - radius /* - 1.0f*/;
 
-		Path background;
-		background.addEllipse(bounds);
-		g.setColour(slider.findColour(Slider::rotarySliderOutlineColourId));
-		g.strokePath(background, PathStrokeType(lineW, PathStrokeType::curved, PathStrokeType::rounded));
-
-		if (slider.isEnabled()) {
-			Path value;
-			value.addPieSegment(bounds, rotaryStartAngle, toAngle, 0.0f);
-			g.setColour(slider.findColour(Slider::rotarySliderFillColourId));
-			g.fillPath(value);
-		}
-
-		Path thumb;
-		Point<float> thumbPoint(bounds.getCentreX() + arcRadius * std::cos(toAngle - MathConstants<float>::halfPi),
-			bounds.getCentreY() + arcRadius * std::sin(toAngle - MathConstants<float>::halfPi));
-
-		g.setColour(slider.findColour(Slider::thumbColourId));
-		thumb.addLineSegment(Line<float>(bounds.getCentre(), thumbPoint), 1.5f);
-		g.strokePath(thumb, PathStrokeType(lineW, PathStrokeType::curved, PathStrokeType::rounded));
+		g.drawImage(strip, 
+			(int)rx, (int)ry, strip.getWidth(), strip.getWidth(),
+			0, frameIdx*strip.getWidth(), strip.getWidth(), strip.getWidth());
 	}
 
 	void drawLinearSlider(Graphics& g, int x, int y, int width, int height,
@@ -184,6 +139,147 @@ public:
 			l->setColour(Label::textColourId, Colours::black.withAlpha(0.7f));
 		}
 
+		return l;
+	}
+};
+
+/*******************************************
+ Yellow
+*******************************************/
+class CustomLnFBlue : public LookAndFeel_V4
+{
+public:
+	CustomLnFBlue() {}
+	void drawRotarySlider(Graphics& g, int x, int y, int width, int height, float sliderPos,
+		const float rotaryStartAngle, const float rotaryEndAngle, Slider& slider)override
+	{
+		Image strip;
+		strip = ImageCache::getFromMemory(Images::knobble_png, Images::knobble_pngSize);
+		const double fractRotation = (slider.getValue() - slider.getMinimum()) / (slider.getMaximum() - slider.getMinimum());
+		const int nFrames = strip.getHeight() / strip.getWidth();
+		const int frameIdx = (int)ceil(fractRotation * ((double)nFrames - 1.0));
+		const float radius = jmin(width / 2.0f, height / 2.0f);
+		const float centreX = x + width * 0.5f;
+		const float centreY = y + height * 0.5f;
+		const float rx = centreX - radius - 1.0f;
+		const float ry = centreY - radius /* - 1.0f*/;
+		g.drawImage(strip,
+			(int)rx, (int)ry, strip.getWidth(), strip.getWidth(),
+			0, frameIdx*strip.getWidth(), strip.getWidth(), strip.getWidth());
+	}
+	Label* createSliderTextBox(Slider& slider){
+		auto* l = LookAndFeel_V2::createSliderTextBox(slider);
+		l->setFont(10.0f);
+		if (getCurrentColourScheme() == LookAndFeel_V4::getGreyColourScheme() && (slider.getSliderStyle() == Slider::LinearBar
+			|| slider.getSliderStyle() == Slider::LinearBarVertical))
+		{
+			l->setColour(Label::textColourId, Colours::black.withAlpha(0.7f));
+		}
+		return l;
+	}
+};
+/*******************************************
+ Green
+*******************************************/
+class CustomLnFGreen : public LookAndFeel_V4
+{
+public:
+	CustomLnFGreen() {}
+	void drawRotarySlider(Graphics& g, int x, int y, int width, int height, float sliderPos,
+		const float rotaryStartAngle, const float rotaryEndAngle, Slider& slider)override
+	{
+		Image strip;
+		strip = ImageCache::getFromMemory(Images::knobgre_png, Images::knobgre_pngSize);
+		const double fractRotation = (slider.getValue() - slider.getMinimum()) / (slider.getMaximum() - slider.getMinimum());
+		const int nFrames = strip.getHeight() / strip.getWidth();
+		const int frameIdx = (int)ceil(fractRotation * ((double)nFrames - 1.0));
+		const float radius = jmin(width / 2.0f, height / 2.0f);
+		const float centreX = x + width * 0.5f;
+		const float centreY = y + height * 0.5f;
+		const float rx = centreX - radius - 1.0f;
+		const float ry = centreY - radius /* - 1.0f*/;
+		g.drawImage(strip,
+			(int)rx, (int)ry, strip.getWidth(), strip.getWidth(),
+			0, frameIdx*strip.getWidth(), strip.getWidth(), strip.getWidth());
+	}
+	Label* createSliderTextBox(Slider& slider) {
+		auto* l = LookAndFeel_V2::createSliderTextBox(slider);
+		l->setFont(10.0f);
+		if (getCurrentColourScheme() == LookAndFeel_V4::getGreyColourScheme() && (slider.getSliderStyle() == Slider::LinearBar
+			|| slider.getSliderStyle() == Slider::LinearBarVertical))
+		{
+			l->setColour(Label::textColourId, Colours::black.withAlpha(0.7f));
+		}
+		return l;
+	}
+};
+/*******************************************
+ white
+*******************************************/
+class CustomLnFWhite : public LookAndFeel_V4
+{
+public:
+	CustomLnFWhite() {}
+	void drawRotarySlider(Graphics& g, int x, int y, int width, int height, float sliderPos,
+		const float rotaryStartAngle, const float rotaryEndAngle, Slider& slider)override
+	{
+		Image strip;
+		strip = ImageCache::getFromMemory(Images::knobwht_png, Images::knobwht_pngSize);
+		const double fractRotation = (slider.getValue() - slider.getMinimum()) / (slider.getMaximum() - slider.getMinimum());
+		const int nFrames = strip.getHeight() / strip.getWidth();
+		const int frameIdx = (int)ceil(fractRotation * ((double)nFrames - 1.0));
+		const float radius = jmin(width / 2.0f, height / 2.0f);
+		const float centreX = x + width * 0.5f;
+		const float centreY = y + height * 0.5f;
+		const float rx = centreX - radius - 1.0f;
+		const float ry = centreY - radius /* - 1.0f*/;
+		g.drawImage(strip,
+			(int)rx, (int)ry, strip.getWidth(), strip.getWidth(),
+			0, frameIdx*strip.getWidth(), strip.getWidth(), strip.getWidth());
+	}
+	Label* createSliderTextBox(Slider& slider) {
+		auto* l = LookAndFeel_V2::createSliderTextBox(slider);
+		l->setFont(10.0f);
+		if (getCurrentColourScheme() == LookAndFeel_V4::getGreyColourScheme() && (slider.getSliderStyle() == Slider::LinearBar
+			|| slider.getSliderStyle() == Slider::LinearBarVertical))
+		{
+			l->setColour(Label::textColourId, Colours::black.withAlpha(0.7f));
+		}
+		return l;
+	}
+};
+/*******************************************
+ black
+*******************************************/
+class CustomLnFBlack : public LookAndFeel_V4
+{
+public:
+	CustomLnFBlack() {}
+	void drawRotarySlider(Graphics& g, int x, int y, int width, int height, float sliderPos,
+		const float rotaryStartAngle, const float rotaryEndAngle, Slider& slider)override
+	{
+		Image strip;
+		strip = ImageCache::getFromMemory(Images::knobbla_png, Images::knobbla_pngSize);
+		const double fractRotation = (slider.getValue() - slider.getMinimum()) / (slider.getMaximum() - slider.getMinimum());
+		const int nFrames = strip.getHeight() / strip.getWidth();
+		const int frameIdx = (int)ceil(fractRotation * ((double)nFrames - 1.0));
+		const float radius = jmin(width / 2.0f, height / 2.0f);
+		const float centreX = x + width * 0.5f;
+		const float centreY = y + height * 0.5f;
+		const float rx = centreX - radius - 1.0f;
+		const float ry = centreY - radius /* - 1.0f*/;
+		g.drawImage(strip,
+			(int)rx, (int)ry, strip.getWidth(), strip.getWidth(),
+			0, frameIdx*strip.getWidth(), strip.getWidth(), strip.getWidth());
+	}
+	Label* createSliderTextBox(Slider& slider) {
+		auto* l = LookAndFeel_V2::createSliderTextBox(slider);
+		l->setFont(10.0f);
+		if (getCurrentColourScheme() == LookAndFeel_V4::getGreyColourScheme() && (slider.getSliderStyle() == Slider::LinearBar
+			|| slider.getSliderStyle() == Slider::LinearBarVertical))
+		{
+			l->setColour(Label::textColourId, Colours::black.withAlpha(0.7f));
+		}
 		return l;
 	}
 };
