@@ -220,31 +220,31 @@ EqualizerMusAudioProcessorEditor::EqualizerMusAudioProcessorEditor(EqualizerMusA
 	hs_qAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "hsQ", hs_q));
 
 	// disto
-	disto_in.setLookAndFeel(&lookAndFeel);
+	disto_in.setLookAndFeel(&lookAndFeelDist);
 	disto_in.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	disto_in.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
 	disto_in.setColour(Slider::trackColourId, Colours::yellow);
 	addAndMakeVisible(&disto_in);
 	disto_inAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "distoIn", disto_in));
-	disto_amount.setLookAndFeel(&lookAndFeel);
+	disto_amount.setLookAndFeel(&lookAndFeelDist);
 	disto_amount.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	disto_amount.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
 	disto_amount.setColour(Slider::trackColourId, Colours::yellow);
 	addAndMakeVisible(&disto_amount);
 	disto_amountAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "distoAmount", disto_amount));
-	disto_dw.setLookAndFeel(&lookAndFeel);
+	disto_dw.setLookAndFeel(&lookAndFeelDist);
 	disto_dw.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	disto_dw.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
 	disto_dw.setColour(Slider::trackColourId, Colours::yellow);
 	addAndMakeVisible(&disto_dw);
 	disto_dwAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "distoDW", disto_dw));
-	disto_filterF.setLookAndFeel(&lookAndFeel);
+	disto_filterF.setLookAndFeel(&lookAndFeelDist);
 	disto_filterF.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	disto_filterF.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
 	disto_filterF.setColour(Slider::trackColourId, Colours::yellow);
 	addAndMakeVisible(&disto_filterF);
 	disto_freqAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "distoFreq", disto_filterF));
-	disto_out.setLookAndFeel(&lookAndFeel);
+	disto_out.setLookAndFeel(&lookAndFeelDist);
 	disto_out.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	disto_out.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
 	disto_out.setColour(Slider::trackColourId, Colours::yellow);
@@ -330,7 +330,7 @@ void EqualizerMusAudioProcessorEditor::paint(Graphics& g)
 void EqualizerMusAudioProcessorEditor::resized()
 {
 	int knob_small_w = 70, knob_small_h = 65;
-	int knob_big_w = 100, knob_big_h = 95;
+	int knob_big_w = 75, knob_big_h = 70;
 	int knob_bigboy_w = 125, knob_bigboy_h = 120;
 	int eq_left = 30, eq_right = 120;
 	// posX, posY, widht, heigh	
@@ -378,12 +378,12 @@ void EqualizerMusAudioProcessorEditor::resized()
 	disto_in.setBounds(disto_mid-100, 450, knob_big_w, knob_big_h);
 		outGainLab.setBounds(disto_mid+10, 435, 80, 15);
 	disto_out.setBounds(disto_mid, 450, knob_big_w, knob_big_h);
-		distoLab.setBounds(disto_mid - knob_bigboy_w+30, 125, 80, 15);
-	disto_amount.setBounds(disto_mid - knob_bigboy_w+10, 140, knob_bigboy_w, knob_bigboy_h);
+		distoLab.setBounds(disto_mid - knob_big_w +30, 125, 80, 15);
+	disto_amount.setBounds(disto_mid - knob_big_w +10, 140, knob_big_w, knob_big_h);
 		drywetLab.setBounds(disto_mid+10, 197, 80, 15);
-	disto_dw.setBounds(disto_mid-10, 212, knob_bigboy_w, knob_bigboy_h);
+	disto_dw.setBounds(disto_mid-10, 212, knob_big_w, knob_big_h);
 		freqLab.setBounds(disto_mid - 88, 285, 80, 15);
-	disto_filterF.setBounds(disto_mid - 83, 300, knob_small_w, knob_small_h);
+	disto_filterF.setBounds(disto_mid - 83, 300, knob_big_w, knob_big_h);
 	// compressor
 	int comp_mid = 562;
 		threshLab.setBounds(comp_mid - 90, 65, 80, 15);
