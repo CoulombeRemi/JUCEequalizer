@@ -60,9 +60,6 @@ public:
 	void getStateInformation(MemoryBlock& destData) override;
 	void setStateInformation(const void* data, int sizeInBytes) override;
 
-	void filterUpdate();
-
-
 private:
 	AudioProcessorValueTreeState parameters;
 	/*
@@ -75,8 +72,6 @@ private:
 	struct parametricEQ *peak02[2];
 	struct parametricEQ *peak03[2];
 	struct parametricEQ *peak04[2];
-	struct parametricEQ *peak05[2];
-	struct parametricEQ *peak06[2];
 	struct parametricEQ *highShelf[2];
 	struct filter *lowPass[2];
 	struct filter *highPass[2];
@@ -101,14 +96,6 @@ private:
 	std::atomic<float> *peak04GainParameter;
 	std::atomic<float> *peak04FreqParameter;
 	std::atomic<float> *peak04QParameter;
-	// peak 05
-	std::atomic<float> *peak05GainParameter;
-	std::atomic<float> *peak05FreqParameter;
-	std::atomic<float> *peak05QParameter;
-	// peak 06
-	std::atomic<float> *peak06GainParameter;
-	std::atomic<float> *peak06FreqParameter;
-	std::atomic<float> *peak06QParameter;
 	// high shelf
 	std::atomic<float> *hsGainParameter;
 	std::atomic<float> *hsFreqParameter;
@@ -127,12 +114,14 @@ private:
 	std::atomic<float> *compAttParameter;
 	std::atomic<float> *compRelParameter;
 	std::atomic<float> *compLHParameter;
-	// comp out gain
 	std::atomic<float> *compOGParameter;
+	std::atomic<float> *compDWParameter;
 	// deesser
 	struct filter *deesser[2];
 	std::atomic<float> *deesserFreqParameter;
 	std::atomic<float> *deesserThreshParameter;
+	std::atomic<float> *deesserOutParameter;
+
 
 	//==============================================================================
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(EqualizerMusAudioProcessor)

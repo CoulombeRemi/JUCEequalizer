@@ -24,7 +24,7 @@ static float filter_compute_hip(struct filter *data, float input) {
 static float filter_compute_cross(struct filter *data, float input) {
 	float deesserIO, lop_out;
 	lop_out = filter_compute_lop(data, input);
-	deesserIO = compress_process(data->comp, filter_compute_hip(data, input));
+	deesserIO = compress_process(data->comp, filter_compute_hip(data, input)) * data->outGain;
 	return lop_out + deesserIO * -1;
 }
 
@@ -63,15 +63,17 @@ static void filter_compute_coeffs(struct filter *data, float freq) {
 	data->a2_hp = data->a0_hp;
 }
 
-struct filter * filter_init(float freq, float sr, filterEQT type, float thresh, float ratio, float att, float rel, float look) {
+struct filter * filter_init(float freq, float sr, filterEQT type, float thresh, float ratio, float att, float rel, float look, float outGain) {
 	struct filter *data = malloc(sizeof(struct filter));
+	data->outGain = outGain;
 	data->type = type;
 	data->sr = sr;
 	data->nyquist = sr * 0.499;
 	data->x0_lp = data->x1_lp = data->x0_hp = data->x1_hp = 0.0;
 	filter_compute_coeffs(data, freq);
+	filter_set_outGain(data, outGain);
 
-	data->comp = compress_init(thresh, ratio, att, rel, look, sr);
+	data->comp = compress_init(thresh, ratio, att, rel, look, sr, 1.0f);
 	return data;
 }
 
@@ -121,6 +123,18 @@ void filter_set_freq(struct filter *data, float freq) {
 
 void filter_set_compThresh(struct filter *data, float thresh) {
 	compress_set_thresh(data->comp, thresh);
+}
+
+void filter_set_outGain(struct filter *data, float gain) {
+	if (gain > 63.0f){
+		data->outGain = 63.0f;
+	}
+	else if (gain < 0.015873f) {
+		data->outGain = 0.015873f;
+	}
+	else {
+		data->outGain = gain;
+	}
 }
 
 

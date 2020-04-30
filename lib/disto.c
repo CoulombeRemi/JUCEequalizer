@@ -16,7 +16,7 @@ tanh / atan disto
 struct disto * disto_init(float drive, float mix, float freq, float q, float sr) {
 	struct disto *data = malloc(sizeof(struct disto));
 	data->drive = drive;
-	data->mix = mix * 0.01;
+	data->mix = mix;
 	data->freq = freq;
 	data->q = q;
 	data->sr = sr;
@@ -32,11 +32,12 @@ void disto_delete(struct disto *data) {
 }
 
 float disto_process(struct disto *data, float input) {
+	float mix = data->mix * 0.01f, drive = data->drive;
 	float output_disto, output_mix;
-	float compensation = scale(data->drive, 0.0f, 25.0f, 1.0f, 0.0017f, 3.0f);
-	output_disto = (0.5f * M_PI) * atanf(input * data->drive);
+	float compensation = scale(drive, 0.0f, 100.0f, 1.0f, 0.0625f, 3.0f); // 0.0017
+	output_disto = (0.5f * M_PI) * atanf(input * drive) + (input * (drive - 100) * -0.01);
 	//output_disto = (0.5f * M_PI) * tanhf(input * data->drive);
-	output_mix = ((1.0f - data->mix) * input) + (data->mix * distoFltr_process(data->filter, output_disto) * compensation);
+	output_mix = ((1.0f - mix) * input) + (mix * distoFltr_process(data->filter, output_disto) * compensation);
 	//distoFltr_process(data->filter, output_disto)
 	return output_mix;
 }
@@ -45,8 +46,8 @@ void disto_set_drive(struct disto *data, float newDrive) {
 	if (newDrive < 0.0f) {
 		data->drive = 0.0f;
 	}
-	else if (newDrive > 25.0) {
-		data->drive = 25.0f;
+	else if (newDrive > 100.0f) {
+		data->drive = 100.0f;
 	}
 	else {
 		data->drive = newDrive;

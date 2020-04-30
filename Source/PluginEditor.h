@@ -38,11 +38,13 @@ private:
 	CustomLnFWhite lookAndFeelEq4;
 	CustomLnFBlack lookAndFeelEq5;
 	CustomLnFMoog lookAndFeelDist;
+	CustomLnFComp lookAndFeelComp;
+	CustomLnFDees lookAndFeelDees;
 
 	Image backgroundImg;
 	Label inGainLab, outGainLab, distoLab, drywetLab, freqLab;
-	Label threshLab, ratioLab, attLab, relLab, lhLab, comp_out;
-	Label de_threshLab, de_freqLab;
+	Label threshLab, ratioLab, attLab, relLab, lhLab, comp_out, comp_dwLab;
+	Label de_threshLab, de_freqLab, de_outLab;
 	
 
 	AudioProcessorValueTreeState& valueTreeState;
@@ -82,20 +84,6 @@ private:
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> peak04_freqAttachment;
 	Slider peak04_q;
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> peak04_qAttachment;
-	// peak 05
-	Slider peak05_gain;
-	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> peak05_gainAttachment;
-	Slider peak05_freq;
-	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> peak05_freqAttachment;
-	Slider peak05_q;
-	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> peak05_qAttachment;
-	// peak 06
-	Slider peak06_gain;
-	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> peak06_gainAttachment;
-	Slider peak06_freq;
-	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> peak06_freqAttachment;
-	Slider peak06_q;
-	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> peak06_qAttachment;
 	// high shelf
 	Slider hs_gain;
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> hs_gainAttachment;
@@ -125,14 +113,17 @@ private:
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> comp_RelAttachment;
 	Slider comp_LH;
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> comp_LHAttachment;
-	// gain output
 	Slider comp_outGain;
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> comp_OGAttachment;
+	Slider comp_dw;
+	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> comp_DWAttachment;
 	// deesser
 	Slider deesser_Thresh;
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> deesser_ThreshAttachment;
 	Slider deesser_Freq;
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> deesser_FreqAttachment;
+	Slider deeser_Out;
+	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> deesser_OutAttachment;
 
 	EqualizerMusAudioProcessor& processor;
 

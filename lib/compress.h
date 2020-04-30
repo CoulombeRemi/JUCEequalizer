@@ -32,13 +32,14 @@ struct compress {
     float y0;
     float acoeff;
     float rcoeff;
+	float mix;
     struct delay *look;
 };
 
 /* Initialize the compressor structure.
  *
  */
-struct compress * compress_init(float thresh, float ratio, float attack, float release, float lookahead, float sr);
+struct compress * compress_init(float thresh, float ratio, float attack, float release, float lookahead, float sr, float mix);
 
 /* Delete compressor structure.
  *
@@ -96,6 +97,7 @@ void compress_set_lookahead(struct compress *data, float lookahead);
 
 //float compress_sidechain(struct compress *data, float input);
 
+void compress_set_mix(struct compress *data, float mix);
 
 #ifdef __cplusplus
 }

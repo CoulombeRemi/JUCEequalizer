@@ -7,7 +7,7 @@
 #define M_PI (3.14159265358979323846264338327950288)
 #endif
 
-struct compress *compress_init(float thresh, float ratio, float attack, float release, float lookahead, float sr){
+struct compress *compress_init(float thresh, float ratio, float attack, float release, float lookahead, float sr, float mix){
     struct compress *data = malloc(sizeof(struct compress));
 
     // Set threshold
@@ -77,6 +77,8 @@ struct compress *compress_init(float thresh, float ratio, float attack, float re
     data->look = delay_init(sr/8, sr);
     data->y0 = 0.0;                 // Set Y0 out
 
+	data->mix = mix;
+
     return data;
 
 }
@@ -89,6 +91,7 @@ void compress_delete(struct compress *data){
 
 float compress_process(struct compress *data, float input){
     float value = delay_read(data->look, data->lookahead * 0.001);
+	float mix = data->mix * 0.01f;
     delay_write(data->look, input);
     float absin = fabsf(input);
     if (absin > data->y0)
@@ -105,7 +108,7 @@ float compress_process(struct compress *data, float input){
         float att = pow(10, (diff - diff / data->ratio) * 0.05);
         value /= att;
     }
-    return value;
+	return (((1.0f - mix) * input) + (mix * value));
 }
 
 // Threshold en dB de -70 à 0 dB 
@@ -182,6 +185,18 @@ void compress_set_lookahead(struct compress *data, float lookahead){
     {
         data->lookahead = lookahead;
     }
+}
+
+void compress_set_mix(struct compress *data, float mix) {
+	if (mix < 0.0f) {
+		data->mix = 0.0f;
+	}
+	else if (mix > 100.0f) {
+		data->mix = 100.0f;
+	}
+	else {
+		data->mix = mix;
+	}
 }
 /*
 float compress_sidechain(struct compress *data, float input) {

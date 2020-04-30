@@ -3,6 +3,11 @@
 #include <JuceHeader.h>
 #include "Images.h"
 
+/*
+Je savais pas comment faire pour utiliser plusieurs
+btn different sans faire plusieurs class.
+*/
+
 /*******************************************
 Red
 *******************************************/
@@ -303,6 +308,76 @@ public:
 		const float centreY = y + height * 0.5f;
 		const float rx = centreX - radius - 1.0f;
 		const float ry = centreY - radius /* - 1.0f*/;
+		g.drawImage(strip,
+			(int)rx, (int)ry, strip.getWidth(), strip.getWidth(),
+			0, frameIdx*strip.getWidth(), strip.getWidth(), strip.getWidth());
+	}
+	Label* createSliderTextBox(Slider& slider) {
+		auto* l = LookAndFeel_V2::createSliderTextBox(slider);
+		l->setFont(10.0f);
+		if (getCurrentColourScheme() == LookAndFeel_V4::getGreyColourScheme() && (slider.getSliderStyle() == Slider::LinearBar
+			|| slider.getSliderStyle() == Slider::LinearBarVertical))
+		{
+			l->setColour(Label::textColourId, Colours::black.withAlpha(0.7f));
+		}
+		return l;
+	}
+};
+/*******************************************
+ Comp
+*******************************************/
+class CustomLnFComp : public LookAndFeel_V4
+{
+public:
+	CustomLnFComp() {}
+	void drawRotarySlider(Graphics& g, int x, int y, int width, int height, float sliderPos,
+		const float rotaryStartAngle, const float rotaryEndAngle, Slider& slider)override
+	{
+		Image strip;
+		strip = ImageCache::getFromMemory(Images::blackKnob01_png, Images::blackKnob01_pngSize);
+		const double fractRotation = (slider.getValue() - slider.getMinimum()) / (slider.getMaximum() - slider.getMinimum());
+		const int nFrames = strip.getHeight() / strip.getWidth();
+		const int frameIdx = (int)ceil(fractRotation * ((double)nFrames - 1.0));
+		const float radius = jmin(width / 2.0f, height / 2.0f);
+		const float centreX = x + width * 0.5f;
+		const float centreY = y + height * 0.5f;
+		const float rx = centreX - radius - 1.0f;
+		const float ry = centreY - radius;
+		g.drawImage(strip,
+			(int)rx, (int)ry, strip.getWidth(), strip.getWidth(),
+			0, frameIdx*strip.getWidth(), strip.getWidth(), strip.getWidth());
+	}
+	Label* createSliderTextBox(Slider& slider) {
+		auto* l = LookAndFeel_V2::createSliderTextBox(slider);
+		l->setFont(10.0f);
+		if (getCurrentColourScheme() == LookAndFeel_V4::getGreyColourScheme() && (slider.getSliderStyle() == Slider::LinearBar
+			|| slider.getSliderStyle() == Slider::LinearBarVertical))
+		{
+			l->setColour(Label::textColourId, Colours::black.withAlpha(0.7f));
+		}
+		return l;
+	}
+};
+/*******************************************
+ Deesser
+*******************************************/
+class CustomLnFDees : public LookAndFeel_V4
+{
+public:
+	CustomLnFDees() {}
+	void drawRotarySlider(Graphics& g, int x, int y, int width, int height, float sliderPos,
+		const float rotaryStartAngle, const float rotaryEndAngle, Slider& slider)override
+	{
+		Image strip;
+		strip = ImageCache::getFromMemory(Images::blackKnob02_png, Images::blackKnob02_pngSize);
+		const double fractRotation = (slider.getValue() - slider.getMinimum()) / (slider.getMaximum() - slider.getMinimum());
+		const int nFrames = strip.getHeight() / strip.getWidth();
+		const int frameIdx = (int)ceil(fractRotation * ((double)nFrames - 1.0));
+		const float radius = jmin(width / 2.0f, height / 2.0f);
+		const float centreX = x + width * 0.5f;
+		const float centreY = y + height * 0.5f;
+		const float rx = centreX - radius - 6.0f;
+		const float ry = centreY - radius;
 		g.drawImage(strip,
 			(int)rx, (int)ry, strip.getWidth(), strip.getWidth(),
 			0, frameIdx*strip.getWidth(), strip.getWidth(), strip.getWidth());

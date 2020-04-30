@@ -46,7 +46,7 @@ AudioProcessorValueTreeState::ParameterLayout createParameterLayout() {
 		0.0f, gainValueToText, gainTextToValue));
 	parameters.push_back(std::make_unique<Parameter>(String("lsFreq"), String("Hz"), String(),
 		NormalisableRange<float>(10.0f, 22000.0f, 0.5f, 0.3f),
-		30.0f, freqValueToText, freqTextToValue));
+		15.0f, freqValueToText, freqTextToValue));
 	parameters.push_back(std::make_unique<Parameter>(String("lsQ"), String("Q"), String(),
 		NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
 		1.0f, qValueToText, qTextToValue));
@@ -56,7 +56,7 @@ AudioProcessorValueTreeState::ParameterLayout createParameterLayout() {
 		0.0f, gainValueToText, gainTextToValue));
 	parameters.push_back(std::make_unique<Parameter>(String("peak01Freq"), String("Hz"), String(),
 		NormalisableRange<float>(10.0f, 22000.0f, 0.5f, 0.3f),
-		100.0f, freqValueToText, freqTextToValue));
+		40.0f, freqValueToText, freqTextToValue));
 	parameters.push_back(std::make_unique<Parameter>(String("peak01Q"), String("Q"), String(),
 		NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
 		1.0f, qValueToText, qTextToValue));
@@ -66,7 +66,7 @@ AudioProcessorValueTreeState::ParameterLayout createParameterLayout() {
 		0.0f, gainValueToText, gainTextToValue));
 	parameters.push_back(std::make_unique<Parameter>(String("peak02Freq"), String("Hz"), String(),
 		NormalisableRange<float>(10.0f, 22000.0f, 0.5f, 0.3f),
-		300.0f, freqValueToText, freqTextToValue));
+		160.0f, freqValueToText, freqTextToValue));
 	parameters.push_back(std::make_unique<Parameter>(String("peak02Q"), String("Q"), String(),
 		NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
 		1.0f, qValueToText, qTextToValue));
@@ -76,7 +76,7 @@ AudioProcessorValueTreeState::ParameterLayout createParameterLayout() {
 		0.0f, gainValueToText, gainTextToValue));
 	parameters.push_back(std::make_unique<Parameter>(String("peak03Freq"), String("Hz"), String(),
 		NormalisableRange<float>(10.0f, 22000.0f, 0.5f, 0.3f),
-		700.0f, freqValueToText, freqTextToValue));
+		550.0f, freqValueToText, freqTextToValue));
 	parameters.push_back(std::make_unique<Parameter>(String("peak03Q"), String("Q"), String(),
 		NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
 		1.0f, qValueToText, qTextToValue));
@@ -86,28 +86,8 @@ AudioProcessorValueTreeState::ParameterLayout createParameterLayout() {
 		0.0f, gainValueToText, gainTextToValue));
 	parameters.push_back(std::make_unique<Parameter>(String("peak04Freq"), String("Hz"), String(),
 		NormalisableRange<float>(10.0f, 22000.0f, 0.5f, 0.3f),
-		1800.0f, freqValueToText, freqTextToValue));
+		2500.0f, freqValueToText, freqTextToValue));
 	parameters.push_back(std::make_unique<Parameter>(String("peak04Q"), String("Q"), String(),
-		NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
-		1.0f, qValueToText, qTextToValue));
-	// peak 05 - 4 kHz
-	parameters.push_back(std::make_unique<Parameter>(String("peak05Gain"), String("Gain"), String(),
-		NormalisableRange<float>(-24.0f, 24.0f, 0.1f, 1.f),
-		0.0f, gainValueToText, gainTextToValue));
-	parameters.push_back(std::make_unique<Parameter>(String("peak05Freq"), String("Hz"), String(),
-		NormalisableRange<float>(10.0f, 22000.0f, 0.5f, 0.3f),
-		4000.0f, freqValueToText, freqTextToValue));
-	parameters.push_back(std::make_unique<Parameter>(String("peak05Q"), String("Q"), String(),
-		NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
-		1.0f, qValueToText, qTextToValue));
-	// peak 06 - 8 kHz
-	parameters.push_back(std::make_unique<Parameter>(String("peak06Gain"), String("Gain"), String(),
-		NormalisableRange<float>(-24.0f, 24.0f, 0.1f, 1.f),
-		0.0f, gainValueToText, gainTextToValue));
-	parameters.push_back(std::make_unique<Parameter>(String("peak06Freq"), String("Hz"), String(),
-		NormalisableRange<float>(10.0f, 22000.0f, 0.5f, 0.3f),
-		8000.0f, freqValueToText, freqTextToValue));
-	parameters.push_back(std::make_unique<Parameter>(String("peak06Q"), String("Q"), String(),
 		NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
 		1.0f, qValueToText, qTextToValue));
 	// high shelft - 18 kHz
@@ -126,13 +106,13 @@ AudioProcessorValueTreeState::ParameterLayout createParameterLayout() {
 		0.0f, gainValueToText, gainTextToValue));
 	parameters.push_back(std::make_unique<Parameter>(String("distoAmount"), String("Amount"), String(),
 		NormalisableRange<float>(0.0f, 100.0f, 0.1f, 1.f),
-		10.0f, nullptr, nullptr));
+		0.0f, nullptr, nullptr));
 	parameters.push_back(std::make_unique<Parameter>(String("distoDW"), String("dryWet"), String(),
 		NormalisableRange<float>(0.0f, 100.0f, 0.1f, 1.f),
 		0.0f, nullptr, nullptr));
 	parameters.push_back(std::make_unique<Parameter>(String("distoFreq"), String("Hz"), String(),
 		NormalisableRange<float>(20.0f, 20000.0f, 0.1f, 1.f),
-		8000.0f, freqValueToText, freqTextToValue));
+		10000.0f, freqValueToText, freqTextToValue));
 	parameters.push_back(std::make_unique<Parameter>(String("distoOut"), String("distoOut"), String(),
 		NormalisableRange<float>(-32.0f, 18.0f, 0.1f, 1.f),
 		0.0f, gainValueToText, gainTextToValue));
@@ -145,7 +125,7 @@ AudioProcessorValueTreeState::ParameterLayout createParameterLayout() {
 		1.0f, ratioValueToText, ratioTextToValue));
 	parameters.push_back(std::make_unique<Parameter>(String("compAtt"), String("Att."), String(),
 		NormalisableRange<float>(1.0f, 150.0f, 0.1f, 1.f),
-		2.0f, timeValueToText, timeTextToValue));
+		5.0f, timeValueToText, timeTextToValue));
 	parameters.push_back(std::make_unique<Parameter>(String("compRel"), String("Rel."), String(),
 		NormalisableRange<float>(1.0f, 250.0f, 0.1f, 1.f),
 		50.0f, timeValueToText, timeTextToValue));
@@ -155,10 +135,12 @@ AudioProcessorValueTreeState::ParameterLayout createParameterLayout() {
 	parameters.push_back(std::make_unique<Parameter>(String("compMakeup"), String("makeup"), String(),
 		NormalisableRange<float>(0.0f, 100.0f, 0.1f, 1.f),
 		0.0f, gainValueToText, gainTextToValue));
-	// comp og
 	parameters.push_back(std::make_unique<Parameter>(String("compOG"), String("out gain"), String(),
 		NormalisableRange<float>(-18.0f, 18.0f, 0.1f, 1.f),
 		0.0f, gainValueToText, gainTextToValue));
+	parameters.push_back(std::make_unique<Parameter>(String("compDW"), String("dryWet"), String(),
+		NormalisableRange<float>(0.0f, 100.0f, 0.1f, 1.f),
+		100.0f, nullptr, nullptr));
 	// deesser
 	parameters.push_back(std::make_unique<Parameter>(String("deesserThresh"), String("Threshold"), String(),
 		NormalisableRange<float>(-70.0f, 0.0f, 0.1f, 1.f),
@@ -166,8 +148,9 @@ AudioProcessorValueTreeState::ParameterLayout createParameterLayout() {
 	parameters.push_back(std::make_unique<Parameter>(String("deesserFreq"), String("Hz"), String(),
 		NormalisableRange<float>(2000.0f, 16000.0f, 0.5f, 0.3f),
 		5500.0f, freqValueToText, freqTextToValue));
-
-
+	parameters.push_back(std::make_unique<Parameter>(String("deesserOut"), String("out gain"), String(),
+		NormalisableRange<float>(-18.0f, 18.0f, 0.1f, 1.f),
+		0.0f, gainValueToText, gainTextToValue));
 	return{ parameters.begin(), parameters.end() };
 }
 
@@ -206,14 +189,6 @@ EqualizerMusAudioProcessor::EqualizerMusAudioProcessor()
 	peak04GainParameter = parameters.getRawParameterValue("peak04Gain");
 	peak04FreqParameter = parameters.getRawParameterValue("peak04Freq");
 	peak04QParameter = parameters.getRawParameterValue("peak04Q");
-	// peak 05
-	peak05GainParameter = parameters.getRawParameterValue("peak05Gain");
-	peak05FreqParameter = parameters.getRawParameterValue("peak05Freq");
-	peak05QParameter = parameters.getRawParameterValue("peak05Q");
-	// peak 06
-	peak06GainParameter = parameters.getRawParameterValue("peak06Gain");
-	peak06FreqParameter = parameters.getRawParameterValue("peak06Freq");
-	peak06QParameter = parameters.getRawParameterValue("peak06Q");
 	// high shelf
 	hsGainParameter = parameters.getRawParameterValue("hsGain");
 	hsFreqParameter = parameters.getRawParameterValue("hsFreq");
@@ -231,10 +206,11 @@ EqualizerMusAudioProcessor::EqualizerMusAudioProcessor()
 	compRelParameter = parameters.getRawParameterValue("compRel");
 	compLHParameter = parameters.getRawParameterValue("compLH");
 	compOGParameter = parameters.getRawParameterValue("compOG");
+	compDWParameter = parameters.getRawParameterValue("compDW");
 	// deesser
 	deesserThreshParameter = parameters.getRawParameterValue("deesserThresh");
 	deesserFreqParameter = parameters.getRawParameterValue("deesserFreq");
-
+	deesserOutParameter = parameters.getRawParameterValue("deesserOut");
 }
 
 EqualizerMusAudioProcessor::~EqualizerMusAudioProcessor()
@@ -308,22 +284,21 @@ void EqualizerMusAudioProcessor::prepareToPlay(double sampleRate, int samplesPer
 	// init
 	for (int i = 0; i < 2; i++) {
 		// EQ
-		highPass[i] = filter_init(*lsFreqParameter, sampleRate, LOWPASS, 0.0f, 1.0f, 5.0f, 150.0f, 5.0f);
-		highPass[i] = filter_init(*lsFreqParameter, sampleRate, HIGHPASS, 0.0f, 1.0f, 5.0f, 150.0f, 5.0f);
+		//highPass[i] = filter_init(*lsFreqParameter, sampleRate, LOWPASS, 0.0f, 1.0f, 5.0f, 150.0f, 5.0f);
+		//highPass[i] = filter_init(*lsFreqParameter, sampleRate, HIGHPASS, 0.0f, 1.0f, 5.0f, 150.0f, 5.0f);
 		lowShelf[i] = parametricEQ_init(*lsFreqParameter, *lsQParameter, *lsGainParameter, LOWSHELF, sampleRate);
 		peak01[i] = parametricEQ_init(*peak01FreqParameter, *peak01QParameter, *peak01GainParameter, PEAK, sampleRate);
 		peak02[i] = parametricEQ_init(*peak02FreqParameter, *peak02QParameter, *peak02GainParameter, PEAK, sampleRate);
 		peak03[i] = parametricEQ_init(*peak03FreqParameter, *peak03QParameter, *peak03GainParameter, PEAK, sampleRate);
 		peak04[i] = parametricEQ_init(*peak04FreqParameter, *peak04QParameter, *peak04GainParameter, PEAK, sampleRate);
-		peak05[i] = parametricEQ_init(*peak05FreqParameter, *peak05QParameter, *peak05GainParameter, PEAK, sampleRate);
-		peak06[i] = parametricEQ_init(*peak06FreqParameter, *peak06QParameter, *peak06GainParameter, PEAK, sampleRate);
 		highShelf[i] = parametricEQ_init(*hsFreqParameter, *hsQParameter, *hsGainParameter, HIGHSHELF, sampleRate);
 		// disto
 		dist[i] = disto_init(*distoAmountParameter, *distoDWParameter, *distoFreqParameter, 4.0f, sampleRate);
 		// Comp
-		compressor[i] = compress_init(*compThreshParameter, *compRatioParameter, *compAttParameter, *compRelParameter, *compLHParameter, sampleRate);
+		compressor[i] = compress_init(*compThreshParameter, *compRatioParameter, *compAttParameter, *compRelParameter, *compLHParameter, sampleRate, *compDWParameter);
 		//deesser
-		deesser[i] = filter_init(*deesserFreqParameter, sampleRate, CROSS,*deesserThreshParameter, 4.0f, 5.0f, 150.0f, 5.0f);
+		float deesserOut = *deesserOutParameter;
+		deesser[i] = filter_init(*deesserFreqParameter, sampleRate, CROSS,*deesserThreshParameter, 4.0f, 5.0f, 250.0f, 5.0f, Decibels::decibelsToGain(deesserOut));
 	}
 }
 
@@ -393,16 +368,6 @@ void EqualizerMusAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBu
 		parametricEQ_set_freq(peak04[channel], *peak04FreqParameter);
 		parametricEQ_set_q(peak04[channel], *peak04QParameter);
 		parametricEQ_set_gain(peak04[channel], *peak04GainParameter);
-		// peak 05
-		parametricEQ_set_filterT(peak05[channel], PEAK);
-		parametricEQ_set_freq(peak05[channel], *peak05FreqParameter);
-		parametricEQ_set_q(peak05[channel], *peak05QParameter);
-		parametricEQ_set_gain(peak05[channel], *peak05GainParameter);
-		// peak 06
-		parametricEQ_set_filterT(peak06[channel], PEAK);
-		parametricEQ_set_freq(peak06[channel], *peak06FreqParameter);
-		parametricEQ_set_q(peak06[channel], *peak06QParameter);
-		parametricEQ_set_gain(peak06[channel], *peak06GainParameter);
 		// high shelf
 		parametricEQ_set_filterT(highShelf[channel], HIGHSHELF);
 		parametricEQ_set_freq(highShelf[channel], *hsFreqParameter);
@@ -418,20 +383,20 @@ void EqualizerMusAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBu
 		compress_set_attack(compressor[channel], *compAttParameter);
 		compress_set_release(compressor[channel], *compRelParameter);
 		compress_set_lookahead(compressor[channel], *compLHParameter);
+		compress_set_mix(compressor[channel], *compDWParameter);
 		// deesser
+		float deesserOut = *deesserOutParameter;
 		filter_set_compThresh(deesser[channel], *deesserThreshParameter);
 		filter_set_freq(deesser[channel], *deesserFreqParameter);
+		filter_set_outGain(deesser[channel], Decibels::decibelsToGain(deesserOut));
 
 		for (int i = 0; i < getBlockSize(); i++) {
 			// Eq
-			
 			channelData[i] = parametricEQ_process(lowShelf[channel], channelData[i]);
 			channelData[i] = parametricEQ_process(peak01[channel], channelData[i]);
 			channelData[i] = parametricEQ_process(peak02[channel], channelData[i]);
 			channelData[i] = parametricEQ_process(peak03[channel], channelData[i]);
 			channelData[i] = parametricEQ_process(peak04[channel], channelData[i]);
-			channelData[i] = parametricEQ_process(peak05[channel], channelData[i]);
-			channelData[i] = parametricEQ_process(peak06[channel], channelData[i]);
 			channelData[i] = parametricEQ_process(highShelf[channel], channelData[i]);
 			// disto
 			float in_gain = *distoInParameter, out_gain = *distoOutParameter;
