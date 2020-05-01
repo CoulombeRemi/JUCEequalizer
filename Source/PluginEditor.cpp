@@ -54,27 +54,27 @@ EqualizerMusAudioProcessorEditor::EqualizerMusAudioProcessorEditor(EqualizerMusA
 	inGainLab.setJustificationType(Justification::centred);
 	inGainLab.setColour(Label::textColourId, Colours::black);
 	inGainLab.setFont(Font(16.0f, Font::bold));
-	addAndMakeVisible(&inGainLab);
+	//addAndMakeVisible(&inGainLab);
 	outGainLab.setText("OUTPUT", NotificationType::dontSendNotification);
 	outGainLab.setJustificationType(Justification::centred);
 	outGainLab.setColour(Label::textColourId, Colours::black);
 	outGainLab.setFont(Font(16.0f, Font::bold));
-	addAndMakeVisible(&outGainLab);
+	//addAndMakeVisible(&outGainLab);
 	distoLab.setText("DRIVE", NotificationType::dontSendNotification);
 	distoLab.setJustificationType(Justification::centred);
 	distoLab.setColour(Label::textColourId, Colours::black);
 	distoLab.setFont(Font(16.0f, Font::bold));
-	addAndMakeVisible(&distoLab);
+	//addAndMakeVisible(&distoLab);
 	drywetLab.setText("DRY-WET", NotificationType::dontSendNotification);
 	drywetLab.setJustificationType(Justification::centred);
 	drywetLab.setColour(Label::textColourId, Colours::black);
 	drywetLab.setFont(Font(16.0f, Font::bold));
-	addAndMakeVisible(&drywetLab);
+	//addAndMakeVisible(&drywetLab);
 	freqLab.setText("FREQ", NotificationType::dontSendNotification);
 	freqLab.setJustificationType(Justification::centred);
 	freqLab.setColour(Label::textColourId, Colours::black);
 	freqLab.setFont(Font(16.0f, Font::bold));
-	addAndMakeVisible(&freqLab);
+	//addAndMakeVisible(&freqLab);
 	//deesser
 	de_threshLab.setText("THRESHOLD", NotificationType::dontSendNotification);
 	de_threshLab.setJustificationType(Justification::centred);
@@ -319,7 +319,7 @@ void EqualizerMusAudioProcessorEditor::resized()
 	int knob_small_w = 70, knob_small_h = 65;
 	int knob_big_w = 75, knob_big_h = 70;
 	int knob_bigboy_w = 125, knob_bigboy_h = 120;
-	int eq_left = 30, eq_right = 120;
+	int eq_left = 30, eq_right = 130;
 	// posX, posY, widht, heigh	
 	// low shelf
 	ls_freq.setBounds	(eq_left, 15, knob_small_w, knob_small_h);
