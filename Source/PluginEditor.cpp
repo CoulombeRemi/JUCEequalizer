@@ -319,7 +319,7 @@ void EqualizerMusAudioProcessorEditor::resized()
 	int knob_small_w = 70, knob_small_h = 65;
 	int knob_big_w = 75, knob_big_h = 70;
 	int knob_bigboy_w = 125, knob_bigboy_h = 120;
-	int eq_left = 30, eq_right = 130;
+	int eq_left = 32, eq_right = 133;
 	// posX, posY, widht, heigh	
 	// low shelf
 	ls_freq.setBounds	(eq_left, 15, knob_small_w, knob_small_h);
