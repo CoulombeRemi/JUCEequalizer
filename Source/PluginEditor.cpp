@@ -309,9 +309,7 @@ void EqualizerMusAudioProcessorEditor::paint(Graphics& g)
 	backgroundImg = ImageCache::getFromMemory(Images::bg_png, Images::bg_pngSize);
 	g.fillAll(getLookAndFeel().findColour(ResizableWindow::backgroundColourId));
 	g.setColour(Colours::white);
-
 	g.drawImage(backgroundImg, 0, 0, 1125, 650, 0, 0, 1125, 650);
-	//g.setFont(1.0f);
 }
 
 void EqualizerMusAudioProcessorEditor::resized()

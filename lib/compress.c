@@ -120,7 +120,6 @@ void compress_set_thresh(struct compress *data, float thresh){
     }else{
         data->thresh = thresh;
     }
-
 }
 
 // Set ration boundaries between 1.0 and 20.0

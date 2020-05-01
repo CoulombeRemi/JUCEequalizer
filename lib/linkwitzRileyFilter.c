@@ -25,7 +25,9 @@ static float filter_compute_cross(struct filter *data, float input) {
 	float deesserIO, lop_out;
 	lop_out = filter_compute_lop(data, input);
 	deesserIO = compress_process(data->comp, filter_compute_hip(data, input)) * data->outGain;
-	return lop_out + deesserIO * -1;
+	// invert phase
+	//return lop_out + (deesserIO * -1);
+	return deesserIO;
 }
 
 static void filter_compute_coeffs(struct filter *data, float freq) {
@@ -49,10 +51,8 @@ static void filter_compute_coeffs(struct filter *data, float freq) {
 	data->k22 = data->k2 * 2;
 	data->wck = 2 * data->wc * data->k;
 	data->tmpk = data->k2 + data->wc2 + data->wck;
-
 	data->b1 = ((-1 * data->k22) + data->wc22) / data->tmpk;
 	data->b2 = ((-1 * data->wck) + data->k2 + data->wc2) / data->tmpk;
-
 	// lop
 	data->a0_lp = data->wc2 / data->tmpk;
 	data->a1_lp = data->wc22 / data->tmpk;
@@ -73,7 +73,7 @@ struct filter * filter_init(float freq, float sr, filterEQT type, float thresh, 
 	filter_compute_coeffs(data, freq);
 	filter_set_outGain(data, outGain);
 
-	data->comp = compress_init(thresh, ratio, att, rel, look, sr, 1.0f);
+	data->comp = compress_init(thresh, ratio, att, rel, look, sr, 100.0f);
 	return data;
 }
 
@@ -97,20 +97,6 @@ float filter_process(struct filter *data, float input) {
 		default:
 			break;
 	}
-	// lop
-	/*
-	lop_out = data->a0_lp * input + data->x0_lp;
-	data->x0_lp = data->a1_lp * input - data->b1 * lop_out + data->x1_lp;
-	data->x1_lp = data->a2_lp * input - data->b2 * lop_out;
-	// hip
-	hip_out = data->a0_hp * input + data->x0_hp;
-	data->x0_hp = data->a1_hp * input - data->b1 * hip_out + data->x1_hp;
-	data->x1_hp = data->a2_hp * input - data->b2 * hip_out;*/
-
-	//deesserIO = compress_process(data->comp, hip_out);
-	// invert hip phase
-	//output = lop_out + deesserIO * -1;
-
 	return output;
 }
 
