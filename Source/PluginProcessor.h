@@ -15,7 +15,7 @@
 #include "compress.h"
 #include "linkwitzRileyFilter.h"
 #include "disto.h"
-#include "CircularBuffer.h"
+//#include "CircularBuffer.h"
 
 //==============================================================================
 /**
@@ -61,7 +61,7 @@ public:
 	void getStateInformation(MemoryBlock& destData) override;
 	void setStateInformation(const void* data, int sizeInBytes) override;
 	// limiter values
-	float lim_Thresh = 1, lim_attTime = 0.001, lim_relTime = 0.2;
+	//float lim_Thresh = 1, lim_attTime = 0.001, lim_relTime = 0.2;
 
 private:
 	AudioProcessorValueTreeState parameters;
@@ -123,12 +123,9 @@ private:
 	std::atomic<float> *deesserOutParameter;
 
 	// limiter
-	
-	float lim_Gain, lim_peak;
-	//CircularBuffer delayBuffer;
+	/*float lim_Gain, lim_peak;
 	Array <CircularBuffer> allBuffers;
-
-	/*std::atomic<float> *limiterThreshParameter;
+	std::atomic<float> *limiterThreshParameter;
 	std::atomic<float> *limiterAttParameter;
 	std::atomic<float> *limiterRelParameter;
 	std::atomic<float> *limiterGainParameter;

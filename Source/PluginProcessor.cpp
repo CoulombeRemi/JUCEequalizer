@@ -304,8 +304,7 @@ void EqualizerMusAudioProcessor::changeProgramName(int index, const String& newN
 //==============================================================================
 void EqualizerMusAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
-	//delayBuffer = CircularBuffer(10,1);
-	allBuffers = Array<CircularBuffer>();
+	//allBuffers = Array<CircularBuffer>();
 
 	// init
 	for (int i = 0; i < 2; i++) {
@@ -324,28 +323,11 @@ void EqualizerMusAudioProcessor::prepareToPlay(double sampleRate, int samplesPer
 		float deesserOut = *deesserOutParameter;
 		deesser[i] = filter_init(*deesserFreqParameter, sampleRate, CROSS,*deesserThreshParameter, 4.0f, 5.0f, 250.0f, 5.0f, Decibels::decibelsToGain(deesserOut));
 		// limiter
-		/*allBuffers.add(CircularBuffer(10,1));
-		lim_Thresh = std::pow(10.0f, (*limiterThreshParameter / 20.0f));
-		lim_attTime = 1.0f - std::pow(MathConstants < float > ::euler, ((1 / getSampleRate()) * -2.2f) / *limiterAttParameter);
-		lim_relTime = 1.0f - std::pow(MathConstants < float > ::euler, ((1 / getSampleRate()) * -2.2f) / *limiterRelParameter);*/
-		allBuffers.add(CircularBuffer(10, 1));
+		//allBuffers.add(CircularBuffer(10, 1));
 	}
-	lim_Gain = 1.0f;
-	lim_peak = 0.0f;
-	//float threshToRange = *limiterThreshParameter;
+	//lim_Gain = 1.0f;
+	//lim_peak = 0.0f;
 
-	
-	/*lim_Gain = 1.0f;
-	lim_peak = 0.0f;*/
-	/*float dbLinGain = *limiterGainParameter;
-	float dbLinPeak = *limiterPeakParameter;
-	lim_Gain = Decibels::decibelsToGain(dbLinGain);
-	//lim_peak = Decibels::decibelsToGain(dbLinPeak);
-	lim_peak = *limiterPeakParameter;*/
-
-	//lim_Thresh = *limiterThreshParameter;
-	//lim_Thresh = 0.01f;
-	//lim_Thresh = Decibels::decibelsToGain(threshToRange);
 }
 
 void EqualizerMusAudioProcessor::releaseResources()
@@ -384,9 +366,7 @@ void EqualizerMusAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBu
 	auto totalNumInputChannels = getTotalNumInputChannels();
 	auto totalNumOutputChannels = getTotalNumOutputChannels();
 	// Limiter
-	float lim_coeff;
-
-
+	//float lim_coeff;
 	for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
 		buffer.clear(i, 0, buffer.getNumSamples());
 
@@ -466,6 +446,7 @@ void EqualizerMusAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBu
 			// deesser
 			channelData[i] = filter_process(deesser[channel], channelData[i]);
 			// Limiter
+			/*
 			CircularBuffer* delayBuffer = &allBuffers.getReference(channel);
 			float sample = channelData[i];
 			float amplitude = abs(sample);
@@ -480,7 +461,7 @@ void EqualizerMusAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBu
 			delayBuffer->setData(sample);
 			delayBuffer->nextSample();
 		
-			channelData[i] = limitedSample;
+			channelData[i] = limitedSample;*/
 		}
 	}
 }

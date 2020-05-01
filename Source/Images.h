@@ -69,6 +69,8 @@ public:
     static const int moogKn_pngSize;
     static const char* blackKnob02_png;
     static const int blackKnob02_pngSize;
+    static const char* bg2_png;
+    static const int bg2_pngSize;
 
 
 private:

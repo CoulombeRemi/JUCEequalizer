@@ -127,13 +127,13 @@ private:
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> deesser_OutAttachment;
 	EqualizerMusAudioProcessor& processor;
 	// limiter
-	Slider limiter_Thresh;
+	/*Slider limiter_Thresh;
 	//std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> limiter_ThreshAttachment;
 	Slider limiter_Att;
 	//std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> limiter_AttAttachment;
 	Slider limiter_Rel;
 	//std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> limiter_RelAttachment;
-
+	*/
 	
 
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(EqualizerMusAudioProcessorEditor)

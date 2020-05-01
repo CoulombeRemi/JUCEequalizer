@@ -19,7 +19,7 @@ EqualizerMusAudioProcessorEditor::EqualizerMusAudioProcessorEditor(EqualizerMusA
 	// backgroundImg = ImageCache::getFromMemory(Images::pluginbg_png, Images::pluginbg_pngSize);
 	// Make sure that before the constructor has finished, you've set the
 	// editor's size to whatever you need it to be.
-	setSize(1125, 650);
+	setSize(905, 650);
 	Colour gainColor = Colour(188, 49, 28);
 	Colour freqColor = Colour(230, 245, 3);
 	Colour qColor = Colour(43, 106, 70);
@@ -314,7 +314,7 @@ EqualizerMusAudioProcessorEditor::EqualizerMusAudioProcessorEditor(EqualizerMusA
 	addAndMakeVisible(&deeser_Out);
 	deesser_OutAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "deesserOut", deeser_Out));
 	// limiter
-	limiter_Thresh.setLookAndFeel(&lookAndFeelComp);
+	/*limiter_Thresh.setLookAndFeel(&lookAndFeelComp);
 	limiter_Thresh.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	limiter_Thresh.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
 	limiter_Thresh.setColour(Slider::trackColourId, Colours::yellow);
@@ -346,7 +346,7 @@ EqualizerMusAudioProcessorEditor::EqualizerMusAudioProcessorEditor(EqualizerMusA
 	limiter_Rel.setRange(0.0f, 10.0f, 0.001f);
 	limiter_Rel.onValueChange = [this] {
 		processor.lim_relTime = 1 - std::pow(MathConstants<float>::euler, ((1 / processor.getSampleRate()) * -2.2f) / limiter_Rel.getValue());
-	};
+	};*/
 }
 
 EqualizerMusAudioProcessorEditor::~EqualizerMusAudioProcessorEditor()
@@ -356,10 +356,10 @@ EqualizerMusAudioProcessorEditor::~EqualizerMusAudioProcessorEditor()
 //==============================================================================
 void EqualizerMusAudioProcessorEditor::paint(Graphics& g)
 {
-	backgroundImg = ImageCache::getFromMemory(Images::bg_png, Images::bg_pngSize);
+	backgroundImg = ImageCache::getFromMemory(Images::bg2_png, Images::bg2_pngSize);
 	g.fillAll(getLookAndFeel().findColour(ResizableWindow::backgroundColourId));
 	g.setColour(Colours::white);
-	g.drawImage(backgroundImg, 0, 0, 1125, 650, 0, 0, 1125, 650);
+	g.drawImage(backgroundImg, 0, 0, 905, 650, 0, 0, 905, 650);
 }
 
 void EqualizerMusAudioProcessorEditor::resized()
@@ -437,12 +437,12 @@ void EqualizerMusAudioProcessorEditor::resized()
 	de_freqLab.setBounds	(744, 395, 80, 15);
 
 	// limiter
-	int limiter_mid = 1005;
+	/*int limiter_mid = 1005;
 	limiter_Thresh.setBounds	(limiter_mid - 76, 80, comp_w, comp_h);
 	limiter_Att.setBounds		(limiter_mid + 10, 80, comp_w, comp_h);
 	limiter_Rel.setBounds		(limiter_mid - 76, 215, comp_w, comp_h);
 
 	lim_ceilLab.setBounds		(limiter_mid - 83, 65, 80, 15);
 	lim_attLab.setBounds		(limiter_mid + 3, 65, 80, 15);
-	lim_relLab.setBounds		(limiter_mid - 83, 200, 80, 15);
+	lim_relLab.setBounds		(limiter_mid - 83, 200, 80, 15);*/
 }
