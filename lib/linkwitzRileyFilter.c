@@ -26,8 +26,8 @@ static float filter_compute_cross(struct filter *data, float input) {
 	lop_out = filter_compute_lop(data, input);
 	deesserIO = compress_process(data->comp, filter_compute_hip(data, input)) * data->outGain;
 	// invert phase
-	//return lop_out + (deesserIO * -1);
-	return deesserIO;
+	return lop_out + (deesserIO * -1);
+	//return deesserIO;
 }
 
 static void filter_compute_coeffs(struct filter *data, float freq) {

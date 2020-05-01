@@ -297,6 +297,27 @@ EqualizerMusAudioProcessorEditor::EqualizerMusAudioProcessorEditor(EqualizerMusA
 	deeser_Out.setColour(Slider::trackColourId, Colours::yellow);
 	addAndMakeVisible(&deeser_Out);
 	deesser_OutAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "deesserOut", deeser_Out));
+	// limiter
+	limiter_Thresh.setLookAndFeel(&lookAndFeelComp);
+	limiter_Thresh.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+	limiter_Thresh.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
+	limiter_Thresh.setColour(Slider::trackColourId, Colours::yellow);
+	addAndMakeVisible(&limiter_Thresh);
+	limiter_ThreshAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "limiterThresh", limiter_Thresh));
+
+	limiter_Att.setLookAndFeel(&lookAndFeelComp);
+	limiter_Att.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+	limiter_Att.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
+	limiter_Att.setColour(Slider::trackColourId, Colours::yellow);
+	addAndMakeVisible(&limiter_Att);
+	limiter_AttAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "limiterAtt", limiter_Att));
+
+	limiter_Rel.setLookAndFeel(&lookAndFeelComp);
+	limiter_Rel.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+	limiter_Rel.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
+	limiter_Rel.setColour(Slider::trackColourId, Colours::yellow);
+	addAndMakeVisible(&limiter_Rel);
+	limiter_RelAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "limiterRel", limiter_Rel));
 }
 
 EqualizerMusAudioProcessorEditor::~EqualizerMusAudioProcessorEditor()
@@ -385,4 +406,10 @@ void EqualizerMusAudioProcessorEditor::resized()
 	de_threshLab.setBounds	(744, 65, 80, 15);
 	de_outLab.setBounds		(744, 230, 80, 15);
 	de_freqLab.setBounds	(744, 395, 80, 15);
+
+	// limiter
+	int limiter_mid = 1005;
+	limiter_Thresh.setBounds	(limiter_mid - 76, 80, comp_w, comp_h);
+	limiter_Att.setBounds		(limiter_mid + 10, 80, comp_w, comp_h);
+	limiter_Rel.setBounds		(limiter_mid - 76, 215, comp_w, comp_h);
 }

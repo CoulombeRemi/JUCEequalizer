@@ -151,6 +151,17 @@ AudioProcessorValueTreeState::ParameterLayout createParameterLayout() {
 	parameters.push_back(std::make_unique<Parameter>(String("deesserOut"), String("out gain"), String(),
 		NormalisableRange<float>(-18.0f, 18.0f, 0.1f, 1.f),
 		0.0f, gainValueToText, gainTextToValue));
+	// limiter
+	parameters.push_back(std::make_unique<Parameter>(String("limiterThresh"), String("Threshold"), String(),
+		NormalisableRange<float>(-60.0f, 10.0f, 0.001f, 1.f),
+		0.0f, gainValueToText, gainTextToValue));
+	parameters.push_back(std::make_unique<Parameter>(String("limiterAtt"), String("Att."), String(),
+		NormalisableRange<float>(0.0f, 10.0f, 0.001f, 1.f),
+		5.0f, timeValueToText, timeTextToValue));
+	parameters.push_back(std::make_unique<Parameter>(String("limiterRel"), String("Rel."), String(),
+		NormalisableRange<float>(0.0f, 10.0f, 0.001f, 1.f),
+		5.0f, timeValueToText, timeTextToValue));
+
 	return{ parameters.begin(), parameters.end() };
 }
 
@@ -211,6 +222,10 @@ EqualizerMusAudioProcessor::EqualizerMusAudioProcessor()
 	deesserThreshParameter = parameters.getRawParameterValue("deesserThresh");
 	deesserFreqParameter = parameters.getRawParameterValue("deesserFreq");
 	deesserOutParameter = parameters.getRawParameterValue("deesserOut");
+	// limiter
+	limiterThreshParameter = parameters.getRawParameterValue("limiterThresh");
+	limiterAttParameter = parameters.getRawParameterValue("limiterAtt");
+	limiterRelParameter = parameters.getRawParameterValue("limiterRel");
 }
 
 EqualizerMusAudioProcessor::~EqualizerMusAudioProcessor()
@@ -281,11 +296,12 @@ void EqualizerMusAudioProcessor::changeProgramName(int index, const String& newN
 //==============================================================================
 void EqualizerMusAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
+	//delayBuffer = CircularBuffer(10,1);
+	allBuffers = Array<CircularBuffer>();
+
 	// init
 	for (int i = 0; i < 2; i++) {
 		// EQ
-		//highPass[i] = filter_init(*lsFreqParameter, sampleRate, LOWPASS, 0.0f, 1.0f, 5.0f, 150.0f, 5.0f);
-		//highPass[i] = filter_init(*lsFreqParameter, sampleRate, HIGHPASS, 0.0f, 1.0f, 5.0f, 150.0f, 5.0f);
 		lowShelf[i] = parametricEQ_init(*lsFreqParameter, *lsQParameter, *lsGainParameter, LOWSHELF, sampleRate);
 		peak01[i] = parametricEQ_init(*peak01FreqParameter, *peak01QParameter, *peak01GainParameter, PEAK, sampleRate);
 		peak02[i] = parametricEQ_init(*peak02FreqParameter, *peak02QParameter, *peak02GainParameter, PEAK, sampleRate);
@@ -299,7 +315,20 @@ void EqualizerMusAudioProcessor::prepareToPlay(double sampleRate, int samplesPer
 		//deesser
 		float deesserOut = *deesserOutParameter;
 		deesser[i] = filter_init(*deesserFreqParameter, sampleRate, CROSS,*deesserThreshParameter, 4.0f, 5.0f, 250.0f, 5.0f, Decibels::decibelsToGain(deesserOut));
+		// limiter
+		allBuffers.add(CircularBuffer(10,1));
+		lim_Thresh = std::pow(10.0f, (*limiterThreshParameter / 20.0f));
+		lim_attTime = 1.0f - std::pow(MathConstants < float > ::euler, ((1 / getSampleRate()) * -2.2f) / *limiterAttParameter);
+		lim_relTime = 1.0f - std::pow(MathConstants < float > ::euler, ((1 / getSampleRate()) * -2.2f) / *limiterRelParameter);
 	}
+	//float threshToRange = *limiterThreshParameter;
+
+	
+	lim_Gain = 1.0f;
+	lim_peak = 0.0f;
+	//lim_Thresh = *limiterThreshParameter;
+	//lim_Thresh = 0.01f;
+	//lim_Thresh = Decibels::decibelsToGain(threshToRange);
 }
 
 void EqualizerMusAudioProcessor::releaseResources()
@@ -337,6 +366,15 @@ void EqualizerMusAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBu
 	ScopedNoDenormals noDenormals;
 	auto totalNumInputChannels = getTotalNumInputChannels();
 	auto totalNumOutputChannels = getTotalNumOutputChannels();
+	// Limiter
+	//float lim_attTime, lim_relTime, lim_coeff;
+	float lim_coeff;
+	//float attToScale = *limiterAttParameter;
+	
+	/*lim_attTime = *limiterAttParameter;
+	lim_relTime = *limiterRelParameter;*/
+	//lim_attTime = 0.3f;
+	//lim_relTime = 0.01f;
 
 	for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
 		buffer.clear(i, 0, buffer.getNumSamples());
@@ -390,6 +428,11 @@ void EqualizerMusAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBu
 		filter_set_freq(deesser[channel], *deesserFreqParameter);
 		filter_set_outGain(deesser[channel], Decibels::decibelsToGain(deesserOut));
 
+
+		lim_Thresh = std::pow(10.0f, (*limiterThreshParameter / 20.0f));
+		lim_attTime = 1.0f - std::pow(MathConstants < float > ::euler, ((1 / getSampleRate()) * -2.2f) / *limiterAttParameter);
+		lim_relTime = 1.0f - std::pow(MathConstants < float > ::euler, ((1 / getSampleRate()) * -2.2f) / *limiterRelParameter);
+
 		for (int i = 0; i < getBlockSize(); i++) {
 			// Eq
 			channelData[i] = parametricEQ_process(lowShelf[channel], channelData[i]);
@@ -406,8 +449,29 @@ void EqualizerMusAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBu
 			channelData[i] = compress_process(compressor[channel], channelData[i]) * Decibels::decibelsToGain(gain);
 			// deesser
 			channelData[i] = filter_process(deesser[channel], channelData[i]);
-		}
+			// Limiter
+			CircularBuffer* delayBuffer = &allBuffers.getReference(channel);
+			float sample = channelData[i];
+			float amplitude = abs(sample);
+			if (amplitude > lim_peak)
+				lim_coeff = lim_attTime;
+			else
+				lim_coeff = lim_relTime;
+			lim_peak = (1.0f - lim_coeff) * lim_peak + lim_coeff * amplitude;
 
+			float lim_filter = fmin(1.0f, lim_Thresh / lim_peak);
+			if (lim_Gain > lim_filter)
+				lim_coeff = lim_attTime;
+			else
+				lim_coeff = lim_relTime;
+			lim_Gain = (1.0f - lim_coeff) * lim_Gain + lim_coeff * lim_filter;
+
+			float limitedSample = lim_Gain * delayBuffer->getData();
+			delayBuffer->setData(sample);
+			delayBuffer->nextSample();
+		
+			channelData[i] = limitedSample;
+		}
 	}
 }
 

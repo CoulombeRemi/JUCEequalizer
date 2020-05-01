@@ -5,6 +5,10 @@
               pluginVST3Category="Distortion,Dynamics,EQ,Fx" companyName="Remi Coulombe">
   <MAINGROUP id="BSCVCH" name="equalizerMus">
     <GROUP id="{D151EEF4-D58B-0407-B7CB-6FD3CAB08601}" name="Source">
+      <FILE id="GnPWAX" name="CircularBuffer.cpp" compile="1" resource="0"
+            file="Source/CircularBuffer.cpp"/>
+      <FILE id="wFF367" name="CircularBuffer.h" compile="0" resource="0"
+            file="Source/CircularBuffer.h"/>
       <FILE id="dsLHcN" name="CustomLnF.h" compile="0" resource="0" file="Source/CustomLnF.h"/>
       <GROUP id="{A07D10B5-0D1B-7480-D65C-FC24CC9512A2}" name="lib">
         <FILE id="VxaQyz" name="compress.c" compile="1" resource="0" file="lib/compress.c"/>

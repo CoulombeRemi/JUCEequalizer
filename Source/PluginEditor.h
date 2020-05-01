@@ -124,6 +124,13 @@ private:
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> deesser_FreqAttachment;
 	Slider deeser_Out;
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> deesser_OutAttachment;
+	// limiter
+	Slider limiter_Thresh;
+	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> limiter_ThreshAttachment;
+	Slider limiter_Att;
+	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> limiter_AttAttachment;
+	Slider limiter_Rel;
+	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> limiter_RelAttachment;
 
 	EqualizerMusAudioProcessor& processor;
 

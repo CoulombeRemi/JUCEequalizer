@@ -15,6 +15,7 @@
 #include "compress.h"
 #include "linkwitzRileyFilter.h"
 #include "disto.h"
+#include "CircularBuffer.h"
 
 //==============================================================================
 /**
@@ -73,9 +74,6 @@ private:
 	struct parametricEQ *peak03[2];
 	struct parametricEQ *peak04[2];
 	struct parametricEQ *highShelf[2];
-	struct filter *lowPass[2];
-	struct filter *highPass[2];
-
 	// low shelf
 	std::atomic<float> *lsGainParameter;
 	std::atomic<float> *lsFreqParameter;
@@ -122,6 +120,13 @@ private:
 	std::atomic<float> *deesserThreshParameter;
 	std::atomic<float> *deesserOutParameter;
 
+	// limiter
+	float lim_Thresh, lim_Gain, lim_peak, lim_attTime, lim_relTime;
+	CircularBuffer delayBuffer;
+	Array <CircularBuffer> allBuffers;
+	std::atomic<float> *limiterThreshParameter;
+	std::atomic<float> *limiterAttParameter;
+	std::atomic<float> *limiterRelParameter;
 
 	//==============================================================================
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(EqualizerMusAudioProcessor)
