@@ -15,16 +15,12 @@
 EqualizerMusAudioProcessorEditor::EqualizerMusAudioProcessorEditor(EqualizerMusAudioProcessor& p, AudioProcessorValueTreeState& vts)
 	: AudioProcessorEditor(&p), processor(p), valueTreeState(vts)
 {
-	// backgroundImg = ImageCache::getFromMemory(Images::background_jpg, Images::background_jpgSize);
-	// backgroundImg = ImageCache::getFromMemory(Images::pluginbg_png, Images::pluginbg_pngSize);
-	// Make sure that before the constructor has finished, you've set the
-	// editor's size to whatever you need it to be.
 	setSize(905, 650);
 	Colour gainColor = Colour(188, 49, 28);
 	Colour freqColor = Colour(230, 245, 3);
 	Colour qColor = Colour(43, 106, 70);
-	Colour boxbg = Colour(75,75,75);
-	Colour transparent = Colour::fromFloatRGBA(0,0,0,0);
+	Colour boxbg = Colour(75, 75, 75);
+	Colour transparent = Colour::fromFloatRGBA(0, 0, 0, 0);
 
 	setLookAndFeel(&lookAndFeel);
 	// labels Comp
@@ -325,7 +321,7 @@ EqualizerMusAudioProcessorEditor::EqualizerMusAudioProcessorEditor(EqualizerMusA
 	limiter_Thresh.onValueChange = [this] {
 		processor.lim_Thresh = std::pow(10, (limiter_Thresh.getValue() / 20));
 	};
-	
+
 	limiter_Att.setLookAndFeel(&lookAndFeelComp);
 	limiter_Att.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	limiter_Att.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
@@ -368,73 +364,74 @@ void EqualizerMusAudioProcessorEditor::resized()
 	int knob_big_w = 75, knob_big_h = 70;
 	int knob_bigboy_w = 125, knob_bigboy_h = 120;
 	int eq_left = 32, eq_right = 133;
+	int label_x = 80, label_y = 15;
 	// posX, posY, widht, heigh	
 	// low shelf
-	ls_freq.setBounds	(eq_left, 15, knob_small_w, knob_small_h);
-	ls_q.setBounds		(eq_left, 80, knob_small_w, knob_small_h);
-	ls_gain.setBounds	(eq_right, 47, knob_small_w, knob_small_h);
+	ls_freq.setBounds(eq_left, 15, knob_small_w, knob_small_h);
+	ls_q.setBounds(eq_left, 80, knob_small_w, knob_small_h);
+	ls_gain.setBounds(eq_right, 47, knob_small_w, knob_small_h);
 	// peak 01
-	peak01_freq.setBounds	(eq_right, 112, knob_small_w, knob_small_h);
-	peak01_q.setBounds		(eq_right, 177, knob_small_w, knob_small_h);
-	peak01_gain.setBounds	(eq_left, 145, knob_small_w, knob_small_h);
+	peak01_freq.setBounds(eq_right, 112, knob_small_w, knob_small_h);
+	peak01_q.setBounds(eq_right, 177, knob_small_w, knob_small_h);
+	peak01_gain.setBounds(eq_left, 145, knob_small_w, knob_small_h);
 	// peak 02
-	peak02_freq.setBounds	(eq_left, 210, knob_small_w, knob_small_h);
-	peak02_q.setBounds		(eq_left, 275, knob_small_w, knob_small_h);
-	peak02_gain.setBounds	(eq_right, 242, knob_small_w, knob_small_h);
+	peak02_freq.setBounds(eq_left, 210, knob_small_w, knob_small_h);
+	peak02_q.setBounds(eq_left, 275, knob_small_w, knob_small_h);
+	peak02_gain.setBounds(eq_right, 242, knob_small_w, knob_small_h);
 	// peak 03
-	peak03_freq.setBounds	(eq_right, 307, knob_small_w, knob_small_h);
-	peak03_q.setBounds		(eq_right, 372, knob_small_w, knob_small_h);
-	peak03_gain.setBounds	(eq_left, 340, knob_small_w, knob_small_h);
+	peak03_freq.setBounds(eq_right, 307, knob_small_w, knob_small_h);
+	peak03_q.setBounds(eq_right, 372, knob_small_w, knob_small_h);
+	peak03_gain.setBounds(eq_left, 340, knob_small_w, knob_small_h);
 	// peak 04
-	peak04_freq.setBounds	(eq_left, 405, knob_small_w, knob_small_h);
-	peak04_q.setBounds		(eq_left, 470, knob_small_w, knob_small_h);
-	peak04_gain.setBounds	(eq_right, 437, knob_small_w, knob_small_h);
+	peak04_freq.setBounds(eq_left, 405, knob_small_w, knob_small_h);
+	peak04_q.setBounds(eq_left, 470, knob_small_w, knob_small_h);
+	peak04_gain.setBounds(eq_right, 437, knob_small_w, knob_small_h);
 	// high shelf
-	hs_freq.setBounds	(eq_right, 502, knob_small_w, knob_small_h);
-	hs_q.setBounds		(eq_right, 567, knob_small_w, knob_small_h);
-	hs_gain.setBounds	(eq_left, 535, knob_small_w, knob_small_h);
+	hs_freq.setBounds(eq_right, 502, knob_small_w, knob_small_h);
+	hs_q.setBounds(eq_right, 567, knob_small_w, knob_small_h);
+	hs_gain.setBounds(eq_left, 535, knob_small_w, knob_small_h);
 
 	// disto
 	int disto_mid = 341, disto_w = 70, disto_h = 80;
-	disto_in.setBounds		(disto_mid-80, 450, disto_w, disto_h);
-	disto_out.setBounds		(disto_mid+10, 450, disto_w, disto_h);
-	disto_amount.setBounds	(disto_mid - 80, 100, disto_w, disto_h);
-	disto_dw.setBounds		(disto_mid + 10, 172, disto_w, disto_h);
-	disto_filterF.setBounds	(disto_mid - 35, 350, disto_w, disto_h);
+	disto_in.setBounds(disto_mid - 80, 450, disto_w, disto_h);
+	disto_out.setBounds(disto_mid + 10, 450, disto_w, disto_h);
+	disto_amount.setBounds(disto_mid - 80, 100, disto_w, disto_h);
+	disto_dw.setBounds(disto_mid + 10, 172, disto_w, disto_h);
+	disto_filterF.setBounds(disto_mid - 35, 350, disto_w, disto_h);
 
-	inGainLab.setBounds	(disto_mid - 85, 435, 80, 15);
-	outGainLab.setBounds(disto_mid + 5, 435, 80, 15);
-	distoLab.setBounds	(disto_mid - 85, 85, 80, 15);
-	drywetLab.setBounds	(disto_mid + 5, 157, 80, 15);
-	freqLab.setBounds	(disto_mid - 40, 335, 80, 15);
+	inGainLab.setBounds(disto_mid - 85, 435, label_x, label_y);
+	outGainLab.setBounds(disto_mid + 5, 435, label_x, label_y);
+	distoLab.setBounds(disto_mid - 85, 85, label_x, label_y);
+	drywetLab.setBounds(disto_mid + 5, 157, label_x, label_y);
+	freqLab.setBounds(disto_mid - 40, 335, label_x, label_y);
 
 	// compressor
 	int comp_mid = 562, comp_w = 66, comp_h = 80;
-	comp_Thresh.setBounds	(comp_mid-76, 80, comp_w, comp_h);
-	comp_Ratio.setBounds	(comp_mid+10, 80, comp_w, comp_h);
-	comp_Att.setBounds		(comp_mid-76, 215, comp_w, comp_h);
-	comp_Rel.setBounds		(comp_mid+10, 215, comp_w, comp_h);
-	comp_LH.setBounds		(comp_mid-76, 350, comp_w, comp_h);
-	comp_outGain.setBounds	(comp_mid + 10, 350, comp_w, comp_h);
-	comp_dw.setBounds		(comp_mid + 10, 485, comp_w, comp_h);
+	comp_Thresh.setBounds(comp_mid - 76, 80, comp_w, comp_h);
+	comp_Ratio.setBounds(comp_mid + 10, 80, comp_w, comp_h);
+	comp_Att.setBounds(comp_mid - 76, 215, comp_w, comp_h);
+	comp_Rel.setBounds(comp_mid + 10, 215, comp_w, comp_h);
+	comp_LH.setBounds(comp_mid - 76, 350, comp_w, comp_h);
+	comp_outGain.setBounds(comp_mid + 10, 350, comp_w, comp_h);
+	comp_dw.setBounds(comp_mid + 10, 485, comp_w, comp_h);
 
-	threshLab.setBounds	(comp_mid - 83, 65, 80, 15);
-	ratioLab.setBounds	(comp_mid + 3, 65, 80, 15);
-	attLab.setBounds	(comp_mid - 83, 200, 80, 15);
-	relLab.setBounds	(comp_mid + 3, 200, 80, 15);
-	lhLab.setBounds		(comp_mid - 83, 335, 80, 15);
-	comp_out.setBounds	(comp_mid + 3, 335, 80, 15);
-	comp_dwLab.setBounds(comp_mid + 3, 470, 80, 15);
-	
+	threshLab.setBounds(comp_mid - 83, 65, label_x, label_y);
+	ratioLab.setBounds(comp_mid + 3, 65, label_x, label_y);
+	attLab.setBounds(comp_mid - 83, 200, label_x, label_y);
+	relLab.setBounds(comp_mid + 3, 200, label_x, label_y);
+	lhLab.setBounds(comp_mid - 83, 335, label_x, label_y);
+	comp_out.setBounds(comp_mid + 3, 335, label_x, label_y);
+	comp_dwLab.setBounds(comp_mid + 3, 470, label_x, label_y);
+
 	// deesser
 	int de_mid_btn = (784 - (knob_big_w / 2)), de_mid_btn_bb = (784 - (knob_bigboy_w / 2));
-	deesser_Thresh.setBounds	(de_mid_btn_bb, 80, knob_bigboy_w, knob_bigboy_h);
-	deeser_Out.setBounds		(de_mid_btn_bb, 245, knob_bigboy_w, knob_bigboy_h);
-	deesser_Freq.setBounds		(de_mid_btn_bb, 410, knob_bigboy_w, knob_bigboy_h);
+	deesser_Thresh.setBounds(de_mid_btn_bb, 80, knob_bigboy_w, knob_bigboy_h);
+	deeser_Out.setBounds(de_mid_btn_bb, 245, knob_bigboy_w, knob_bigboy_h);
+	deesser_Freq.setBounds(de_mid_btn_bb, 410, knob_bigboy_w, knob_bigboy_h);
 
-	de_threshLab.setBounds	(744, 65, 80, 15);
-	de_outLab.setBounds		(744, 230, 80, 15);
-	de_freqLab.setBounds	(744, 395, 80, 15);
+	de_threshLab.setBounds(744, 65, label_x, label_y);
+	de_outLab.setBounds(744, 230, label_x, label_y);
+	de_freqLab.setBounds(744, 395, label_x, label_y);
 
 	// limiter
 	/*int limiter_mid = 1005;

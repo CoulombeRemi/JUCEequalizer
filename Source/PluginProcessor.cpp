@@ -321,7 +321,7 @@ void EqualizerMusAudioProcessor::prepareToPlay(double sampleRate, int samplesPer
 		compressor[i] = compress_init(*compThreshParameter, *compRatioParameter, *compAttParameter, *compRelParameter, *compLHParameter, sampleRate, *compDWParameter);
 		//deesser
 		float deesserOut = *deesserOutParameter;
-		deesser[i] = filter_init(*deesserFreqParameter, sampleRate, CROSS,*deesserThreshParameter, 4.0f, 5.0f, 250.0f, 5.0f, Decibels::decibelsToGain(deesserOut));
+		deesser[i] = filter_init(*deesserFreqParameter, sampleRate, CROSS, *deesserThreshParameter, 4.0f, 5.0f, 250.0f, 5.0f, Decibels::decibelsToGain(deesserOut));
 		// limiter
 		//allBuffers.add(CircularBuffer(10, 1));
 	}
@@ -454,13 +454,13 @@ void EqualizerMusAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBu
 			else {lim_coeff = lim_relTime;}
 			lim_peak = (1.0f - lim_coeff) * lim_peak + lim_coeff * amplitude;
 			float lim_filter = fmin(1.0f, lim_Thresh / lim_peak);
-			if (lim_Gain > lim_filter) {lim_coeff = lim_attTime;}	
+			if (lim_Gain > lim_filter) {lim_coeff = lim_attTime;}
 			else {lim_coeff = lim_relTime;}
 			lim_Gain = (1.0f - lim_coeff) * lim_Gain + lim_coeff * lim_filter;
 			float limitedSample = lim_Gain * delayBuffer->getData();
 			delayBuffer->setData(sample);
 			delayBuffer->nextSample();
-		
+
 			channelData[i] = limitedSample;*/
 		}
 	}

@@ -46,7 +46,6 @@ private:
 	Label threshLab, ratioLab, attLab, relLab, lhLab, comp_out, comp_dwLab;
 	Label de_threshLab, de_freqLab, de_outLab;
 	Label lim_ceilLab, lim_attLab, lim_relLab, lim_gainLab, lim_peakLab;
-	
 
 	AudioProcessorValueTreeState& valueTreeState;
 
@@ -134,7 +133,6 @@ private:
 	Slider limiter_Rel;
 	//std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> limiter_RelAttachment;
 	*/
-	
 
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(EqualizerMusAudioProcessorEditor)
 };

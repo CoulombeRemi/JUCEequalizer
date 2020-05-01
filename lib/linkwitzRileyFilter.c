@@ -1,11 +1,19 @@
+/*
+Remi Coulombe
+-24dB/oct filters crossover for de-esser
+
+Possibility of using lop/hip or crossover
+*/
+
 #include <stdlib.h>
 #include <math.h>
 #include "linkwitzRileyFilter.h"
+#include "compress.h"
 
 #ifndef M_PI
 #define M_PI (3.14159265358979323846264338327950288)
 #endif
-#include "compress.h"
+
 
 static float filter_compute_lop(struct filter *data, float input) {
 	float lop_out;
@@ -27,11 +35,9 @@ static float filter_compute_cross(struct filter *data, float input) {
 	deesserIO = compress_process(data->comp, filter_compute_hip(data, input)) * data->outGain;
 	// invert phase
 	return lop_out + (deesserIO * -1);
-	//return deesserIO;
 }
 
 static void filter_compute_coeffs(struct filter *data, float freq) {
-
 	if (freq > 16000.0f) {
 		data->freq = 16000.0f;
 	}
@@ -41,7 +47,7 @@ static void filter_compute_coeffs(struct filter *data, float freq) {
 	else {
 		data->freq = freq;
 	}
-	
+
 	data->fpi = M_PI * data->freq;
 	data->wc = data->fpi * 2;
 	data->wc2 = data->wc * data->wc;
@@ -85,26 +91,26 @@ void filter_delete(struct filter *data) {
 float filter_process(struct filter *data, float input) {
 	float lop_out, hip_out, deesserIO, output;
 	switch (data->type) {
-		case LOWPASS:
-			output = filter_compute_lop(data, input);
-			break;
-		case HIGHPASS:
-			output = filter_compute_hip(data, input);
-			break;
-		case CROSS:
-			output = filter_compute_cross(data, input);
-			break;
-		default:
-			break;
+	case LOWPASS:
+		output = filter_compute_lop(data, input);
+		break;
+	case HIGHPASS:
+		output = filter_compute_hip(data, input);
+		break;
+	case CROSS:
+		output = filter_compute_cross(data, input);
+		break;
+	default:
+		break;
 	}
 	return output;
 }
 
 void filter_set_freq(struct filter *data, float freq) {
-    if (freq != data->last_freq){
+	if (freq != data->last_freq) {
 		filter_compute_coeffs(data, freq);
-        data->last_freq = freq;
-    }
+		data->last_freq = freq;
+	}
 }
 
 void filter_set_compThresh(struct filter *data, float thresh) {
@@ -112,7 +118,7 @@ void filter_set_compThresh(struct filter *data, float thresh) {
 }
 
 void filter_set_outGain(struct filter *data, float gain) {
-	if (gain > 63.0f){
+	if (gain > 63.0f) {
 		data->outGain = 63.0f;
 	}
 	else if (gain < 0.015873f) {

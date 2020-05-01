@@ -20,7 +20,7 @@ struct disto * disto_init(float drive, float mix, float freq, float q, float sr)
 	data->freq = freq;
 	data->q = q;
 	data->sr = sr;
-	data->filter  = distoFltr_init(freq, sr, q);
+	data->filter = distoFltr_init(freq, sr, q);
 	disto_set_drive(data, drive);
 	disto_set_mix(data, mix);
 	return data;
