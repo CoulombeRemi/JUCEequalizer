@@ -152,7 +152,7 @@ AudioProcessorValueTreeState::ParameterLayout createParameterLayout() {
 		NormalisableRange<float>(-18.0f, 18.0f, 0.1f, 1.f),
 		0.0f, gainValueToText, gainTextToValue));
 	// limiter
-	parameters.push_back(std::make_unique<Parameter>(String("limiterThresh"), String("Threshold"), String(),
+	/*parameters.push_back(std::make_unique<Parameter>(String("limiterThresh"), String("Threshold"), String(),
 		NormalisableRange<float>(-60.0f, 10.0f, 0.001f, 1.f),
 		0.0f, gainValueToText, gainTextToValue));
 	parameters.push_back(std::make_unique<Parameter>(String("limiterAtt"), String("Att."), String(),
@@ -161,6 +161,12 @@ AudioProcessorValueTreeState::ParameterLayout createParameterLayout() {
 	parameters.push_back(std::make_unique<Parameter>(String("limiterRel"), String("Rel."), String(),
 		NormalisableRange<float>(0.0f, 10.0f, 0.001f, 1.f),
 		5.0f, timeValueToText, timeTextToValue));
+	parameters.push_back(std::make_unique<Parameter>(String("limiterGain"), String("dB"), String(),
+		NormalisableRange<float>(-24.0f, 24.0f, 0.001f, 1.f),
+		0.0f, gainValueToText, gainTextToValue));
+	parameters.push_back(std::make_unique<Parameter>(String("limiterPeak"), String("dB"), String(),
+		NormalisableRange<float>(-24.0f, 24.0f, 0.001f, 1.f),
+		0.0f, gainValueToText, gainTextToValue));*/
 
 	return{ parameters.begin(), parameters.end() };
 }
@@ -223,9 +229,11 @@ EqualizerMusAudioProcessor::EqualizerMusAudioProcessor()
 	deesserFreqParameter = parameters.getRawParameterValue("deesserFreq");
 	deesserOutParameter = parameters.getRawParameterValue("deesserOut");
 	// limiter
-	limiterThreshParameter = parameters.getRawParameterValue("limiterThresh");
+	/*limiterThreshParameter = parameters.getRawParameterValue("limiterThresh");
 	limiterAttParameter = parameters.getRawParameterValue("limiterAtt");
 	limiterRelParameter = parameters.getRawParameterValue("limiterRel");
+	limiterGainParameter = parameters.getRawParameterValue("limiterGain");
+	limiterPeakParameter = parameters.getRawParameterValue("limiterPeak");*/
 }
 
 EqualizerMusAudioProcessor::~EqualizerMusAudioProcessor()
@@ -316,16 +324,25 @@ void EqualizerMusAudioProcessor::prepareToPlay(double sampleRate, int samplesPer
 		float deesserOut = *deesserOutParameter;
 		deesser[i] = filter_init(*deesserFreqParameter, sampleRate, CROSS,*deesserThreshParameter, 4.0f, 5.0f, 250.0f, 5.0f, Decibels::decibelsToGain(deesserOut));
 		// limiter
-		allBuffers.add(CircularBuffer(10,1));
+		/*allBuffers.add(CircularBuffer(10,1));
 		lim_Thresh = std::pow(10.0f, (*limiterThreshParameter / 20.0f));
 		lim_attTime = 1.0f - std::pow(MathConstants < float > ::euler, ((1 / getSampleRate()) * -2.2f) / *limiterAttParameter);
-		lim_relTime = 1.0f - std::pow(MathConstants < float > ::euler, ((1 / getSampleRate()) * -2.2f) / *limiterRelParameter);
+		lim_relTime = 1.0f - std::pow(MathConstants < float > ::euler, ((1 / getSampleRate()) * -2.2f) / *limiterRelParameter);*/
+		allBuffers.add(CircularBuffer(10, 1));
 	}
+	lim_Gain = 1.0f;
+	lim_peak = 0.0f;
 	//float threshToRange = *limiterThreshParameter;
 
 	
-	lim_Gain = 1.0f;
-	lim_peak = 0.0f;
+	/*lim_Gain = 1.0f;
+	lim_peak = 0.0f;*/
+	/*float dbLinGain = *limiterGainParameter;
+	float dbLinPeak = *limiterPeakParameter;
+	lim_Gain = Decibels::decibelsToGain(dbLinGain);
+	//lim_peak = Decibels::decibelsToGain(dbLinPeak);
+	lim_peak = *limiterPeakParameter;*/
+
 	//lim_Thresh = *limiterThreshParameter;
 	//lim_Thresh = 0.01f;
 	//lim_Thresh = Decibels::decibelsToGain(threshToRange);
@@ -363,18 +380,12 @@ bool EqualizerMusAudioProcessor::isBusesLayoutSupported(const BusesLayout& layou
 
 void EqualizerMusAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
-	ScopedNoDenormals noDenormals;
+	//ScopedNoDenormals noDenormals;
 	auto totalNumInputChannels = getTotalNumInputChannels();
 	auto totalNumOutputChannels = getTotalNumOutputChannels();
 	// Limiter
-	//float lim_attTime, lim_relTime, lim_coeff;
 	float lim_coeff;
-	//float attToScale = *limiterAttParameter;
-	
-	/*lim_attTime = *limiterAttParameter;
-	lim_relTime = *limiterRelParameter;*/
-	//lim_attTime = 0.3f;
-	//lim_relTime = 0.01f;
+
 
 	for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
 		buffer.clear(i, 0, buffer.getNumSamples());
@@ -427,11 +438,16 @@ void EqualizerMusAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBu
 		filter_set_compThresh(deesser[channel], *deesserThreshParameter);
 		filter_set_freq(deesser[channel], *deesserFreqParameter);
 		filter_set_outGain(deesser[channel], Decibels::decibelsToGain(deesserOut));
-
-
-		lim_Thresh = std::pow(10.0f, (*limiterThreshParameter / 20.0f));
+		// Limiter
+		/*lim_Thresh = std::pow(10.0f, (*limiterThreshParameter / 20.0f));
 		lim_attTime = 1.0f - std::pow(MathConstants < float > ::euler, ((1 / getSampleRate()) * -2.2f) / *limiterAttParameter);
 		lim_relTime = 1.0f - std::pow(MathConstants < float > ::euler, ((1 / getSampleRate()) * -2.2f) / *limiterRelParameter);
+		float dbLinGain = *limiterGainParameter;
+		float dbLinPeak = *limiterPeakParameter;
+		lim_Gain = Decibels::decibelsToGain(dbLinGain);
+		//lim_peak = Decibels::decibelsToGain(dbLinPeak);
+		lim_peak = *limiterPeakParameter;*/
+
 
 		for (int i = 0; i < getBlockSize(); i++) {
 			// Eq
@@ -453,19 +469,13 @@ void EqualizerMusAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBu
 			CircularBuffer* delayBuffer = &allBuffers.getReference(channel);
 			float sample = channelData[i];
 			float amplitude = abs(sample);
-			if (amplitude > lim_peak)
-				lim_coeff = lim_attTime;
-			else
-				lim_coeff = lim_relTime;
+			if (amplitude > lim_peak) {lim_coeff = lim_attTime;}
+			else {lim_coeff = lim_relTime;}
 			lim_peak = (1.0f - lim_coeff) * lim_peak + lim_coeff * amplitude;
-
 			float lim_filter = fmin(1.0f, lim_Thresh / lim_peak);
-			if (lim_Gain > lim_filter)
-				lim_coeff = lim_attTime;
-			else
-				lim_coeff = lim_relTime;
+			if (lim_Gain > lim_filter) {lim_coeff = lim_attTime;}	
+			else {lim_coeff = lim_relTime;}
 			lim_Gain = (1.0f - lim_coeff) * lim_Gain + lim_coeff * lim_filter;
-
 			float limitedSample = lim_Gain * delayBuffer->getData();
 			delayBuffer->setData(sample);
 			delayBuffer->nextSample();

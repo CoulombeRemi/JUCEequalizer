@@ -85,6 +85,22 @@ EqualizerMusAudioProcessorEditor::EqualizerMusAudioProcessorEditor(EqualizerMusA
 	de_outLab.setText("OUTPUT BAND", NotificationType::dontSendNotification);
 	de_outLab.setJustificationType(Justification::centred);
 	addAndMakeVisible(&de_outLab);
+	// limiter
+	lim_ceilLab.setText("Threshold", NotificationType::dontSendNotification);
+	lim_ceilLab.setJustificationType(Justification::centred);
+	addAndMakeVisible(&lim_ceilLab);
+	lim_attLab.setText("Attack", NotificationType::dontSendNotification);
+	lim_attLab.setJustificationType(Justification::centred);
+	addAndMakeVisible(&lim_attLab);
+	lim_relLab.setText("Release", NotificationType::dontSendNotification);
+	lim_relLab.setJustificationType(Justification::centred);
+	addAndMakeVisible(&lim_relLab);
+	lim_gainLab.setText("Gain", NotificationType::dontSendNotification);
+	lim_gainLab.setJustificationType(Justification::centred);
+	addAndMakeVisible(&lim_gainLab);
+	lim_peakLab.setText("Peak", NotificationType::dontSendNotification);
+	lim_peakLab.setJustificationType(Justification::centred);
+	addAndMakeVisible(&lim_peakLab);
 
 
 	int textBoxSizeX = widthB, textBoxSizeY = 10;
@@ -303,21 +319,34 @@ EqualizerMusAudioProcessorEditor::EqualizerMusAudioProcessorEditor(EqualizerMusA
 	limiter_Thresh.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
 	limiter_Thresh.setColour(Slider::trackColourId, Colours::yellow);
 	addAndMakeVisible(&limiter_Thresh);
-	limiter_ThreshAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "limiterThresh", limiter_Thresh));
-
+	//limiter_ThreshAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "limiterThresh", limiter_Thresh));
+	limiter_Thresh.setValue(0);
+	limiter_Thresh.setRange(-60.f, 10.0f, 0.001f);
+	limiter_Thresh.onValueChange = [this] {
+		processor.lim_Thresh = std::pow(10, (limiter_Thresh.getValue() / 20));
+	};
+	
 	limiter_Att.setLookAndFeel(&lookAndFeelComp);
 	limiter_Att.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	limiter_Att.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
 	limiter_Att.setColour(Slider::trackColourId, Colours::yellow);
 	addAndMakeVisible(&limiter_Att);
-	limiter_AttAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "limiterAtt", limiter_Att));
+	//limiter_AttAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "limiterAtt", limiter_Att));
+	limiter_Att.setRange(0.0f, 10.0f, 0.001f);
+	limiter_Att.onValueChange = [this] {
+		processor.lim_attTime = 1 - std::pow(MathConstants<float>::euler, ((1 / processor.getSampleRate()) * -2.2f) / limiter_Att.getValue());
+	};
 
 	limiter_Rel.setLookAndFeel(&lookAndFeelComp);
 	limiter_Rel.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	limiter_Rel.setTextBoxStyle(Slider::TextBoxBelow, false, textBoxSizeX, textBoxSizeY);
 	limiter_Rel.setColour(Slider::trackColourId, Colours::yellow);
 	addAndMakeVisible(&limiter_Rel);
-	limiter_RelAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "limiterRel", limiter_Rel));
+	//limiter_RelAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, "limiterRel", limiter_Rel));
+	limiter_Rel.setRange(0.0f, 10.0f, 0.001f);
+	limiter_Rel.onValueChange = [this] {
+		processor.lim_relTime = 1 - std::pow(MathConstants<float>::euler, ((1 / processor.getSampleRate()) * -2.2f) / limiter_Rel.getValue());
+	};
 }
 
 EqualizerMusAudioProcessorEditor::~EqualizerMusAudioProcessorEditor()
@@ -412,4 +441,8 @@ void EqualizerMusAudioProcessorEditor::resized()
 	limiter_Thresh.setBounds	(limiter_mid - 76, 80, comp_w, comp_h);
 	limiter_Att.setBounds		(limiter_mid + 10, 80, comp_w, comp_h);
 	limiter_Rel.setBounds		(limiter_mid - 76, 215, comp_w, comp_h);
+
+	lim_ceilLab.setBounds		(limiter_mid - 83, 65, 80, 15);
+	lim_attLab.setBounds		(limiter_mid + 3, 65, 80, 15);
+	lim_relLab.setBounds		(limiter_mid - 83, 200, 80, 15);
 }

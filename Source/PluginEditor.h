@@ -45,6 +45,7 @@ private:
 	Label inGainLab, outGainLab, distoLab, drywetLab, freqLab;
 	Label threshLab, ratioLab, attLab, relLab, lhLab, comp_out, comp_dwLab;
 	Label de_threshLab, de_freqLab, de_outLab;
+	Label lim_ceilLab, lim_attLab, lim_relLab, lim_gainLab, lim_peakLab;
 	
 
 	AudioProcessorValueTreeState& valueTreeState;
@@ -124,15 +125,16 @@ private:
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> deesser_FreqAttachment;
 	Slider deeser_Out;
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> deesser_OutAttachment;
+	EqualizerMusAudioProcessor& processor;
 	// limiter
 	Slider limiter_Thresh;
-	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> limiter_ThreshAttachment;
+	//std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> limiter_ThreshAttachment;
 	Slider limiter_Att;
-	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> limiter_AttAttachment;
+	//std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> limiter_AttAttachment;
 	Slider limiter_Rel;
-	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> limiter_RelAttachment;
+	//std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> limiter_RelAttachment;
 
-	EqualizerMusAudioProcessor& processor;
+	
 
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(EqualizerMusAudioProcessorEditor)
 };

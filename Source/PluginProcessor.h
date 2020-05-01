@@ -60,6 +60,8 @@ public:
 	//==============================================================================
 	void getStateInformation(MemoryBlock& destData) override;
 	void setStateInformation(const void* data, int sizeInBytes) override;
+	// limiter values
+	float lim_Thresh = 1, lim_attTime = 0.001, lim_relTime = 0.2;
 
 private:
 	AudioProcessorValueTreeState parameters;
@@ -121,12 +123,16 @@ private:
 	std::atomic<float> *deesserOutParameter;
 
 	// limiter
-	float lim_Thresh, lim_Gain, lim_peak, lim_attTime, lim_relTime;
-	CircularBuffer delayBuffer;
+	
+	float lim_Gain, lim_peak;
+	//CircularBuffer delayBuffer;
 	Array <CircularBuffer> allBuffers;
-	std::atomic<float> *limiterThreshParameter;
+
+	/*std::atomic<float> *limiterThreshParameter;
 	std::atomic<float> *limiterAttParameter;
 	std::atomic<float> *limiterRelParameter;
+	std::atomic<float> *limiterGainParameter;
+	std::atomic<float> *limiterPeakParameter;*/
 
 	//==============================================================================
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(EqualizerMusAudioProcessor)
