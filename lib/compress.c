@@ -38,10 +38,10 @@ struct compress *compress_init(float thresh, float ratio, float attack, float re
         data->ratio = ratio;
     }
 
-    // Set Attack
-    if (attack < 1.0)
+    // Set Attack | initialement min : 1 max : 150
+    if (attack < 0.03)
     {
-        data->attack = 1.0;
+        data->attack = 0.03;
     }
     else if (attack > 150.0)
     {
@@ -54,14 +54,14 @@ struct compress *compress_init(float thresh, float ratio, float attack, float re
     float freq1 = 1 / (data->attack * 0.001);
     data->acoeff = exp(-2 * M_PI * freq1 / data->sr);
 
-    // Set Release
+    // Set Release | initialement min : 1 max : 250
     if (release < 1.0)
     {
         data->release = 1.0;
     }
-    else if (release > 250.0)
+    else if (release > 2000.0)
     {
-        data->release = 250.0;
+        data->release = 2000.0;
     }
     else
     {

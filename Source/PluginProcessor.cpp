@@ -124,10 +124,10 @@ AudioProcessorValueTreeState::ParameterLayout createParameterLayout() {
 		NormalisableRange<float>(1.0f, 20.0f, 0.1f, 1.f),
 		1.0f, ratioValueToText, ratioTextToValue));
 	parameters.push_back(std::make_unique<Parameter>(String("compAtt"), String("Att."), String(),
-		NormalisableRange<float>(1.0f, 150.0f, 0.1f, 1.f),
+		NormalisableRange<float>(0.03f, 150.0f, 0.1f, 1.f),
 		5.0f, timeValueToText, timeTextToValue));
 	parameters.push_back(std::make_unique<Parameter>(String("compRel"), String("Rel."), String(),
-		NormalisableRange<float>(1.0f, 250.0f, 0.1f, 1.f),
+		NormalisableRange<float>(1.0f, 2000.0f, 0.1f, 1.f),
 		50.0f, timeValueToText, timeTextToValue));
 	parameters.push_back(std::make_unique<Parameter>(String("compLH"), String(" ms"), String(),
 		NormalisableRange<float>(0.5f, 10.0f, 0.1f, 1.f),
