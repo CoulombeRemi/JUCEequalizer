@@ -39,13 +39,13 @@ AudioProcessorValueTreeState::ParameterLayout createParameterLayout() {
 	// string -> id, name in daw, description
 	// gain values in dB
 	// low shelft - 30 Hz
-	parameters.push_back(std::make_unique<Parameter>(String("lsGain"), String("Gain"), String(),
+	parameters.push_back(std::make_unique<Parameter>(String("lsGain"), String("band_1_Gain"), String(),
 		NormalisableRange<float>(-24.f, 24.f, 0.1f, 1.0f),
 		0.0f, gainValueToText, gainTextToValue));
-	parameters.push_back(std::make_unique<Parameter>(String("lsFreq"), String("Hz"), String(),
+	parameters.push_back(std::make_unique<Parameter>(String("lsFreq"), String("band_1_Hz"), String(),
 		NormalisableRange<float>(10.0f, 22000.0f, 0.5f, 0.3f),
 		15.0f, freqValueToText, freqTextToValue));
-	parameters.push_back(std::make_unique<Parameter>(String("lsQ"), String("Q"), String(),
+	parameters.push_back(std::make_unique<Parameter>(String("lsQ"), String("band_1_Q"), String(),
 		NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
 		1.0f, qValueToText, qTextToValue));
 	// peak 01 - 100 Hz
@@ -232,6 +232,9 @@ EqualizerMusAudioProcessor::EqualizerMusAudioProcessor()
 	limiterRelParameter = parameters.getRawParameterValue("limiterRel");
 	limiterGainParameter = parameters.getRawParameterValue("limiterGain");
 	limiterPeakParameter = parameters.getRawParameterValue("limiterPeak");*/
+
+	parameters.state = ValueTree("savedParams");
+
 }
 
 EqualizerMusAudioProcessor::~EqualizerMusAudioProcessor()
@@ -479,15 +482,18 @@ AudioProcessorEditor* EqualizerMusAudioProcessor::createEditor()
 //==============================================================================
 void EqualizerMusAudioProcessor::getStateInformation(MemoryBlock& destData)
 {
-	// You should use this method to store your parameters in the memory block.
-	// You could do that either as raw data, or use the XML or ValueTree classes
-	// as intermediaries to make it easy to save and load complex data.
+	std::unique_ptr<XmlElement>xml(parameters.state.createXml());
+	copyXmlToBinary(*xml, destData);
 }
 
 void EqualizerMusAudioProcessor::setStateInformation(const void* data, int sizeInBytes)
 {
-	// You should use this method to restore your parameters from this memory block,
-	// whose contents will have been created by the getStateInformation() call.
+	std::unique_ptr<XmlElement>xmlState(getXmlFromBinary(data, sizeInBytes));
+	if (xmlState != nullptr) {
+		if (xmlState->hasTagName(parameters.state.getType())) {
+			parameters.state = ValueTree::fromXml(*xmlState);
+		}
+	}
 }
 
 //==============================================================================
