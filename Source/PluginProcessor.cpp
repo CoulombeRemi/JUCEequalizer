@@ -28,6 +28,7 @@ static String timeValueToText(float value) { return String(value, 2) + String(" 
 static float timeTextToValue(const String& text) { return text.getFloatValue(); }
 
 
+
 // return parameter configuration
 // need to call createParameter() for initialization of the audiovaluetree....
 AudioProcessorValueTreeState::ParameterLayout createParameterLayout() {
@@ -35,10 +36,7 @@ AudioProcessorValueTreeState::ParameterLayout createParameterLayout() {
 	using Parameter = AudioProcessorValueTreeState::Parameter;
 	//using RangedAudioParameter = AudioProcessorValueTreeState::Parameter;
 	std::vector < std::unique_ptr<Parameter>> parameters;
-	std::vector < std::unique_ptr<RangedAudioParameter>> btn_parameters;
 	// string -> id, name in daw, description
-	btn_parameters.push_back(std::make_unique<AudioParameterBool>("EQ_LOW_STATE", "hip", "false"));
-
 	// gain values in dB
 	// low shelft - 30 Hz
 	parameters.push_back(std::make_unique<Parameter>(String("lsGain"), String("Gain"), String(),
@@ -240,6 +238,7 @@ EqualizerMusAudioProcessor::~EqualizerMusAudioProcessor()
 {
 }
 
+
 //==============================================================================
 const String EqualizerMusAudioProcessor::getName() const
 {
@@ -305,7 +304,6 @@ void EqualizerMusAudioProcessor::changeProgramName(int index, const String& newN
 void EqualizerMusAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
 	//allBuffers = Array<CircularBuffer>();
-
 	// init
 	for (int i = 0; i < 2; i++) {
 		// EQ
@@ -321,13 +319,12 @@ void EqualizerMusAudioProcessor::prepareToPlay(double sampleRate, int samplesPer
 		compressor[i] = compress_init(*compThreshParameter, *compRatioParameter, *compAttParameter, *compRelParameter, *compLHParameter, sampleRate, *compDWParameter);
 		//deesser
 		float deesserOut = *deesserOutParameter;
-		deesser[i] = filter_init(*deesserFreqParameter, sampleRate, CROSS, *deesserThreshParameter, 4.0f, 5.0f, 250.0f, 5.0f, Decibels::decibelsToGain(deesserOut));
+		deesser[i] = filter_init(*deesserFreqParameter, sampleRate, CROSS, *deesserThreshParameter, 4.0f, 0.05f, 10.0f, 5.0f, Decibels::decibelsToGain(deesserOut));
 		// limiter
 		//allBuffers.add(CircularBuffer(10, 1));
 	}
 	//lim_Gain = 1.0f;
 	//lim_peak = 0.0f;
-
 }
 
 void EqualizerMusAudioProcessor::releaseResources()
@@ -365,6 +362,7 @@ void EqualizerMusAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBu
 	//ScopedNoDenormals noDenormals;
 	auto totalNumInputChannels = getTotalNumInputChannels();
 	auto totalNumOutputChannels = getTotalNumOutputChannels();
+
 	// Limiter
 	//float lim_coeff;
 	for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
@@ -428,15 +426,16 @@ void EqualizerMusAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBu
 		//lim_peak = Decibels::decibelsToGain(dbLinPeak);
 		lim_peak = *limiterPeakParameter;*/
 
-
 		for (int i = 0; i < getBlockSize(); i++) {
 			// Eq
-			channelData[i] = parametricEQ_process(lowShelf[channel], channelData[i]);
-			channelData[i] = parametricEQ_process(peak01[channel], channelData[i]);
-			channelData[i] = parametricEQ_process(peak02[channel], channelData[i]);
-			channelData[i] = parametricEQ_process(peak03[channel], channelData[i]);
-			channelData[i] = parametricEQ_process(peak04[channel], channelData[i]);
-			channelData[i] = parametricEQ_process(highShelf[channel], channelData[i]);
+				channelData[i] = parametricEQ_process(lowShelf[channel], channelData[i]);
+				channelData[i] = parametricEQ_process(peak01[channel], channelData[i]);
+				channelData[i] = parametricEQ_process(peak02[channel], channelData[i]);
+				channelData[i] = parametricEQ_process(peak03[channel], channelData[i]);
+				channelData[i] = parametricEQ_process(peak04[channel], channelData[i]);
+				channelData[i] = parametricEQ_process(highShelf[channel], channelData[i]);
+
+			
 			// disto
 			float in_gain = *distoInParameter, out_gain = *distoOutParameter;
 			channelData[i] = disto_process(dist[channel], channelData[i] * Decibels::decibelsToGain(in_gain)) * Decibels::decibelsToGain(out_gain);

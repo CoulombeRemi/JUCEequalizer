@@ -8,7 +8,7 @@ Possibility of using lop/hip or crossover
 #include <stdlib.h>
 #include <math.h>
 #include "linkwitzRileyFilter.h"
-#include "compress.h"
+//#include "compress.h"
 
 #ifndef M_PI
 #define M_PI (3.14159265358979323846264338327950288)
@@ -32,9 +32,11 @@ static float filter_compute_hip(struct filter *data, float input) {
 static float filter_compute_cross(struct filter *data, float input) {
 	float deesserIO, lop_out;
 	lop_out = filter_compute_lop(data, input);
-	deesserIO = compress_process(data->comp, filter_compute_hip(data, input)) * data->outGain;
+	deesserIO = compress_process(data->comp, filter_compute_hip(data, input) * -1) * data->outGain;
 	// invert phase
-	return lop_out + (deesserIO * -1);
+	//return lop_out + (deesserIO * -1);
+	return lop_out + deesserIO;
+	//float filtered = filter_compute_hip(data, compress_process(data->comp, input));
 }
 
 static void filter_compute_coeffs(struct filter *data, float freq) {
@@ -90,6 +92,7 @@ void filter_delete(struct filter *data) {
 
 float filter_process(struct filter *data, float input) {
 	float lop_out, hip_out, deesserIO, output;
+	
 	switch (data->type) {
 	case LOWPASS:
 		output = filter_compute_lop(data, input);

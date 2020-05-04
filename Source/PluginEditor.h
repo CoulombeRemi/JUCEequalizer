@@ -30,7 +30,11 @@ public:
 
 private:
 
+
 	int widthB = 70;
+
+	
+	TextButton bpBtn{"Bypass"};
 
 	CustomLnFRed lookAndFeel;
 	CustomLnFBlue lookAndFeelEq2;

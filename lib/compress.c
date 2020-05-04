@@ -9,7 +9,7 @@
 
 struct compress *compress_init(float thresh, float ratio, float attack, float release, float lookahead, float sr, float mix){
     struct compress *data = malloc(sizeof(struct compress));
-
+	data->mix = mix;
     // Set threshold
     if (thresh > 0.0)
     {
@@ -77,10 +77,7 @@ struct compress *compress_init(float thresh, float ratio, float attack, float re
     data->look = delay_init(sr/8, sr);
     data->y0 = 0.0;                 // Set Y0 out
 
-	data->mix = mix;
-
     return data;
-
 }
 
 void compress_delete(struct compress *data){
@@ -134,7 +131,6 @@ void compress_set_ratio(struct compress *data, float ratio){
     {
         data->ratio = ratio;
     }
-
 }
 // Set attack boundaries between 1 and 150 ms (in milliseconds)
 void compress_set_attack(struct compress *data, float attack){

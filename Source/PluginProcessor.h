@@ -63,8 +63,12 @@ public:
 	// limiter values
 	//float lim_Thresh = 1, lim_attTime = 0.001, lim_relTime = 0.2;
 
+	
 private:
 	AudioProcessorValueTreeState parameters;
+
+	
+	
 	/*
 	Eq -> sat/disto -> compressor -> deesser -> limiter
 	*/
@@ -130,6 +134,8 @@ private:
 	std::atomic<float> *limiterRelParameter;
 	std::atomic<float> *limiterGainParameter;
 	std::atomic<float> *limiterPeakParameter;*/
+
+	
 
 	//==============================================================================
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(EqualizerMusAudioProcessor)
