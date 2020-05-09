@@ -49,104 +49,101 @@ AudioProcessorValueTreeState::ParameterLayout createParameterLayout() {
 		NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
 		1.0f, qValueToText, qTextToValue));
 	// peak 01 - 100 Hz
-	parameters.push_back(std::make_unique<Parameter>(String("peak01Gain"), String("Gain"), String(),
+	parameters.push_back(std::make_unique<Parameter>(String("peak01Gain"), String("band_2_Gain"), String(),
 		NormalisableRange<float>(-24.0f, 24.0f, 0.1f, 1.f),
 		0.0f, gainValueToText, gainTextToValue));
-	parameters.push_back(std::make_unique<Parameter>(String("peak01Freq"), String("Hz"), String(),
+	parameters.push_back(std::make_unique<Parameter>(String("peak01Freq"), String("band_2_Hz"), String(),
 		NormalisableRange<float>(10.0f, 22000.0f, 0.5f, 0.3f),
 		40.0f, freqValueToText, freqTextToValue));
-	parameters.push_back(std::make_unique<Parameter>(String("peak01Q"), String("Q"), String(),
+	parameters.push_back(std::make_unique<Parameter>(String("peak01Q"), String("band_2_Q"), String(),
 		NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
 		1.0f, qValueToText, qTextToValue));
 	// peak 02 - 300 Hz
-	parameters.push_back(std::make_unique<Parameter>(String("peak02Gain"), String("Gain"), String(),
+	parameters.push_back(std::make_unique<Parameter>(String("peak02Gain"), String("band_3_Gain"), String(),
 		NormalisableRange<float>(-24.0f, 24.0f, 0.1f, 1.f),
 		0.0f, gainValueToText, gainTextToValue));
-	parameters.push_back(std::make_unique<Parameter>(String("peak02Freq"), String("Hz"), String(),
+	parameters.push_back(std::make_unique<Parameter>(String("peak02Freq"), String("band_3_Hz"), String(),
 		NormalisableRange<float>(10.0f, 22000.0f, 0.5f, 0.3f),
 		160.0f, freqValueToText, freqTextToValue));
-	parameters.push_back(std::make_unique<Parameter>(String("peak02Q"), String("Q"), String(),
+	parameters.push_back(std::make_unique<Parameter>(String("peak02Q"), String("band_3_Q"), String(),
 		NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
 		1.0f, qValueToText, qTextToValue));
 	// peak 03 - 700 kHz
-	parameters.push_back(std::make_unique<Parameter>(String("peak03Gain"), String("Gain"), String(),
+	parameters.push_back(std::make_unique<Parameter>(String("peak03Gain"), String("band_4_Gain"), String(),
 		NormalisableRange<float>(-24.0f, 24.0f, 0.1f, 1.f),
 		0.0f, gainValueToText, gainTextToValue));
-	parameters.push_back(std::make_unique<Parameter>(String("peak03Freq"), String("Hz"), String(),
+	parameters.push_back(std::make_unique<Parameter>(String("peak03Freq"), String("band_4_Hz"), String(),
 		NormalisableRange<float>(10.0f, 22000.0f, 0.5f, 0.3f),
 		550.0f, freqValueToText, freqTextToValue));
-	parameters.push_back(std::make_unique<Parameter>(String("peak03Q"), String("Q"), String(),
+	parameters.push_back(std::make_unique<Parameter>(String("peak03Q"), String("band_4_Q"), String(),
 		NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
 		1.0f, qValueToText, qTextToValue));
 	// peak 04 - 1.8 kHz
-	parameters.push_back(std::make_unique<Parameter>(String("peak04Gain"), String("Gain"), String(),
+	parameters.push_back(std::make_unique<Parameter>(String("peak04Gain"), String("band_5_Gain"), String(),
 		NormalisableRange<float>(-24.0f, 24.0f, 0.1f, 1.f),
 		0.0f, gainValueToText, gainTextToValue));
-	parameters.push_back(std::make_unique<Parameter>(String("peak04Freq"), String("Hz"), String(),
+	parameters.push_back(std::make_unique<Parameter>(String("peak04Freq"), String("band_5_Hz"), String(),
 		NormalisableRange<float>(10.0f, 22000.0f, 0.5f, 0.3f),
 		2500.0f, freqValueToText, freqTextToValue));
-	parameters.push_back(std::make_unique<Parameter>(String("peak04Q"), String("Q"), String(),
+	parameters.push_back(std::make_unique<Parameter>(String("peak04Q"), String("band_5_Q"), String(),
 		NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
 		1.0f, qValueToText, qTextToValue));
 	// high shelft - 18 kHz
-	parameters.push_back(std::make_unique<Parameter>(String("hsGain"), String("Gain"), String(),
+	parameters.push_back(std::make_unique<Parameter>(String("hsGain"), String("band_6_Gain"), String(),
 		NormalisableRange<float>(-24.0f, 24.0f, 0.1f, 1.f),
 		0.0f, gainValueToText, gainTextToValue));
-	parameters.push_back(std::make_unique<Parameter>(String("hsFreq"), String("Hz"), String(),
+	parameters.push_back(std::make_unique<Parameter>(String("hsFreq"), String("band_6_Hz"), String(),
 		NormalisableRange<float>(10.0f, 22000.0f, 0.5f, 0.3f),
 		18000.0f, freqValueToText, freqTextToValue));
-	parameters.push_back(std::make_unique<Parameter>(String("hsQ"), String("Q"), String(),
+	parameters.push_back(std::make_unique<Parameter>(String("hsQ"), String("band_6_Q"), String(),
 		NormalisableRange<float>(0.1f, 100.f, 0.5f, 0.5f),
 		1.0f, qValueToText, qTextToValue));
 	// disto
-	parameters.push_back(std::make_unique<Parameter>(String("distoIn"), String("distoIn"), String(),
+	parameters.push_back(std::make_unique<Parameter>(String("distoIn"), String("disto_In"), String(),
 		NormalisableRange<float>(-32.0f, 18.0f, 0.1f, 1.f),
 		0.0f, gainValueToText, gainTextToValue));
-	parameters.push_back(std::make_unique<Parameter>(String("distoAmount"), String("Amount"), String(),
+	parameters.push_back(std::make_unique<Parameter>(String("distoAmount"), String("disto_drive"), String(),
 		NormalisableRange<float>(0.0f, 100.0f, 0.1f, 1.f),
 		0.0f, nullptr, nullptr));
-	parameters.push_back(std::make_unique<Parameter>(String("distoDW"), String("dryWet"), String(),
+	parameters.push_back(std::make_unique<Parameter>(String("distoDW"), String("disto_dryWet"), String(),
 		NormalisableRange<float>(0.0f, 100.0f, 0.1f, 1.f),
 		0.0f, nullptr, nullptr));
-	parameters.push_back(std::make_unique<Parameter>(String("distoFreq"), String("Hz"), String(),
+	parameters.push_back(std::make_unique<Parameter>(String("distoFreq"), String("disto_freq"), String(),
 		NormalisableRange<float>(20.0f, 20000.0f, 0.1f, 1.f),
 		10000.0f, freqValueToText, freqTextToValue));
-	parameters.push_back(std::make_unique<Parameter>(String("distoOut"), String("distoOut"), String(),
+	parameters.push_back(std::make_unique<Parameter>(String("distoOut"), String("disto_Out"), String(),
 		NormalisableRange<float>(-32.0f, 18.0f, 0.1f, 1.f),
 		0.0f, gainValueToText, gainTextToValue));
 	// compressor
-	parameters.push_back(std::make_unique<Parameter>(String("compThresh"), String("Threshold"), String(),
+	parameters.push_back(std::make_unique<Parameter>(String("compThresh"), String("comp_Threshold"), String(),
 		NormalisableRange<float>(-70.0f, 0.0f, 0.1f, 1.f),
 		0.0f, gainValueToText, gainTextToValue));
-	parameters.push_back(std::make_unique<Parameter>(String("compRatio"), String("Ratio"), String(),
+	parameters.push_back(std::make_unique<Parameter>(String("compRatio"), String("comp_Ratio"), String(),
 		NormalisableRange<float>(1.0f, 20.0f, 0.1f, 1.f),
 		1.0f, ratioValueToText, ratioTextToValue));
-	parameters.push_back(std::make_unique<Parameter>(String("compAtt"), String("Att."), String(),
+	parameters.push_back(std::make_unique<Parameter>(String("compAtt"), String("comp_Att."), String(),
 		NormalisableRange<float>(0.03f, 150.0f, 0.1f, 1.f),
 		5.0f, timeValueToText, timeTextToValue));
-	parameters.push_back(std::make_unique<Parameter>(String("compRel"), String("Rel."), String(),
+	parameters.push_back(std::make_unique<Parameter>(String("compRel"), String("comp_Rel."), String(),
 		NormalisableRange<float>(1.0f, 2000.0f, 0.1f, 1.f),
 		50.0f, timeValueToText, timeTextToValue));
-	parameters.push_back(std::make_unique<Parameter>(String("compLH"), String(" ms"), String(),
+	parameters.push_back(std::make_unique<Parameter>(String("compLH"), String("comp_LookH"), String(),
 		NormalisableRange<float>(0.5f, 10.0f, 0.1f, 1.f),
 		5.0f, timeValueToText, timeTextToValue));
-	parameters.push_back(std::make_unique<Parameter>(String("compMakeup"), String("makeup"), String(),
-		NormalisableRange<float>(0.0f, 100.0f, 0.1f, 1.f),
-		0.0f, gainValueToText, gainTextToValue));
-	parameters.push_back(std::make_unique<Parameter>(String("compOG"), String("out gain"), String(),
+	parameters.push_back(std::make_unique<Parameter>(String("compOG"), String("comp_out_gain"), String(),
 		NormalisableRange<float>(-18.0f, 18.0f, 0.1f, 1.f),
 		0.0f, gainValueToText, gainTextToValue));
-	parameters.push_back(std::make_unique<Parameter>(String("compDW"), String("dryWet"), String(),
+	parameters.push_back(std::make_unique<Parameter>(String("compDW"), String("comp_dryWet"), String(),
 		NormalisableRange<float>(0.0f, 100.0f, 0.1f, 1.f),
 		100.0f, nullptr, nullptr));
 	// deesser
-	parameters.push_back(std::make_unique<Parameter>(String("deesserThresh"), String("Threshold"), String(),
+	parameters.push_back(std::make_unique<Parameter>(String("deesserThresh"), String("deesser_Threshold"), String(),
 		NormalisableRange<float>(-70.0f, 0.0f, 0.1f, 1.f),
 		0.0f, gainValueToText, gainTextToValue));
-	parameters.push_back(std::make_unique<Parameter>(String("deesserFreq"), String("Hz"), String(),
+	parameters.push_back(std::make_unique<Parameter>(String("deesserFreq"), String("deesser_Freq"), String(),
 		NormalisableRange<float>(2000.0f, 16000.0f, 0.5f, 0.3f),
 		5500.0f, freqValueToText, freqTextToValue));
-	parameters.push_back(std::make_unique<Parameter>(String("deesserOut"), String("out gain"), String(),
+	parameters.push_back(std::make_unique<Parameter>(String("deesserOut"), String("deesser_out_gain"), String(),
 		NormalisableRange<float>(-18.0f, 18.0f, 0.1f, 1.f),
 		0.0f, gainValueToText, gainTextToValue));
 	// limiter
@@ -431,14 +428,12 @@ void EqualizerMusAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBu
 
 		for (int i = 0; i < getBlockSize(); i++) {
 			// Eq
-				channelData[i] = parametricEQ_process(lowShelf[channel], channelData[i]);
-				channelData[i] = parametricEQ_process(peak01[channel], channelData[i]);
-				channelData[i] = parametricEQ_process(peak02[channel], channelData[i]);
-				channelData[i] = parametricEQ_process(peak03[channel], channelData[i]);
-				channelData[i] = parametricEQ_process(peak04[channel], channelData[i]);
-				channelData[i] = parametricEQ_process(highShelf[channel], channelData[i]);
-
-			
+			channelData[i] = parametricEQ_process(lowShelf[channel], channelData[i]);
+			channelData[i] = parametricEQ_process(peak01[channel], channelData[i]);
+			channelData[i] = parametricEQ_process(peak02[channel], channelData[i]);
+			channelData[i] = parametricEQ_process(peak03[channel], channelData[i]);
+			channelData[i] = parametricEQ_process(peak04[channel], channelData[i]);
+			channelData[i] = parametricEQ_process(highShelf[channel], channelData[i]);
 			// disto
 			float in_gain = *distoInParameter, out_gain = *distoOutParameter;
 			channelData[i] = disto_process(dist[channel], channelData[i] * Decibels::decibelsToGain(in_gain)) * Decibels::decibelsToGain(out_gain);

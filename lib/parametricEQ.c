@@ -3,6 +3,7 @@
 #include <math.h>
 #include "parametricEQ.h"
 
+
 #ifndef M_PI
 #define M_PI (3.14159265358979323846264338327950288)
 #endif
@@ -78,7 +79,8 @@ static void parametricEQ_compute_vars(struct parametricEQ *data, float freq, flo
     }
 
     data->gain = gain;
-    data->a = pow(10, gain / 40);
+	data->a = pow(10, gain / 40);
+
     float w0 = data->twopi * data->freq / data->sr;
     data->c = cos(w0);
     data->alpha = sin(w0) / (2 * data->q);

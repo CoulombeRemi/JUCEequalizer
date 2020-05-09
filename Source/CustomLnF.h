@@ -5,7 +5,7 @@
 
 /*
 Je savais pas comment faire pour utiliser plusieurs
-btn different sans faire plusieurs class.
+slider different sans faire plusieurs class.
 */
 
 /*******************************************

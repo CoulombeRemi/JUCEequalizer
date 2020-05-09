@@ -1,8 +1,9 @@
 /*
 Remi Coulombe
 -24dB/oct filters crossover for de-esser
+Possibility of using just lop/hip, even if it's completely useless
 
-Possibility of using lop/hip or crossover
+ok c'est brisé un peu mais bon...
 */
 
 #include <stdlib.h>
@@ -110,9 +111,8 @@ float filter_process(struct filter *data, float input) {
 }
 
 void filter_set_freq(struct filter *data, float freq) {
-	if (freq != data->last_freq) {
+	if (freq != data->freq) {
 		filter_compute_coeffs(data, freq);
-		data->last_freq = freq;
 	}
 }
 

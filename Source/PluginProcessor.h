@@ -1,9 +1,11 @@
 /*
   ==============================================================================
 
-	This file was auto-generated!
-
-	It contains the basic framework code for a JUCE plugin processor.
+	Remi Coulombe - Antoine Lussier
+	MUS3329 - 2020
+	------------------------------
+	Multi effet
+	Eq -> Disto -> Comp. -> De-Esser
 
   ==============================================================================
 */
@@ -15,6 +17,7 @@
 #include "compress.h"
 #include "linkwitzRileyFilter.h"
 #include "disto.h"
+#include "distoFiltr.h"
 //#include "CircularBuffer.h"
 
 //==============================================================================
@@ -66,11 +69,9 @@ public:
 	
 private:
 	AudioProcessorValueTreeState parameters;
-
-	
 	
 	/*
-	Eq -> sat/disto -> compressor -> deesser -> limiter
+	eq -> disto -> compressor -> deesser -/-> limiter(RIP)
 	*/
 
 	// Eq

@@ -28,7 +28,7 @@ struct filter {
     float last_freq;
 	float outGain;
 	filterEQT type;
-	struct compress *comp;
+	struct compress* comp;
 };
 
 struct filter * filter_init(float freq, float sr, filterEQT type, float thresh, float ratio, float att, float rel, float look, float outGain);

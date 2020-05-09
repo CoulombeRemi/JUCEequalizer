@@ -108,6 +108,22 @@ float compress_process(struct compress *data, float input){
 	return (((1.0f - mix) * input) + (mix * value));
 }
 
+float compress_sidechain(struct compress *data, float input) {
+	float absin = fabsf(input), diff;
+	if (absin > data->y0){
+		data->y0 = absin + (data->y0 - absin) * data->acoeff;
+	}else{
+		data->y0 = absin + (data->y0 - absin) * data->rcoeff;
+	}
+	float dbin = 20 * log10(data->y0 + 0.0000001);
+	float att = 1.0;
+	if (dbin > data->thresh){
+		diff = dbin - data->thresh;
+		att = pow(10, (diff - diff / data->ratio) * 0.05);
+	}
+	return att; // attenuation
+}
+
 // Threshold en dB de -70 à 0 dB 
 void compress_set_thresh(struct compress *data, float thresh){
     if (thresh > 0.0){
@@ -193,19 +209,3 @@ void compress_set_mix(struct compress *data, float mix) {
 		data->mix = mix;
 	}
 }
-/*
-float compress_sidechain(struct compress *data, float input) {
-	float absin = fabsf(input), diff;
-	if (absin > data->y0){
-		data->y0 = absin + (data->y0 - absin) * data->acoeff;
-	}else{
-		data->y0 = absin + (data->y0 - absin) * data->rcoeff;
-	}
-	float dbin = 20 * log10(data->y0 + 0.0000001);
-	float att = 1.0;
-	if (dbin > data->thresh){
-		diff = dbin - data->thresh;
-		att = pow(10, (diff - diff / data->ratio) * 0.05);
-	}
-	return att;
-}*/

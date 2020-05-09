@@ -1,9 +1,11 @@
 #ifndef __PARAMETRICEQ_H__
 #define __PARAMETRICEQ_H__
-
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+
+
 
 typedef enum {
     PEAK=0, 
